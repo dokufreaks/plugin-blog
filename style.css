@@ -1,0 +1,58 @@
+div.dokuwiki div.include {
+  font-size: 95%;
+  padding: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 0.2em;
+  border: 1px dotted __border__;
+}
+
+div.dokuwiki div.include div.secedit {
+  height: 16px;
+}
+
+div.dokuwiki div.inclmeta {
+  color: __text_neu__;
+  font-size: 80%;
+  line-height: 1.25;
+  margin-bottom: 2em;
+}
+
+div.dokuwiki div.inclmeta div.tags {
+  padding-top: 0;
+  border-top: 0;
+  font-size: 100%;
+  float: right;
+  clear: none;
+}
+
+div.dokuwiki table.archive {
+  border: 0;
+  padding: 0;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+div.dokuwiki table.archive td {
+  padding: 1px 2em 1px 0;
+  border-top: 1px solid __border__;
+  border-bottom: 1px solid __border__;
+}
+
+div.dokuwiki table.archive td.date, div.dokuwiki table.archive td.user {
+  color: __text_neu__;
+  font-size: 80%;
+}
+
+div.dokuwiki div.newentry_form {
+  clear: both;
+  text-align: center;
+}
+
+div.dokuwiki #blog__newentry_form label input.edit {
+  width: 75%;
+}
+
+div.dokuwiki a.feed {
+  background: transparent url(images/rss_icon.png) 0px 1px no-repeat;
+  padding: 1px 0px 1px 16px;
+}
