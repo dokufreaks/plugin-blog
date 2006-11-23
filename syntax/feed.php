@@ -25,10 +25,10 @@ class syntax_plugin_blog_feed extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-10-06',
+      'date'   => '2006-10-23',
       'name'   => 'Blog Plugin (feed component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
-      'url'    => 'http://wiki.splitbrain.org/plugin:blog',
+      'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
     );
   }
 
@@ -59,6 +59,7 @@ class syntax_plugin_blog_feed extends DokuWiki_Syntax_Plugin {
     if($mode == 'xhtml'){
       $url   = DOKU_BASE.'lib/plugins/blog/feed.php?ns='.cleanID($ns);
       if ($data[1]) $url .= '&num='.$data[1];
+      $url .= '&title='.urlencode($this->getLang('blog'));
       $title = $renderer->_xmlEntities($title);
       
       $renderer->doc .= '<a href="'.$url.'" class="feed" rel="nofollow"'.

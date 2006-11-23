@@ -29,10 +29,10 @@ class plugin_class_include extends DokuWiki_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-11-06',
+      'date'   => '2006-11-23',
       'name'   => 'Include Class',
       'desc'   => 'Functions to include another page in a wiki page',
-      'url'    => 'http://wiki.splitbrain.org/plugin:blog',
+      'url'    => 'http://www.wikidesign/en/plugin/blog/start',
     );
   }
   
@@ -168,7 +168,7 @@ class plugin_class_include extends DokuWiki_Plugin {
   
       // set header level to current section level + header level 
       } elseif ($this->ins[$i][0] == 'header'){ 
-        $level = $this->ins[$i][1][1] + $clevel; 
+        $level = $this->ins[$i][1][1] + $this->clevel; 
         if ($level > 5) $level = 5; 
         $this->ins[$i][1][1] = $level; 
   
@@ -188,7 +188,7 @@ class plugin_class_include extends DokuWiki_Plugin {
   
       // the same for sections 
       } elseif ($this->ins[$i][0] == 'section_open'){ 
-        $level = $this->ins[$i][1][0] + $clevel; 
+        $level = $this->ins[$i][1][0] + $this->clevel; 
         if ($level > 5) $level = 5; 
         $this->ins[$i][1][0] = $level; 
   

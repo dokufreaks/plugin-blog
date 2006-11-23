@@ -7,6 +7,7 @@
  */
 
 // custom language strings for the plugin
+$lang['blog']       = 'Blog';
 $lang['discussion'] = 'discussion'; // anchor for discussion section
 $lang['comment']    = 'Comment';
 $lang['comments']   = 'Comments';

@@ -38,7 +38,8 @@ div.dokuwiki table.archive td {
   border-bottom: 1px solid __border__;
 }
 
-div.dokuwiki table.archive td.date, div.dokuwiki table.archive td.user {
+div.dokuwiki table.archive td.date,
+div.dokuwiki table.archive td.user {
   color: __text_neu__;
   font-size: 80%;
 }
