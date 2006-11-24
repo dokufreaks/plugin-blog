@@ -29,7 +29,7 @@ class plugin_class_include extends DokuWiki_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-11-23',
+      'date'   => '2006-11-24',
       'name'   => 'Include Class',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/blog/start',
@@ -119,8 +119,9 @@ class plugin_class_include extends DokuWiki_Plugin {
           $i[] = $ins; 
   
         // next header of the same or higher level -> exit 
-        } elseif ($ins[1][1] <= $level){ 
-          return $i; 
+        } elseif ($ins[1][1] <= $level){
+          $this->ins = $i;
+          return true; 
         } elseif (isset($level)){ 
           $i[] = $ins; 
         } 
@@ -130,7 +131,8 @@ class plugin_class_include extends DokuWiki_Plugin {
         $i[] = $ins; 
       } 
     } 
-    return $i; 
+    $this->ins = $i;
+    return true; 
   } 
   
   /** 
@@ -146,7 +148,7 @@ class plugin_class_include extends DokuWiki_Plugin {
     if (getNS($ID) == $inclNS) $convert = false; 
     else $convert = true; 
   
-    $n = count($this->ins); 
+    $n = count($this->ins);
     for ($i = 0; $i < $n; $i++){ 
   
       // convert internal links and media from relative to absolute 
@@ -194,14 +196,18 @@ class plugin_class_include extends DokuWiki_Plugin {
   
       // show only the first section? 
       } elseif ($this->firstsec && ($this->ins[$i][0] == 'section_close')
-        && ($this->ins[$i-1][0] != 'section_open')){ 
-        if ($this->ins[0][0] == 'document_start') return array_slice($this->ins, 1, $i); 
-        else return array_slice($this->ins, 0, $i); 
-  
+        && ($this->ins[$i-1][0] != 'section_open')){
+        if ($this->ins[0][0] == 'document_start'){
+          $this->ins = array_slice($this->ins, 1, $i);
+          return true;
+        } else {
+          $this->ins = array_slice($this->ins, 0, $i);
+          return true;
+        }
       } 
     } 
-    if ($this->ins[0][0] == 'document_start') return array_slice($this->ins, 1, -1); 
-    else return $this->ins; 
+    if ($this->ins[0][0] == 'document_start') $this->ins = array_slice($this->ins, 1, -1);
+    return true;
   } 
   
   /** 
@@ -249,7 +255,6 @@ class plugin_class_include extends DokuWiki_Plugin {
     $this->ins[] = array('internallink', array($this->page['id'], $this->getLang('readmore')), $last[2]);
     $this->ins[] = array('p_close', array(), $last[2]);
     if ($last[0] == 'section_close') $this->ins[] = $last;
-    return $this->ins;
   }
   
   /**
