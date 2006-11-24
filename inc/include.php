@@ -67,9 +67,9 @@ class plugin_class_include extends DokuWiki_Plugin {
       
       // render the included page
       $content = $this->_cleanXHTML(p_render('xhtml', $this->ins, $info));
-  
+      
       // embed the included page
-      $this->doc .= '<div class="include">';
+      $this->doc .= '<div class="include"'.$this->_showTagLogos().'>';
       if (!$this->hasheader && $this->clevel && ($this->type == 'section'))
         $this->doc .= '<div class="level'.$this->clevel.'">';
       $this->doc .= $content.$this->_editButton();
@@ -223,7 +223,28 @@ class plugin_class_include extends DokuWiki_Plugin {
     );
     $xhtml  = preg_replace(array_keys($replace), array_values($replace), $xhtml); 
     return $xhtml; 
-  } 
+  }
+  
+  /**
+   * Optionally display logo for the first tag found in the included page
+   */
+  function _showTagLogos(){
+    if (!$this->getConf('showtaglogos')) return '';
+    
+    preg_match_all('/<a [^>]*title="(.*?)" rel="tag"[^>]*>([^<]*)</', $this->page['tags'], $tag);
+    $logoID  = getNS($tag[1][0]).':'.$tag[2][0];
+    $logosrc = mediaFN($logoID);
+    $types = array('.png', '.jpg', '.gif'); // auto-detect filetype
+    foreach ($types as $type){
+      if (!@file_exists($logosrc.$type)) continue;
+      $logoID  .= $type;
+      $logosrc .= $type;
+      list($w, $h, $t, $a) = getimagesize($logosrc);
+      return ' style="min-height: '.$h.'px">'.
+        '<img class="mediaright" src="'.ml($logoID).'" alt="'.$tag[2][0].'"/';
+    }
+    return '';
+  }
   
   /** 
    * Display an edit button for the included page 

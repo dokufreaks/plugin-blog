@@ -12,6 +12,7 @@ $meta['sortkey']          = array(
                             );
 $meta['dateprefix']       = array('string');
 $meta['firstseconly']     = array('onoff');
+$meta['showtaglogos']     = array('onoff');
 $meta['showlink']         = array('onoff');
 $meta['showdate']         = array('onoff');
 $meta['showuser']         = array('onoff');
