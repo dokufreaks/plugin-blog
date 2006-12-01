@@ -3,12 +3,12 @@
  * German language file
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Esther Brunner <esther@kaffeehaus.ch>
+ * @author     Esther Brunner <wikidesign@gmail.com>
  */
 
 // custom language strings for the plugin
 $lang['blog']       = 'Blog';
-$lang['discussion'] = 'diskussion'; // Anker über Diskussionsteil
+$lang['discussion'] = 'diskussion'; // Anker für Diskussionsteil
 $lang['comment']    = 'Kommentar';
 $lang['comments']   = 'Kommentare';
 $lang['older']      = 'Ältere Einträge';

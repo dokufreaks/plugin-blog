@@ -3,7 +3,6 @@
  * French language file
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Esther Brunner <esther@kaffeehaus.ch>
  * @author     Damien Raude-Morvan <drazzib@drazzib.com>
  */
  
