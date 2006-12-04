@@ -25,10 +25,10 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-10-06',
+      'date'   => '2006-12-03',
       'name'   => 'Blog Plugin (archive component)',
       'desc'   => 'Displays a list of wiki pages from a given month',
-      'url'    => 'http://wiki.splitbrain.org/plugin:blog',
+      'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
     );
   }
 

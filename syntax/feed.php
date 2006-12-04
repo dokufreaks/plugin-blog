@@ -25,7 +25,7 @@ class syntax_plugin_blog_feed extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-10-23',
+      'date'   => '2006-12-03',
       'name'   => 'Blog Plugin (feed component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',

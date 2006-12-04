@@ -21,15 +21,17 @@ class plugin_class_include extends DokuWiki_Plugin {
    * Plugin needs to tell its name. Important for settings and localized strings!
    */
   function getPluginName(){
-    $path = realpath(dirname(__FILE__).'/../');
-    return substr(strrchr($path, '/'), 1);
+    // $path = realpath(dirname(__FILE__).'/../');
+    // echo substr(strrchr($path, '/'), 1);
+    
+    return 'blog';
   }
   
   function getInfo(){
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-11-24',
+      'date'   => '2006-12-04',
       'name'   => 'Include Class',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/blog/start',

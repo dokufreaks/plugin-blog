@@ -19,10 +19,10 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-11-05',
+      'date'   => '2006-12-03',
       'name'   => 'Blog Plugin',
       'desc'   => 'Brings blog functionality to DokuWiki',
-      'url'    => 'http://wiki:splitbrain.org/plugin:blog',
+      'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
     );
   }
 
@@ -61,60 +61,66 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     $id   = ($event->data[1] ? $event->data[1].':' : '').$event->data[2];
     $date = filectime($event->data[0][0]);
     
-    // index files
-    $page_file  = $conf['cachedir'].'/page.idx';
-    $cdate_file = $conf['cachedir'].'/cdate.idx';
-        
-    // load indexes
-    $page_idx  = file($page_file);
-    if (!@file_exists($cdate_file)) $cdate_idx = array();
-    else $cdate_idx = file($cdate_file);
-    
-    // get page id (this is the linenumber in page.idx)
-    $pid = array_search("$id\n", $page_idx);
-    if (!is_int($pid)){
-      $page_idx[] = "$id\n";
-      $pid = count($page_idx)-1;
-      // page was new - write back
-      $fh = fopen($page_file, 'w');
-      if (!$fh) return false;
-      fwrite($fh, join('', $page_idx));
-      fclose($fh);
-    }
-    
-    // check lines and fill creation date in
-    for ($i = 0; $i < $pid; $i++){
-      if (empty($cdate_idx[$i])) $cdate_idx[$i] = "\n";
-    }
-    $cdate_idx[$pid] = "$date\n";    
-    
-    // save creation date index
-    $fh = fopen($cdate_file, 'w');
-    if (!$fh) return false;
-    fwrite($fh, join('', $cdate_idx));
-    fclose($fh);
-    
-    return true;
+    // load recent class to update the creation date index
+    require_once(DOKU_PLUGIN.'blog/inc/recent.php');
+    $recent = new plugin_class_recent;
+    return $recent->_updateCDateIndex($id, $date);
   }
-  
+    
   /**
    * Checks if 'newentry' was given as action, if so we
    * do handle the event our self and no further checking takes place
    */
   function handle_act_preprocess(&$event, $param){
     if ($event->data != 'newentry') return; // nothing to do for us
-    
-    global $ACT;
-    global $ID;
-
     // we can handle it -> prevent others
-    $event->stopPropagation();
-    $event->preventDefault();
+    // $event->stopPropagation();
+    $event->preventDefault();    
+    
+    $event->data = $this->_handle_newEntry();
+  }
+
+  /**
+   * Creates a new entry page
+   */
+  function _handle_newEntry(){
+    global $ID;
+    global $INFO;
     
     $ns    = $_REQUEST['ns'];
     $title = str_replace(':', '', $_REQUEST['title']);
+    $ID    = $this->_newEntryID($ns, $title);
+    $INFO  = pageinfo();
     
-    // season handling by Michael Arlt <michael.arlt@sk-chwanstetten.de>
+    // check if we are allowed to create this file
+    if ($INFO['perm'] >= AUTH_CREATE){
+            
+      //check if locked by anyone - if not lock for my self      
+      if ($INFO['locked']) return 'locked';
+      else lock($ID);
+
+      // prepare the new thread file with default stuff
+      if (!@file_exists($INFO['filepath'])){
+        global $TEXT;
+        
+        $TEXT = pageTemplate(array(($ns ? $ns.':' : '').$title));
+        if (!$TEXT) $TEXT = "====== $title ======\n\n\n\n~~DISCUSSION~~\n";
+        return 'preview';
+      } else {
+        return 'edit';
+      }
+    } else {
+      return 'show';
+    }
+  }
+    
+  /**
+   * Returns the ID of a new entry based on its namespace, title and the date prefix
+   * 
+   * @author  Esther Brunner <wikidesign@gmail.com>
+   * @author  Michael Arlt <michael.arlt@sk-chwanstetten.de>
+   */
+  function _newEntryID($ns, $title){
     $dateprefix  = $this->getConf('dateprefix');
     if (substr($dateprefix, 0, 1) == '<') {
       // <9?%y1-%y2:%d.%m._   ->  05-06:31.08._ | 06-07:01.09._
@@ -134,38 +140,8 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         $dateprefix
       );
     }
-    $pre   = strftime($dateprefix);
-    $id    = ($ns ? $ns.':' : '').$pre.cleanID($title);
-    
-    // check if we are allowed to create this file
-    if (auth_quickaclcheck($id) >= AUTH_CREATE){
-      $back = $ID;
-      $ID   = $id;
-      $file = wikiFN($ID);
-      
-      //check if locked by anyone - if not lock for my self      
-      if (checklock($ID)){
-        $ACT = 'locked';
-      } else {
-        lock($ID);
-      }
-
-      // prepare the new thread file with default stuff
-      if (!@file_exists($file)){
-        global $TEXT;
-        global $INFO;
-        global $conf;
-        
-        $TEXT = pageTemplate(array($ns.':'.$title));
-        if (!$TEXT) $TEXT = "====== $title ======\n\n\n\n".
-                            "~~DISCUSSION~~\n";
-        $ACT = 'preview';
-      } else {
-        $ACT = 'edit';
-      }
-    } else {
-      $ACT = 'show';
-    }
+    $pre = strftime($dateprefix);
+    return ($ns ? $ns.':' : '').$pre.cleanID($title);
   }
 
 }
