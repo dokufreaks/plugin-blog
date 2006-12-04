@@ -297,6 +297,12 @@ class plugin_class_include extends DokuWiki_Plugin {
       $ret[] = $renderer->internallink($this->page['id'], $title, '', true);
     }
     
+    // date
+    if ($this->getConf('showdate')){
+      $date  = ($this->page['date'] ? $this->page['date'] : $meta['date']['created']);
+      $ret[] = date($conf['dformat'], $date);
+    }
+    
     // author
     if ($this->getConf('showuser')){
       $author   = ($this->page['user'] ? $this->page['user'] : $meta['creator']);
@@ -304,12 +310,6 @@ class plugin_class_include extends DokuWiki_Plugin {
         $userpage = cleanID($this->getConf('user_namespace').':'.$author);
         $ret[]    = $renderer->internallink($userpage, $author, '', true);
       }
-    }
-    
-    // date
-    if ($this->getConf('showdate')){
-      $date  = ($this->page['date'] ? $this->page['date'] : $meta['date']['created']);
-      $ret[] = date($conf['dformat'], $date);
     }
            
     // comments
@@ -326,8 +326,10 @@ class plugin_class_include extends DokuWiki_Plugin {
       }
     }
     
+    // tags
     $ret = $this->page['tags'].implode(' &middot; ', $ret);
     if (!$ret) $ret = '&nbsp;';
+    
     return '<div class="inclmeta">'.$ret.'</div>';
   }
   

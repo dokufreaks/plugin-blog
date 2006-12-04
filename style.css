@@ -43,6 +43,10 @@ div.dokuwiki table.archive td.user {
   font-size: 80%;
 }
 
+div.dokuwiki table.archive td.date {
+  text-align: right;
+}
+
 div.dokuwiki div.newentry_form {
   clear: both;
   text-align: center;

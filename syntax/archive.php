@@ -25,7 +25,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-03',
+      'date'   => '2006-12-04',
       'name'   => 'Blog Plugin (archive component)',
       'desc'   => 'Displays a list of wiki pages from a given month',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -75,15 +75,14 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
   function render($mode, &$renderer, $data) {
     global $ID;
     global $conf;
-    
-    require_once(DOKU_PLUGIN.'blog/inc/recent.php');
-    
+        
     $ns = $data[0];
     if ($ns == '') $ns = cleanID($this->getConf('namespace'));
     elseif ($ns == '*') $ns = '';
     elseif ($ns == '.') $ns = getNS($ID);
     
     // get the blog entries for our namespace
+    require_once(DOKU_PLUGIN.'blog/inc/recent.php');
     $recent  = new plugin_class_recent;
     $entries = $recent->_getBlogEntries($ns);
     
@@ -111,16 +110,16 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         if (!$title) $title = str_replace('_', ' ', noNS($id));
         $renderer->doc .= $renderer->internallink(':'.$id, $title).'</td>';
         
-        // author
-        if ($this->getConf('archive_showuser')){
-          if ($user) $renderer->doc .= '<td class="user">'.$user.'</td>';
-          else $renderer->doc .= '<td class="user">&nbsp;</td>';
-        }
-        
         // creation date
         if ($this->getConf('archive_showdate')){
           $renderer->doc .= '<td class="date">'.date($conf['dformat'], $date).'</td>';
         }
+        
+        // author
+        if ($this->getConf('archive_showuser')){
+          if ($user) $renderer->doc .= '<td class="user">'.$user.'</td>';
+          else $renderer->doc .= '<td class="user">&nbsp;</td>';
+        }        
         $renderer->doc .= '</tr>';
       }
       $renderer->doc .= '</table>';
