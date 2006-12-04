@@ -92,7 +92,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
       
       // show new entry form
       $perm_create = (auth_quickaclcheck($ns.':*') >= AUTH_CREATE);
-      if ($perm_create && ($this->getConf('formposition') != 'bottom'))
+      if ($perm_create && ($this->getConf('formposition') == 'top'))
         $renderer->doc .= $this->_newEntryForm($ns);
 
       // current section level
@@ -126,7 +126,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
       $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
       
       // show new entry form
-      if ($perm_create && ($this->getConf('formposition') != 'top'))
+      if ($perm_create && ($this->getConf('formposition') == 'bottom'))
         $renderer->doc .= $this->_newEntryForm($ns);
     }
     

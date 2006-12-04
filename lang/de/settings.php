@@ -12,7 +12,6 @@ $lang['namespace']             = 'Standard-Namensraum für Blog';
 $lang['formposition']          = 'Position des Formulars für neue Blogeinträge';
 $lang['formposition_o_top']    = 'oben';
 $lang['formposition_o_bottom'] = 'unten';
-$lang['formposition_o_both']   = 'beides';
 
 $lang['sortkey']               = 'Blogeinträge sortieren nach:';
 $lang['sortkey_o_cdate']       = 'Erstellungsdatum';

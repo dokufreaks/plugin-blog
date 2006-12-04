@@ -12,7 +12,6 @@ $lang['namespace']             = 'default namespace for blog';
 $lang['formposition']          = 'position of the new entry form';
 $lang['formposition_o_top']    = 'top';
 $lang['formposition_o_bottom'] = 'bottom';
-$lang['formposition_o_both']   = 'both';
 
 $lang['sortkey']               = 'sort blog entries by:';
 $lang['sortkey_o_cdate']       = 'creation date';
