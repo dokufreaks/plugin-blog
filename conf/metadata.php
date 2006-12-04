@@ -6,6 +6,10 @@
  * @author    Esther Brunner <wikidesign@gmail.com>
  */
 $meta['namespace']        = array('string');
+$meta['formposition']     = array(
+                             'multichoice',
+                             '_choices' => array('top', 'bottom', 'both')
+                            );
 $meta['sortkey']          = array(
                              'multichoice',
                              '_choices' => array('cdate', 'pagename', 'id')
@@ -16,7 +20,9 @@ $meta['showtaglogos']     = array('onoff');
 $meta['showlink']         = array('onoff');
 $meta['showdate']         = array('onoff');
 $meta['showuser']         = array('onoff');
+
 $meta['user_namespace']   = array('string');
+
 $meta['archive_showdate'] = array('onoff');
 $meta['archive_showuser'] = array('onoff');
 

@@ -89,6 +89,11 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             
       // prevent caching to ensure the included pages are always fresh
       $renderer->info['cache'] = false;
+      
+      // show new entry form
+      $perm_create = (auth_quickaclcheck($ns.':*') >= AUTH_CREATE);
+      if ($perm_create && ($this->getConf('formposition') != 'bottom'))
+        $renderer->doc .= $this->_newEntryForm($ns);
 
       // current section level
       $clevel = 0;
@@ -121,7 +126,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
       $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
       
       // show new entry form
-      if (auth_quickaclcheck($ns.':*') >= AUTH_CREATE)
+      if ($perm_create && ($this->getConf('formposition') != 'top'))
         $renderer->doc .= $this->_newEntryForm($ns);
     }
     
