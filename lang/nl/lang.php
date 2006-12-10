@@ -7,12 +7,8 @@
  */
 
 // custom language strings for the plugin
-$lang['discussion'] = 'discussie'; // anchor for discussion section
-$lang['comment']    = 'Commentaar';
-$lang['comments']   = 'Opmerkingen';
 $lang['older']      = 'Oude berichten';
 $lang['newer']      = 'Nieuwe berichten';
-$lang['readmore']   = '→ Lees verder...';
 $lang['newentry']   = 'Nieuw bericht:';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

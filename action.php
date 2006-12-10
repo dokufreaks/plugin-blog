@@ -19,7 +19,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-03',
+      'date'   => '2006-12-09',
       'name'   => 'Blog Plugin',
       'desc'   => 'Brings blog functionality to DokuWiki',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -61,10 +61,9 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     $id   = ($event->data[1] ? $event->data[1].':' : '').$event->data[2];
     $date = filectime($event->data[0][0]);
     
-    // load recent class to update the creation date index
-    require_once(DOKU_PLUGIN.'blog/inc/recent.php');
-    $recent = new plugin_class_recent;
-    return $recent->_updateCDateIndex($id, $date);
+    // load blog class to update the creation date index
+    $helper = plugin_load('helper', 'blog');
+    return $helper->_updateCDateIndex($id, $date);
   }
     
   /**

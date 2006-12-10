@@ -19,15 +19,5 @@ $lang['sortkey_o_pagename']    = 'Seitenname';
 $lang['sortkey_o_id']          = 'Seiten-ID';
 
 $lang['dateprefix']            = 'Datum den IDs neuer Seiten voranstellen';
-$lang['firstseconly']          = 'Nur erster Abschnitt von Blogeinträgen';
-$lang['showtaglogos']          = 'Bild für erstes Tag anzeigen';
-$lang['showlink']              = 'Permalink unter Blogeinträgen anzeigen';
-$lang['showdate']              = 'Datum unter Blogeinträgen anzeigen';
-$lang['showuser']              = 'Autorenname unter Blogeinträgen anzeigen';
-
-$lang['user_namespace']        = 'Namensraum für Benutzerseiten';
-
-$lang['archive_showdate']      = 'Datum in Archivlisten anzeigen';
-$lang['archive_showuser']      = 'Autorenname in Archivlisten anzeigen';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

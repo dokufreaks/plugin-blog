@@ -25,7 +25,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-04',
+      'date'   => '2006-12-10',
       'name'   => 'Blog Plugin (archive component)',
       'desc'   => 'Displays a list of wiki pages from a given month',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -35,7 +35,10 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
   function getType(){ return 'substition'; }
   function getPType(){ return 'block'; }
   function getSort(){ return 309; }
-  function connectTo($mode) { $this->Lexer->addSpecialPattern('\{\{archive>.+?\}\}',$mode,'plugin_blog_archive'); }
+  
+  function connectTo($mode){
+    $this->Lexer->addSpecialPattern('\{\{archive>.+?\}\}', $mode, 'plugin_blog_archive');
+  }
 
   /**
    * Handle the match
@@ -78,64 +81,42 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         
     $ns = $data[0];
     if ($ns == '') $ns = cleanID($this->getConf('namespace'));
-    elseif ($ns == '*') $ns = '';
+    elseif (($ns == '*') || ($ns == ':')) $ns = '';
     elseif ($ns == '.') $ns = getNS($ID);
     
     // get the blog entries for our namespace
-    require_once(DOKU_PLUGIN.'blog/inc/recent.php');
-    $recent  = new plugin_class_recent;
-    $entries = $recent->_getBlogEntries($ns);
-    
-    if (!count($entries)) return true; // nothing to display
+    if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
+    if (!$entries) return true; // nothing to display
     
     if ($mode == 'xhtml'){
       
       // prevent caching for current month to ensure content is always fresh
       if (time() < $data[2]) $renderer->info['cache'] = false;
-  
-      $renderer->doc .= '<table class="archive">';
+      
+      // let Pagelist Plugin do the work for us
+      if (!$pagelist =& plugin_load('helper', 'pagelist')){
+        msg('The Pagelist Plugin must be installed for archive lists to work.', -1);
+        return false;
+      }
+      $pagelist->startList();
       foreach ($entries as $entry){
-        $date  = $entry['date'];
       
         // entry in the right date range?
-        if (($data[1] > $date) || ($date >= $data[2])) continue;
+        if (($data[1] > $entry['date']) || ($entry['date'] >= $data[2])) continue;
         
-        $renderer->doc .= '<tr><td class="page">';
-        
-        // page title
-        $id    = $entry['id'];
-        $meta  = p_get_metadata($id);
-        $title = $meta['title'];
-        $user  = $meta['creator'];
-        if (!$title) $title = str_replace('_', ' ', noNS($id));
-        $renderer->doc .= $renderer->internallink(':'.$id, $title).'</td>';
-        
-        // creation date
-        if ($this->getConf('archive_showdate')){
-          $renderer->doc .= '<td class="date">'.date($conf['dformat'], $date).'</td>';
-        }
-        
-        // author
-        if ($this->getConf('archive_showuser')){
-          if ($user) $renderer->doc .= '<td class="user">'.$user.'</td>';
-          else $renderer->doc .= '<td class="user">&nbsp;</td>';
-        }        
-        $renderer->doc .= '</tr>';
+        $pagelist->addPage($entry);
       }
-      $renderer->doc .= '</table>';
-      
+      $renderer->doc .= $pagelist->finishList();
       return true;
-      
+        
     // for metadata renderer
     } elseif ($mode == 'metadata'){
       foreach ($entries as $entry){
-        $id   = $entry['id'];
-        $date = $entry['date'];
       
         // entry in the right date range?
-        if (($data[1] > $date) || ($date >= $data[2])) continue;
+        if (($data[1] > $entry['date']) || ($entry['date'] >= $data[2])) continue;
 
-        $renderer->meta['relation']['references'][$id] = true;
+        $renderer->meta['relation']['references'][$entry['id']] = true;
       }
       
       return true;

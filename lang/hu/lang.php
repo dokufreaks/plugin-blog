@@ -7,10 +7,8 @@
  */
 
 // custom language strings for the plugin
-$lang['comments'] = 'hozzászólások';
 $lang['older']    = 'régi bejegyzések';
 $lang['newer']    = 'új bejegyzések';
-$lang['readmore'] = 'tovább...';
 $lang['newentry'] = 'Új bejegyzés:';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

@@ -7,9 +7,7 @@
  */
 
 // custom language strings for the plugin
-$lang['comments']   = 'comentários';
 $lang['older']      = 'registros antigos';
 $lang['newer']      = 'registros mais novos';
-$lang['readmore']   = '→ leia mais...';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :
