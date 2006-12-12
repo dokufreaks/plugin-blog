@@ -76,8 +76,9 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     // get the blog entries for our namespace
     if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
     if (!$entries){
-      if ($mode == 'xhtml') $this->_newEntryForm($ns);
-      return true;
+      if ((auth_quickaclcheck($ns.':*') >= AUTH_CREATE) && ($mode == 'xhtml'))
+        $this->_newEntryForm($ns);
+      return true; // nothing to display
     }
         
     // slice the needed chunk of pages
