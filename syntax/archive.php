@@ -25,7 +25,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-10',
+      'date'   => '2006-12-14',
       'name'   => 'Blog Plugin (archive component)',
       'desc'   => 'Displays a list of wiki pages from a given month',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -66,7 +66,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
       $start  = mktime(0, 0, 0, $month, 1, $year);
       $end    = mktime(0, 0, 0, $nextmonth, 1, $year2);
       
-      return array($ns, $start, $end);
+      return array(cleanID($ns), $start, $end);
     }
     
     return false;
@@ -79,7 +79,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     global $ID;
     global $conf;
         
-    $ns = $data[0];
+    list($ns, $start, $end) = $data;
     if ($ns == '') $ns = cleanID($this->getConf('namespace'));
     elseif (($ns == '*') || ($ns == ':')) $ns = '';
     elseif ($ns == '.') $ns = getNS($ID);
@@ -91,7 +91,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     if ($mode == 'xhtml'){
       
       // prevent caching for current month to ensure content is always fresh
-      if (time() < $data[2]) $renderer->info['cache'] = false;
+      if (time() < $end) $renderer->info['cache'] = false;
       
       // let Pagelist Plugin do the work for us
       if (!$pagelist =& plugin_load('helper', 'pagelist')){
@@ -102,7 +102,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
       foreach ($entries as $entry){
       
         // entry in the right date range?
-        if (($data[1] > $entry['date']) || ($entry['date'] >= $data[2])) continue;
+        if (($start > $entry['date']) || ($entry['date'] >= $end)) continue;
         
         $pagelist->addPage($entry);
       }
@@ -114,7 +114,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
       foreach ($entries as $entry){
       
         // entry in the right date range?
-        if (($data[1] > $entry['date']) || ($entry['date'] >= $data[2])) continue;
+        if (($start > $entry['date']) || ($entry['date'] >= $end)) continue;
 
         $renderer->meta['relation']['references'][$entry['id']] = true;
       }

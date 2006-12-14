@@ -25,7 +25,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-10',
+      'date'   => '2006-12-14',
       'name'   => 'Blog Plugin (blog component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -55,7 +55,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
       }
     }
 
-    return array($ns, $num);
+    return array(cleanID($ns), $num);
   }
 
   /**
@@ -64,12 +64,10 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
   function render($mode, &$renderer, $data){
     global $conf;
     
-    $ns = $data[0];
+    list($ns, $num) = $data;
     if ($ns == '') $ns = cleanID($this->getConf('namespace'));
     elseif (($ns == '*') || ($ns == ':')) $ns = '';
     elseif ($ns == '.') $ns = getNS($ID);
-    
-    $num   = $data[1];
     $first = $_REQUEST['first'];
     if (!is_numeric($first)) $first = 0;
     
@@ -77,7 +75,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
     if (!$entries){
       if ((auth_quickaclcheck($ns.':*') >= AUTH_CREATE) && ($mode == 'xhtml'))
-        $this->_newEntryForm($ns);
+        $renderer->doc .= $this->_newEntryForm($ns);
       return true; // nothing to display
     }
         
