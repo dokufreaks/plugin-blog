@@ -85,8 +85,8 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     $more = ((count($entries) > ($first + $num)) ? true : false);
     $entries = array_slice($entries, $first, $num);
     
-    // load the include class
-    if (!$include =& plugin_load('helper', 'include')){
+    // load the include helper plugin
+    if (plugin_isdisabled('include') || (!$include =& plugin_load('helper', 'include'))){
       msg('The Include Plugin must be installed for the blog to work.', -1);
       return false;
     }
