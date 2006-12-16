@@ -25,7 +25,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-14',
+      'date'   => '2006-12-16',
       'name'   => 'Blog Plugin (blog component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -117,10 +117,10 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     foreach ($entries as $entry){
       if (!$include->setPage($entry)) continue; // returns false if include recursion
       if ($mode == 'xhtml'){
-        $renderer->doc .= $include->getXHTML($renderer);
+        $include->renderXHTML($renderer);
       } elseif ($mode == 'metadata'){
-        $id = $entry['id'];
-        $renderer->meta['relation']['haspart'][$id] = true;
+        $renderer->meta['relation']['haspart'][$entry['id']] = true;
+        $include->pages = array(); // clear filechain - important!
       }
     }
     
