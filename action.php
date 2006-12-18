@@ -103,7 +103,12 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         global $TEXT;
         
         $TEXT = pageTemplate(array(($ns ? $ns.':' : '').$title));
-        if (!$TEXT) $TEXT = "====== $title ======\n\n\n\n~~DISCUSSION~~\n";
+        if (!$TEXT){
+          $TEXT = "====== $title ======\n\n";
+          if ((@file_exists(DOKU_PLUGIN.'discussion/action.php'))
+            && (!plugin_isdisabled('discussion')))
+            $TEXT .= "\n\n~~DISCUSSION~~\n";
+        }
         return 'preview';
       } else {
         return 'edit';
