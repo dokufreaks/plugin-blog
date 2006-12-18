@@ -19,7 +19,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-09',
+      'date'   => '2006-12-18',
       'name'   => 'Blog Plugin',
       'desc'   => 'Brings blog functionality to DokuWiki',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -86,7 +86,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     global $ID;
     global $INFO;
     
-    $ns    = $_REQUEST['ns'];
+    $ns    = cleanID($_REQUEST['ns']);
     $title = str_replace(':', '', $_REQUEST['title']);
     $ID    = $this->_newEntryID($ns, $title);
     $INFO  = pageinfo();
