@@ -108,6 +108,9 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
           if ((@file_exists(DOKU_PLUGIN.'discussion/action.php'))
             && (!plugin_isdisabled('discussion')))
             $TEXT .= "\n\n~~DISCUSSION~~\n";
+          if ((@file_exists(DOKU_PLUGIN.'tag/syntax/tag.php'))
+            && (!plugin_isdisabled('tag')))
+            $TEXT .= "\n~~{{tag>}}~~\n";
         }
         return 'preview';
       } else {
