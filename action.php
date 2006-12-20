@@ -19,7 +19,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-18',
+      'date'   => '2006-12-20',
       'name'   => 'Blog Plugin',
       'desc'   => 'Brings blog functionality to DokuWiki',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -105,12 +105,12 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         $TEXT = pageTemplate(array(($ns ? $ns.':' : '').$title));
         if (!$TEXT){
           $TEXT = "====== $title ======\n\n";
-          if ((@file_exists(DOKU_PLUGIN.'discussion/action.php'))
-            && (!plugin_isdisabled('discussion')))
-            $TEXT .= "\n\n~~DISCUSSION~~\n";
           if ((@file_exists(DOKU_PLUGIN.'tag/syntax/tag.php'))
             && (!plugin_isdisabled('tag')))
-            $TEXT .= "\n~~{{tag>}}~~\n";
+            $TEXT .= "\n\n{{tag>}}";
+          if ((@file_exists(DOKU_PLUGIN.'discussion/action.php'))
+            && (!plugin_isdisabled('discussion')))
+            $TEXT .= "\n\n~~DISCUSSION~~";
         }
         return 'preview';
       } else {
