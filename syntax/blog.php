@@ -25,7 +25,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-16',
+      'date'   => '2007-01-05',
       'name'   => 'Blog Plugin (blog component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -110,7 +110,8 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
       $include->setLevel($clevel);
       
       // close current section
-      if ($clevel) $renderer->doc .= '</div>';
+      if ($clevel) $renderer->doc .= '</div>'.DOKU_LF;
+      $renderer->doc .= '<div class="hfeed">'.DOKU_LF;
     }
       
     // now include the blog entries
@@ -126,7 +127,8 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     
     if ($mode == 'xhtml'){
       // resume the section
-      if ($clevel) $renderer->doc .= '<div class="level'.$clevel.'">';
+      $renderer->doc .= '</div>'.DOKU_LF;
+      if ($clevel) $renderer->doc .= '<div class="level'.$clevel.'">'.DOKU_LF;
             
       // show older / newer entries links
       $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
