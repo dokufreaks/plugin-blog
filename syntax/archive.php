@@ -51,8 +51,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
       $ns   = '';
     }
     
-    // monthly archive
-    if (preg_match("/\d{4}-\d{2}/", $rest)){
+    if (preg_match("/\d{4}-\d{2}/", $rest)){ // monthly archive
       list($year, $month) = explode("-", $rest);
       
       // calculate start and end times
@@ -66,7 +65,9 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
       $start  = mktime(0, 0, 0, $month, 1, $year);
       $end    = mktime(0, 0, 0, $nextmonth, 1, $year2);
       
-      return array(cleanID($ns), $start, $end);
+      return array($ns, $start, $end);
+    } elseif ($rest == '*'){                 // all entries from that namespace
+      return array($ns, 0, time() + 604800);
     }
     
     return false;
@@ -83,6 +84,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     if ($ns == '') $ns = cleanID($this->getConf('namespace'));
     elseif (($ns == '*') || ($ns == ':')) $ns = '';
     elseif ($ns == '.') $ns = getNS($ID);
+    else $ns = cleanID($ns);
     
     // get the blog entries for our namespace
     if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
