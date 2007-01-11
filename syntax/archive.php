@@ -18,14 +18,11 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */
 class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
 
-  /**
-   * return some info
-   */
   function getInfo(){
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-14',
+      'date'   => '2007-01-11',
       'name'   => 'Blog Plugin (archive component)',
       'desc'   => 'Displays a list of wiki pages from a given month',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -40,16 +37,20 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     $this->Lexer->addSpecialPattern('\{\{archive>.+?\}\}', $mode, 'plugin_blog_archive');
   }
 
-  /**
-   * Handle the match
-   */
   function handle($match, $state, $pos, &$handler){
+    global $ID;
+    
     $match = substr($match, 10, -2); // strip {{archive> from start and }} from end
     list($ns, $rest) = explode("?", $match);
     if (!$rest){
       $rest = $ns;
       $ns   = '';
     }
+    
+    if ($ns == '') $ns = cleanID($this->getConf('namespace'));
+    elseif (($ns == '*') || ($ns == ':')) $ns = '';
+    elseif ($ns == '.') $ns = getNS($ID);
+    else $ns = cleanID($ns);
     
     if (preg_match("/\d{4}-\d{2}/", $rest)){ // monthly archive
       list($year, $month) = explode("-", $rest);
@@ -73,18 +74,8 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     return false;
   }
 
-  /**
-   * Create output
-   */
   function render($mode, &$renderer, $data) {
-    global $ID;
-    global $conf;
-        
     list($ns, $start, $end) = $data;
-    if ($ns == '') $ns = cleanID($this->getConf('namespace'));
-    elseif (($ns == '*') || ($ns == ':')) $ns = '';
-    elseif ($ns == '.') $ns = getNS($ID);
-    else $ns = cleanID($ns);
     
     // get the blog entries for our namespace
     if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);

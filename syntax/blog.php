@@ -18,9 +18,6 @@ require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
 
-  /**
-   * return some info
-   */
   function getInfo(){
     return array(
       'author' => 'Esther Brunner',
@@ -40,10 +37,9 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     $this->Lexer->addSpecialPattern('\{\{blog>.+?\}\}',$mode,'plugin_blog_blog');
   }
 
-  /**
-   * Handle the match
-   */
   function handle($match, $state, $pos, &$handler){
+    global $ID;
+    
     $match = substr($match, 7, -2); // strip {{blog> from start and }} from end
     list($match, $flags) = explode('&', $match, 2);
     list($ns, $num) = explode('?', $match, 2);
@@ -56,20 +52,17 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
       }
     }
     
-    return array($ns, $num, explode('&', $flags));
-  }
-
-  /**
-   * Create output
-   */
-  function render($mode, &$renderer, $data){
-    global $conf;
-    
-    list($ns, $num, $flags) = $data;
     if ($ns == '') $ns = cleanID($this->getConf('namespace'));
     elseif (($ns == '*') || ($ns == ':')) $ns = '';
     elseif ($ns == '.') $ns = getNS($ID);
     else $ns = cleanID($ns);
+    
+    return array($ns, $num, explode('&', $flags));
+  }
+
+  function render($mode, &$renderer, $data){
+    list($ns, $num, $flags) = $data;
+
     $first = $_REQUEST['first'];
     if (!is_numeric($first)) $first = 0;
     
