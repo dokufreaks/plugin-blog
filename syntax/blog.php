@@ -25,7 +25,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-01-05',
+      'date'   => '2007-01-11',
       'name'   => 'Blog Plugin (blog component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -45,6 +45,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
    */
   function handle($match, $state, $pos, &$handler){
     $match = substr($match, 7, -2); // strip {{blog> from start and }} from end
+    list($match, $flags) = explode('&', $match, 2);
     list($ns, $num) = explode('?', $match, 2);
     if (!is_numeric($num)){
       if (is_numeric($ns)){
@@ -55,7 +56,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
       }
     }
     
-    return array($ns, $num);
+    return array($ns, $num, explode('&', $flags));
   }
 
   /**
@@ -64,7 +65,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
   function render($mode, &$renderer, $data){
     global $conf;
     
-    list($ns, $num) = $data;
+    list($ns, $num, $flags) = $data;
     if ($ns == '') $ns = cleanID($this->getConf('namespace'));
     elseif (($ns == '*') || ($ns == ':')) $ns = '';
     elseif ($ns == '.') $ns = getNS($ID);
@@ -91,6 +92,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
       msg('The Include Plugin must be installed for the blog to work.', -1);
       return false;
     }
+    $include->setFlags($flags);
                   
     if ($mode == 'xhtml'){
       define('IS_BLOG_MAINPAGE', 1);
