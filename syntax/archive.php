@@ -41,7 +41,9 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     global $ID;
     
     $match = substr($match, 10, -2); // strip {{archive> from start and }} from end
-    list($ns, $rest) = explode("?", $match);
+    list($match, $flags) = explode('&', $match, 2);
+    $flags = explode('&', $flags);
+    list($ns, $rest) = explode('?', $match, 2);
     if (!$rest){
       $rest = $ns;
       $ns   = '';
@@ -66,16 +68,16 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
       $start  = mktime(0, 0, 0, $month, 1, $year);
       $end    = mktime(0, 0, 0, $nextmonth, 1, $year2);
       
-      return array($ns, $start, $end);
+      return array($ns, $start, $end, $flags);
     } elseif ($rest == '*'){                 // all entries from that namespace
-      return array($ns, 0, time() + 604800);
+      return array($ns, 0, time() + 604800, $flags);
     }
     
     return false;
   }
 
   function render($mode, &$renderer, $data) {
-    list($ns, $start, $end) = $data;
+    list($ns, $start, $end, $flags) = $data;
     
     // get the blog entries for our namespace
     if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
@@ -92,6 +94,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         msg('The Pagelist Plugin must be installed for archive lists to work.', -1);
         return false;
       }
+      $pagelist->setFlags($flags);
       $pagelist->startList();
       foreach ($entries as $entry){
       
