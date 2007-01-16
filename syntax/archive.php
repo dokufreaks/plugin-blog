@@ -57,7 +57,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     else $ns = cleanID($ns);
     
     if (preg_match("/\d{4}-\d{2}/", $rest)){ // monthly archive
-      list($year, $month) = explode('-', $month, 2);
+      list($year, $month) = explode('-', $rest, 2);
       
       // calculate start and end times
       $nextmonth   = $month + 1;
@@ -69,7 +69,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
       
       $start  = mktime(0, 0, 0, $month, 1, $year);
       $end    = mktime(0, 0, 0, $nextmonth, 1, $year2);
-      
+            
       return array($ns, $start, $end, $flags, $refine);
     } elseif ($rest == '*'){                 // all entries from that namespace
       return array($ns, 0, time() + 604800, $flags, $refine);
