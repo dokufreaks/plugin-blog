@@ -22,7 +22,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-01-11',
+      'date'   => '2007-01-16',
       'name'   => 'Blog Plugin (blog component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -42,7 +42,10 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     
     $match = substr($match, 7, -2); // strip {{blog> from start and }} from end
     list($match, $flags) = explode('&', $match, 2);
+    $flags =  explode('&', $flags);
+    list($match, $refine) = explode(' ', $match, 2);
     list($ns, $num) = explode('?', $match, 2);
+    
     if (!is_numeric($num)){
       if (is_numeric($ns)){
         $num = $ns;
@@ -57,17 +60,27 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     elseif ($ns == '.') $ns = getNS($ID);
     else $ns = cleanID($ns);
     
-    return array($ns, $num, explode('&', $flags));
+    return array($ns, $num, $flags, $refine);
   }
 
   function render($mode, &$renderer, $data){
-    list($ns, $num, $flags) = $data;
+    list($ns, $num, $flags, $refine) = $data;
 
     $first = $_REQUEST['first'];
     if (!is_numeric($first)) $first = 0;
     
     // get the blog entries for our namespace
     if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
+    
+    // use tag refinements?
+    if ($refine){
+      if (plugin_isdisabled('tag') || (!$tag = plugin_load('helper', 'tag'))){
+        msg('The Tag Plugin must be installed to use tag refinements.', -1);
+      } else {
+        $entries = $tag->tagRefine($entries, $refine);
+      }
+    }
+    
     if (!$entries){
       if ((auth_quickaclcheck($ns.':*') >= AUTH_CREATE) && ($mode == 'xhtml')){
         $renderer->info['cache'] = false;

@@ -22,7 +22,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-01-11',
+      'date'   => '2007-01-16',
       'name'   => 'Blog Plugin (archive component)',
       'desc'   => 'Displays a list of wiki pages from a given month',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -43,7 +43,9 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     $match = substr($match, 10, -2); // strip {{archive> from start and }} from end
     list($match, $flags) = explode('&', $match, 2);
     $flags = explode('&', $flags);
+    list($match, $refine) = explode(' ', $match, 2);
     list($ns, $rest) = explode('?', $match, 2);
+    
     if (!$rest){
       $rest = $ns;
       $ns   = '';
@@ -55,7 +57,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     else $ns = cleanID($ns);
     
     if (preg_match("/\d{4}-\d{2}/", $rest)){ // monthly archive
-      list($year, $month) = explode("-", $rest);
+      list($year, $month) = explode('-', $month, 2);
       
       // calculate start and end times
       $nextmonth   = $month + 1;
@@ -68,19 +70,29 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
       $start  = mktime(0, 0, 0, $month, 1, $year);
       $end    = mktime(0, 0, 0, $nextmonth, 1, $year2);
       
-      return array($ns, $start, $end, $flags);
+      return array($ns, $start, $end, $flags, $refine);
     } elseif ($rest == '*'){                 // all entries from that namespace
-      return array($ns, 0, time() + 604800, $flags);
+      return array($ns, 0, time() + 604800, $flags, $refine);
     }
     
     return false;
   }
 
   function render($mode, &$renderer, $data) {
-    list($ns, $start, $end, $flags) = $data;
+    list($ns, $start, $end, $flags, $refine) = $data;
     
     // get the blog entries for our namespace
     if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
+    
+    // use tag refinements?
+    if ($refine){
+      if (plugin_isdisabled('tag') || (!$tag = plugin_load('helper', 'tag'))){
+        msg('The Tag Plugin must be installed to use tag refinements.', -1);
+      } else {
+        $entries = $tag->tagRefine($entries, $refine);
+      }
+    }
+    
     if (!$entries) return true; // nothing to display
     
     if ($mode == 'xhtml'){

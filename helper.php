@@ -28,7 +28,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     }
     
     // load page and creation date index
-    $this->page_idx  = file($this->idx_dir.'/page.idx');
+    $this->page_idx  = @file($this->idx_dir.'/page.idx');
     $this->cdate_idx = @file($this->idx_dir.'/cdate.idx');
   }
   
@@ -168,7 +168,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     $old = $conf['cachedir'].'/cdate.idx';
     $new = $conf['indexdir'].'/cdate.idx';
     
-    if (@file_exists($old)) return false;
+    if (!@file_exists($old)) return false;
         
     if (@copy($old, $new)){
       @unlink($old);
