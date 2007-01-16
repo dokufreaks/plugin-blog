@@ -98,7 +98,6 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
       msg('The Include Plugin must be installed for the blog to work.', -1);
       return false;
     }
-    $include->setFlags($flags);
                   
     if ($mode == 'xhtml'){
       define('IS_BLOG_MAINPAGE', 1);
@@ -127,6 +126,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     foreach ($entries as $entry){
       if (!$include->setPage($entry)) continue; // returns false if include recursion
       if ($mode == 'xhtml'){
+        $include->setFlags($flags);
         $include->renderXHTML($renderer);
       } elseif ($mode == 'metadata'){
         $renderer->meta['relation']['haspart'][$entry['id']] = true;
