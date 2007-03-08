@@ -74,7 +74,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     
     // use tag refinements?
     if ($refine){
-      if (plugin_isdisabled('tag') || (!$tag = plugin_load('helper', 'tag'))){
+      if (plugin_isdisabled('tag') || (!$tag =& plugin_load('helper', 'tag'))){
         msg('The Tag Plugin must be installed to use tag refinements.', -1);
       } else {
         $entries = $tag->tagRefine($entries, $refine);
