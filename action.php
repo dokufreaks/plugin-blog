@@ -154,6 +154,14 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     } else {
       $replace['@DISCUSSION@'] = '';
     }
+
+    // linkbacks if linkback plugin is available
+    if ((@file_exists(DOKU_PLUGIN.'linkback/syntax.php'))
+      && (!plugin_isdisabled('linkback'))){
+      $replace['@LINKBACK@'] = "~~LINKBACK~~";
+    } else {
+      $replace['@LINKBACK@'] = '';
+    }
     
     // do the replace
     $tpl = str_replace(array_keys($replace), array_values($replace), $tpl);
