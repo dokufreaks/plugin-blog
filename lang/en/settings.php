@@ -13,12 +13,16 @@ $lang['formposition']          = 'position of the new entry form';
 $lang['formposition_o_top']    = 'top';
 $lang['formposition_o_bottom'] = 'bottom';
 
-$lang['sortkey']               = 'sort blog entries by:';
+$lang['dateprefix']            = 'prefix date to new entry IDs';
+
+$lang['sortkey']               = 'sort blog entries by';
 $lang['sortkey_o_cdate']       = 'creation date';
 $lang['sortkey_o_mdate']       = 'modification date';
 $lang['sortkey_o_pagename']    = 'page name';
 $lang['sortkey_o_id']          = 'page ID';
 
-$lang['dateprefix']            = 'prefix date to new entry IDs';
+$lang['sortorder']              = 'sort order';
+$lang['sortorder_o_ascending']  = 'ascending';
+$lang['sortorder_o_descending'] = 'descending';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

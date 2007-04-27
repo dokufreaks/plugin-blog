@@ -109,7 +109,8 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     }
     
     // finally sort by sort key
-    krsort($result);
+    if ($this->getConf('sortorder') == 'ascending') ksort($result);
+    else krsort($result);
     
     if (is_numeric($num)) $result = array_slice($result, 0, $num);
           
