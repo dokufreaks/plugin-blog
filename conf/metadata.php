@@ -9,7 +9,7 @@ $meta['namespace']     = array('string');
 $meta['formposition']  = array('multichoice',
                           '_choices' => array('top', 'bottom'));
 $meta['sortkey']       = array('multichoice',
-                          '_choices' => array('cdate', 'pagename', 'id'));
+                          '_choices' => array('cdate', 'mdate', 'pagename', 'id'));
 $meta['dateprefix']    = array('string');
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

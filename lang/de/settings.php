@@ -15,6 +15,7 @@ $lang['formposition_o_bottom'] = 'unten';
 
 $lang['sortkey']               = 'Blogeinträge sortieren nach:';
 $lang['sortkey_o_cdate']       = 'Erstellungsdatum';
+$lang['sortkey_o_mdate']       = 'Änderungsdatum';
 $lang['sortkey_o_pagename']    = 'Seitenname';
 $lang['sortkey_o_id']          = 'Seiten-ID';
 

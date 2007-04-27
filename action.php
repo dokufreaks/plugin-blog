@@ -40,7 +40,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     $contr->register_hook('IO_WIKIPAGE_WRITE',
                           'AFTER',
                           $this,
-                          'cdateIndex',
+                          'dateIndex',
                           array());
   }
 
@@ -49,21 +49,24 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
    *
    * @author  Esther Brunner  <wikidesign@gmail.com>
    */
-  function cdateIndex(&$event, $param){
+  function dateIndex(&$event, $param){
     global $INFO;
     global $conf;
     
+    $idx = ($this->getConf('sortkey') == 'mdate' ? 'mdate' : 'cdate');
+    
+    if (!$event->data[0][1]) return false; // file is empty
     if ($event->data[3]) return false;     // old revision saved
     if ($INFO['exists']) return false;     // file not new
-    if (!$event->data[0][1]) return false; // file is empty
     
     // get needed information
     $id   = ($event->data[1] ? $event->data[1].':' : '').$event->data[2];
-    $date = filectime($event->data[0][0]);
+    if ($idx == 'mdate') $date = filemtime($event->data[0][0]);
+    else $date = filectime($event->data[0][0]);
     
     // load blog class to update the creation date index
     $helper = plugin_load('helper', 'blog');
-    return $helper->_updateCDateIndex($id, $date);
+    return $helper->_updateDateIndex($id, $date);
   }
     
   /**

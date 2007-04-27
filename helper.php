@@ -9,9 +9,11 @@ if (!defined('DOKU_INC')) die();
 
 class helper_plugin_blog extends DokuWiki_Plugin {
 
+  var $sort       = '';      // sort key
+  var $idx_type   = 'cdate'; // creation of modification date?
   var $idx_dir    = '';      // directory for index files
   var $page_idx   = array(); // array of existing pages
-  var $cdate_idx  = array(); // array of creation dates of pages
+  var $date_idx   = array(); // array of creation dates of pages
   
   /**
    * Constructor
@@ -19,17 +21,22 @@ class helper_plugin_blog extends DokuWiki_Plugin {
   function helper_plugin_blog(){
     global $conf;
     
+    // load sort key from settings
+    $this->sort = $this->getConf('sortkey');
+    if ($this->sort == 'mdate') $this->idx_type = 'mdate';
+    
     // determine where index files are saved
     if (@file_exists($conf['indexdir'].'/page.idx')){ // new word length based index
       $this->idx_dir = $conf['indexdir'];
-      if (!@file_exists($this->idx_dir.'/cdate.idx')) $this->_importCDateIndex();
+      if (!@file_exists($this->idx_dir.'/'.$this->idx_type.'.idx'))
+        $this->_importDateIndex();
     } else {                                          // old index
       $this->idx_dir = $conf['cachedir'];
     }
     
     // load page and creation date index
-    $this->page_idx  = @file($this->idx_dir.'/page.idx');
-    $this->cdate_idx = @file($this->idx_dir.'/cdate.idx');
+    $this->page_idx = @file($this->idx_dir.'/page.idx');
+    $this->date_idx = @file($this->idx_dir.'/'.$this->idx_type.'.idx');
   }
   
   function getInfo(){
@@ -60,18 +67,19 @@ class helper_plugin_blog extends DokuWiki_Plugin {
    * Get blog entries from a given namespace
    */
   function getBlog($ns, $num = NULL){
+    global $conf;
     
     // add pages in given namespace
-    $sortkey = $this->getConf('recent_sortkey');
     $result  = array();
     $c       = count($this->page_idx);
     for ($i = 0; $i < $c; $i++){
       $id = substr($this->page_idx[$i], 0, -1);
+      $file = wikiFN($id);
       
       // do some checks first
       if (isHiddenPage($id)) continue;                     // skip excluded pages
       if (($ns) && (strpos($id, $ns.':') !== 0)) continue; // filter namespaces
-      if (!@file_exists(wikiFN($id))) continue;            // skip deleted
+      if (!@file_exists($file)) continue;            // skip deleted
       
       $perm = auth_quickaclcheck($id);
       if ($perm < AUTH_READ) continue;                     // check ACL
@@ -79,17 +87,21 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       if (($perm < AUTH_ADMIN) && $draft) continue;        // skip drafts unless for admins
                 
       // okay, add the page
-      $cdate = substr($this->cdate_idx[$i], 0, -1);
-      if (!$cdate) $cdate = $this->_getCDate($id, $i);
+      $date = substr($this->date_idx[$i], 0, -1);
+      if ((!$date)
+        || (($this->idx_type == 'mdate')
+        && ($date + $conf['cachetime'] < filemtime($file)))){
+        $date = $this->_getDate($id, $i);
+      }
       
       // determine array key
-      if ($sortkey == 'id') $key = $id;
-      elseif ($sortkey == 'pagename') $key = noNS($id);
-      else $key = $cdate;
+      if ($this->sort == 'id') $key = $id;
+      elseif ($this->sort == 'pagename') $key = noNS($id);
+      else $key = $date;
       
       $result[$key] = array(
         'id'       => $id,
-        'date'     => $cdate,
+        'date'     => $date,
         'exists'   => true,
         'perm'     => $perm,
         'draft'    => $draft,
@@ -105,32 +117,37 @@ class helper_plugin_blog extends DokuWiki_Plugin {
   }
   
   /**
-   * Get the creation date of a page from metadata or filectime
+   * Get the creation or modification date of a page from metadata or file system
    */
-  function _getCDate($id, $pid){
+  function _getDate($id, $pid){
     
-    $cdate = p_get_metadata($id, 'date created');
-    if (!$cdate) $cdate = filectime(wikiFN($id));
-    
-    // check lines and fill creation date in
-    for ($i = 0; $i < $pid; $i++){
-      if (empty($this->cdate_idx[$i])) $this->cdate_idx[$i] = "\n";
+    if ($this->sort == 'mdate'){
+      $date = p_get_metadata($id, 'date modified');
+      if (!$date) $date = filemtime(wikiFN($id));
+    } else {
+      $date = p_get_metadata($id, 'date created');
+      if (!$date) $date = filectime(wikiFN($id));
     }
-    $this->cdate_idx[$pid] = "$cdate\n";
     
-    // save creation date index
-    $fh = fopen($this->idx_dir.'/cdate.idx', 'w');
+    // check lines and fill creation / modification date in
+    for ($i = 0; $i < $pid; $i++){
+      if (empty($this->date_idx[$i])) $this->date_idx[$i] = "\n";
+    }
+    $this->date_idx[$pid] = "$date\n";
+    
+    // save creation or modification date index
+    $fh = fopen($this->idx_dir.'/'.$this->idx_type.'.idx', 'w');
     if (!$fh) return false;
-    fwrite($fh, join('', $this->cdate_idx));
+    fwrite($fh, join('', $this->date_idx));
     fclose($fh);
     
-    return $cdate;
+    return $date;
   }
   
   /**
    * Update creation date index
    */
-  function _updateCDateIndex($id, $date){
+  function _updateDateIndex($id, $date){
   
     // get page id (this is the linenumber in page.idx)
     $pid = array_search("$id\n", $this->page_idx);
@@ -143,12 +160,12 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     
     // check lines and fill creation date in
     for ($i = 0; $i < $pid; $i++){
-      if (empty($this->cdate_idx[$i])) $this->cdate_idx[$i] = "\n";
+      if (empty($this->date_idx[$i])) $this->date_idx[$i] = "\n";
     }
-    $this->cdate_idx[$pid] = "$date\n";    
+    $this->date_idx[$pid] = "$date\n";    
     
     // save creation date index
-    $this->_saveIndex('cdate');
+    $this->_saveIndex($this->idx_type);
   }
   
   /**
@@ -158,18 +175,18 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     $fh = fopen($this->idx_dir.'/'.$idx.'.idx', 'w');
     if (!$fh) return false;
     if ($idx == 'page') fwrite($fh, join('', $this->page_idx));
-    else fwrite($fh, join('', $this->cdate_idx));
+    else fwrite($fh, join('', $this->date_idx));
     fclose($fh);
   }
   
   /**
    * Import old creation date index
    */
-  function _importCDateIndex(){
+  function _importDateIndex(){
     global $conf;
     
-    $old = $conf['cachedir'].'/cdate.idx';
-    $new = $conf['indexdir'].'/cdate.idx';
+    $old = $conf['cachedir'].'/'.$this->idx_type.'.idx';
+    $new = $conf['indexdir'].'/'.$this->idx_type.'.idx';
     
     if (!@file_exists($old)) return false;
         
