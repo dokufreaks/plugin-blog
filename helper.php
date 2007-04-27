@@ -36,9 +36,9 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-10',
+      'date'   => '2007-04-27',
       'name'   => 'Blog Plugin (helper class)',
-      'desc'   => 'Returns a number of recent entries from a given namesspace',
+      'desc'   => 'Returns a number of recent entries from a given namespace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
     );
   }
@@ -75,6 +75,8 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       
       $perm = auth_quickaclcheck($id);
       if ($perm < AUTH_READ) continue;                     // check ACL
+      $draft = $this->_isDraft($id);
+      if (($perm < AUTH_ADMIN) && $draft) continue;        // skip drafts unless for admins
                 
       // okay, add the page
       $cdate = substr($this->cdate_idx[$i], 0, -1);
@@ -90,6 +92,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
         'date'     => $cdate,
         'exists'   => true,
         'perm'     => $perm,
+        'draft'    => $draft,
       );
     }
     
@@ -175,6 +178,14 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       return true;
     }
     return false;
+  }
+  
+  /**
+   * Check whether the blog entry is marked as draft
+   */
+  function _isDraft($id){
+    $type = p_get_metadata($id, 'type');
+    return ($type == 'draft');
   }
   
 }
