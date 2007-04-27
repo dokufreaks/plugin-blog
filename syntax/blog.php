@@ -22,7 +22,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-01-16',
+      'date'   => '2007-04-27',
       'name'   => 'Blog Plugin (blog component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -34,7 +34,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
   function getSort(){ return 307; }
   
   function connectTo($mode) {
-    $this->Lexer->addSpecialPattern('\{\{blog>.+?\}\}',$mode,'plugin_blog_blog');
+    $this->Lexer->addSpecialPattern('\{\{blog>.*?\}\}',$mode,'plugin_blog_blog');
   }
 
   function handle($match, $state, $pos, &$handler){
