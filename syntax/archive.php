@@ -34,7 +34,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
   function getSort(){ return 309; }
   
   function connectTo($mode){
-    $this->Lexer->addSpecialPattern('\{\{archive>.+?\}\}', $mode, 'plugin_blog_archive');
+    $this->Lexer->addSpecialPattern('\{\{archive>.*?\}\}', $mode, 'plugin_blog_archive');
   }
 
   function handle($match, $state, $pos, &$handler){
