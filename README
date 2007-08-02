@@ -4,9 +4,8 @@ All documentation for the Blog Plugin is available online at:
 http://www.wikidesign.ch/en/plugin/blog/start
 http://wiki.splitbrain.org/plugin:blog
 
-This plugin requires DokuWiki 2006-11-06 and these helper plugins:
+This plugin requires DokuWiki 2006-11-06 or later and these helper plugins:
 
-  * Feed Plugin      http://www.wikidesign.ch/en/plugin/feed/start
   * Include Plugin   http://www.wikidesign.ch/en/plugin/include/start
   * Pagelist Plugin  http://www.wikidesign.ch/en/plugin/pagelist/start
 
