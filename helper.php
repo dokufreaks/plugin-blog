@@ -99,6 +99,9 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       elseif ($this->sort == 'pagename') $key = noNS($id);
       else $key = $date;
       
+      // check if key is unique
+      $key = $this->_uniqueKey($key, $result);
+      
       $result[$key] = array(
         'id'       => $id,
         'date'     => $date,
@@ -204,6 +207,24 @@ class helper_plugin_blog extends DokuWiki_Plugin {
   function _isDraft($id){
     $type = p_get_metadata($id, 'type');
     return ($type == 'draft');
+  }
+  
+  /**
+   * Recursive function to check whether an array key is unique
+   */
+  function _uniqueKey($key, &$result, $num = 0){
+    
+    // increase numeric keys by one
+    if (is_numeric($key)){
+      if (!array_key_exists($key, $result)) return $key;
+      return $this->_uniqueKey($key++, $result);
+      
+    // append a number to literal keys
+    } else {
+      $testkey = $key.($num > 0 ? $num : '');
+      if (!array_key_exists($testkey, $result)) return $testkey;
+      return $this->_uniqueKey($key, $result, $num++);
+    }
   }
   
 }
