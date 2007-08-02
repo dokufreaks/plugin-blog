@@ -7,19 +7,20 @@
  */
  
 // for the configuration manager
-$lang['namespace']             = 'default namespace for blog';
+$lang['namespace']              = 'default namespace for blog';
 
-$lang['formposition']          = 'position of the new entry form';
-$lang['formposition_o_top']    = 'top';
-$lang['formposition_o_bottom'] = 'bottom';
+$lang['formposition']           = 'position of the new entry form';
+$lang['formposition_o_top']     = 'top';
+$lang['formposition_o_bottom']  = 'bottom';
 
-$lang['dateprefix']            = 'prefix date to new entry IDs';
+$lang['dateprefix']             = 'prefix date to new entry IDs';
 
-$lang['sortkey']               = 'sort blog entries by';
-$lang['sortkey_o_cdate']       = 'creation date';
-$lang['sortkey_o_mdate']       = 'modification date';
-$lang['sortkey_o_pagename']    = 'page name';
-$lang['sortkey_o_id']          = 'page ID';
+$lang['sortkey']                = 'sort blog entries by';
+$lang['sortkey_o_cdate']        = 'creation date';
+$lang['sortkey_o_mdate']        = 'modification date';
+$lang['sortkey_o_pagename']     = 'page name';
+$lang['sortkey_o_id']           = 'page ID';
+$lang['sortkey_o_title']        = 'title';
 
 $lang['sortorder']              = 'sort order';
 $lang['sortorder_o_ascending']  = 'ascending';

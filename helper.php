@@ -83,7 +83,9 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       
       $perm = auth_quickaclcheck($id);
       if ($perm < AUTH_READ) continue;                     // check ACL
-      $draft = $this->_isDraft($id);
+      
+      $meta = p_get_metadata($id);
+      $draft = ($meta['type'] == 'draft');
       if (($perm < AUTH_ADMIN) && $draft) continue;        // skip drafts unless for admins
                 
       // okay, add the page
@@ -93,10 +95,12 @@ class helper_plugin_blog extends DokuWiki_Plugin {
         && ($date + $conf['cachetime'] < filemtime($file)))){
         $date = $this->_getDate($id, $i);
       }
+      $title = $meta['title'];
       
       // determine array key
       if ($this->sort == 'id') $key = $id;
       elseif ($this->sort == 'pagename') $key = noNS($id);
+      elseif ($this->sort == 'title') $key = $title;
       else $key = $date;
       
       // check if key is unique
@@ -104,6 +108,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       
       $result[$key] = array(
         'id'       => $id,
+        'title'    => $title,
         'date'     => $date,
         'exists'   => true,
         'perm'     => $perm,
@@ -200,15 +205,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     }
     return false;
   }
-  
-  /**
-   * Check whether the blog entry is marked as draft
-   */
-  function _isDraft($id){
-    $type = p_get_metadata($id, 'type');
-    return ($type == 'draft');
-  }
-  
+    
   /**
    * Recursive function to check whether an array key is unique
    */

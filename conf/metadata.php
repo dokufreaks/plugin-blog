@@ -10,7 +10,7 @@ $meta['formposition'] = array('multichoice',
                          '_choices' => array('top', 'bottom'));
 $meta['dateprefix']   = array('string');
 $meta['sortkey']      = array('multichoice',
-                        '_choices' => array('cdate', 'mdate', 'pagename', 'id'));
+                        '_choices' => array('cdate', 'mdate', 'pagename', 'id', 'title'));
 $meta['sortorder']    = array('multichoice',
                          '_choices' => array('ascending', 'descending'));
 
