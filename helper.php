@@ -43,7 +43,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-04-27',
+      'date'   => '2007-08-02',
       'name'   => 'Blog Plugin (helper class)',
       'desc'   => 'Returns a number of recent entries from a given namespace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -79,7 +79,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       // do some checks first
       if (isHiddenPage($id)) continue;                     // skip excluded pages
       if (($ns) && (strpos($id, $ns.':') !== 0)) continue; // filter namespaces
-      if (!@file_exists($file)) continue;            // skip deleted
+      if (!@file_exists($file)) continue;                  // skip deleted
       
       $perm = auth_quickaclcheck($id);
       if ($perm < AUTH_READ) continue;                     // check ACL

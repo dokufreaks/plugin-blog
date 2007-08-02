@@ -22,7 +22,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-04-27',
+      'date'   => '2007-08-02',
       'name'   => 'Blog Plugin (blog component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -75,7 +75,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     // use tag refinements?
     if ($refine){
       if (plugin_isdisabled('tag') || (!$tag =& plugin_load('helper', 'tag'))){
-        msg('The Tag Plugin must be installed to use tag refinements.', -1);
+        msg($this->getLang('missing_tagplugin'), -1);
       } else {
         $entries = $tag->tagRefine($entries, $refine);
       }
@@ -95,12 +95,12 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     
     // load the include helper plugin
     if (plugin_isdisabled('include') || (!$include =& plugin_load('helper', 'include'))){
-      msg('The Include Plugin must be installed for the blog to work.', -1);
+      msg($this->getLang('missing_includeplugin'), -1);
       return false;
     }
                   
     if ($mode == 'xhtml'){
-      define('IS_BLOG_MAINPAGE', 1);
+      define('PLUGIN_BLOG_MAINPAGE', 1);
             
       // prevent caching to ensure the included pages are always fresh
       $renderer->info['cache'] = false;

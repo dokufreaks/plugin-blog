@@ -22,7 +22,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-01-16',
+      'date'   => '2007-08-02',
       'name'   => 'Blog Plugin (archive component)',
       'desc'   => 'Displays a list of wiki pages from a given month',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -87,7 +87,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     // use tag refinements?
     if ($refine){
       if (plugin_isdisabled('tag') || (!$tag = plugin_load('helper', 'tag'))){
-        msg('The Tag Plugin must be installed to use tag refinements.', -1);
+        msg($this->getLang('missing_tagplugin'), -1);
       } else {
         $entries = $tag->tagRefine($entries, $refine);
       }
@@ -103,7 +103,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
       // let Pagelist Plugin do the work for us
       if (plugin_isdisabled('pagelist')
         || (!$pagelist =& plugin_load('helper', 'pagelist'))){
-        msg('The Pagelist Plugin must be installed for archive lists to work.', -1);
+        msg($this->getLang('missing_pagelistplugin'), -1);
         return false;
       }
       $pagelist->setFlags($flags);
