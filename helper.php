@@ -43,7 +43,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-08-02',
+      'date'   => '2007-08-04',
       'name'   => 'Blog Plugin (helper class)',
       'desc'   => 'Returns a number of recent entries from a given namespace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -98,7 +98,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       }
       $title = $meta['title'];
       
-      // determine array key
+      // determine the sort key
       if ($this->sort == 'id') $key = $id;
       elseif ($this->sort == 'pagename') $key = noNS($id);
       elseif ($this->sort == 'title') $key = $title;
@@ -108,12 +108,14 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       $key = $this->_uniqueKey($key, $result);
       
       $result[$key] = array(
-        'id'       => $id,
-        'title'    => $title,
-        'date'     => $date,
-        'exists'   => true,
-        'perm'     => $perm,
-        'draft'    => $draft,
+        'id'     => $id,
+        'title'  => $title,
+        'date'   => $date,
+        'user'   => $meta['creator'],
+        'desc'   => $meta['description']['abstract'],
+        'exists' => true,
+        'perm'   => $perm,
+        'draft'  => $draft,
       );
     }
     
