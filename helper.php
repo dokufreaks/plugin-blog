@@ -84,9 +84,10 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       $perm = auth_quickaclcheck($id);
       if ($perm < AUTH_READ) continue;                     // check ACL
       
+      // skip drafts unless for users with create priviledge
       $meta = p_get_metadata($id);
       $draft = ($meta['type'] == 'draft');
-      if (($perm < AUTH_ADMIN) && $draft) continue;        // skip drafts unless for admins
+      if ($draft && ($perm < AUTH_CREATE)) continue;
                 
       // okay, add the page
       $date = substr($this->date_idx[$i], 0, -1);
