@@ -1,13 +1,14 @@
 ====== Blog Plugin for DokuWiki ======
 
 All documentation for the Blog Plugin is available online at:
-http://www.wikidesign.ch/en/plugin/blog/start
-http://wiki.splitbrain.org/plugin:blog
+
+  * http://www.wikidesign.ch/en/plugin/blog/start
+  * http://wiki.splitbrain.org/plugin:blog
 
 This plugin requires DokuWiki 2006-11-06 or later and these helper plugins:
 
-  * Include Plugin   http://www.wikidesign.ch/en/plugin/include/start
-  * Pagelist Plugin  http://www.wikidesign.ch/en/plugin/pagelist/start
+  * [[http://www.wikidesign.ch/en/plugin/include/start|Include Plugin]], version 1.2 recommended
+  * [[http://www.wikidesign.ch/en/plugin/pagelist/start|Pagelist Plugin]], version 2.5 reccomended
 
 There's a Google Groups mailing list to discuss all issues:
 http://groups-beta.google.com/group/blog-plugin/
