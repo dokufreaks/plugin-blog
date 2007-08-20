@@ -43,7 +43,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-08-04',
+      'date'   => '2007-08-20',
       'name'   => 'Blog Plugin (helper class)',
       'desc'   => 'Returns a number of recent entries from a given namespace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -223,7 +223,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     } else {
       $testkey = $key.($num > 0 ? $num : '');
       if (!array_key_exists($testkey, $result)) return $testkey;
-      return $this->_uniqueKey($key, $result, $num++);
+      return $this->_uniqueKey($key, $result, ++$num);
     }
   }
   
