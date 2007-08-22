@@ -22,7 +22,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-08-02',
+      'date'   => '2007-08-22',
       'name'   => 'Blog Plugin (blog component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -100,7 +100,6 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     }
                   
     if ($mode == 'xhtml'){
-      define('PLUGIN_BLOG_MAINPAGE', 1);
             
       // prevent caching to ensure the included pages are always fresh
       $renderer->info['cache'] = false;
