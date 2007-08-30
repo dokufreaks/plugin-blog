@@ -22,7 +22,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-08-02',
+      'date'   => '2007-08-30',
       'name'   => 'Blog Plugin (archive component)',
       'desc'   => 'Displays a list of wiki pages from a given month',
       'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
@@ -56,7 +56,15 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
     elseif ($ns == '.') $ns = getNS($ID);
     else $ns = cleanID($ns);
     
-    if (preg_match("/\d{4}-\d{2}/", $rest)){ // monthly archive
+    // daily archive
+    if (preg_match("/\d{4}-\d{2}-\d{2}/", $rest)){
+      list($year, $month, $day) = explode('-', $rest, 3);
+      
+      $start  = mktime(0, 0, 0, $month, $day, $year);
+      $end    = $start + 24*60*60;
+    
+    // monthly archive
+    } elseif (preg_match("/\d{4}-\d{2}/", $rest)){
       list($year, $month) = explode('-', $rest, 2);
       
       // calculate start and end times
@@ -69,13 +77,23 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
       
       $start  = mktime(0, 0, 0, $month, 1, $year);
       $end    = mktime(0, 0, 0, $nextmonth, 1, $year2);
-            
-      return array($ns, $start, $end, $flags, $refine);
-    } elseif ($rest == '*'){                 // all entries from that namespace
-      return array($ns, 0, time() + 604800, $flags, $refine);
+    
+    // a whole year
+    } elseif (preg_match("/\d{4}/", $rest)){
+      $start  = mktime(0, 0, 0, 1, 1, $rest);
+      $end    = mktime(0, 0, 0, 1, 1, $rest + 1);
+      
+    // all entries from that namespace up to now
+    } elseif ($rest == '*'){
+      $start  = 0;
+      $end    = time();
+      
+    // unknown format
+    } else {
+      return false;
     }
     
-    return false;
+    return array($ns, $start, $end, $flags, $refine);
   }
 
   function render($mode, &$renderer, $data) {
