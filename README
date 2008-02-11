@@ -2,16 +2,18 @@
 
 All documentation for the Blog Plugin is available online at:
 
-  * http://www.wikidesign.ch/en/plugin/blog/start
   * http://wiki.splitbrain.org/plugin:blog
 
 This plugin requires DokuWiki 2006-11-06 or later and these helper plugins:
 
-  * [[http://www.wikidesign.ch/en/plugin/include/start|Include Plugin]], version 2.5 recommended
-  * [[http://www.wikidesign.ch/en/plugin/pagelist/start|Pagelist Plugin]], version 1.2 reccomended
+  * [[http://wiki.splitbrain.org/plugin:include|Include Plugin]], version 2.5 recommended
+  * [[http://wiki.splitbrain.org/plugin:pagelist|Pagelist Plugin]], version 1.2 reccomended
 
 There's a Google Groups mailing list to discuss all issues:
 http://groups-beta.google.com/group/blog-plugin/
+There's a bug and feature request tracker available at:
+http://bugs.chimeric.de/index.php?project=8
 
 (c) 2005 - 2007 by Esther Brunner <wikidesign@gmail.com>
+(c) 2008 by Gina Häußge, Michael Klier <dokuwiki@chimeric.de>
 See COPYING for license info.

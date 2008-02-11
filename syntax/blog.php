@@ -20,12 +20,12 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
 
   function getInfo(){
     return array(
-      'author' => 'Esther Brunner',
-      'email'  => 'wikidesign@gmail.com',
+      'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
+      'email'  => 'dokuwiki@chimeric.de',
       'date'   => '2007-08-22',
       'name'   => 'Blog Plugin (blog component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
-      'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
+      'url'    => 'http://wiki.splitbrain.org/plugin:blog',
     );
   }
 

@@ -16,12 +16,12 @@ class syntax_plugin_blog_draft extends DokuWiki_Syntax_Plugin {
 
   function getInfo(){
     return array(
-      'author' => 'Esther Brunner',
-      'email'  => 'wikidesign@gmail.com',
+      'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
+      'email'  => 'dokuwiki@chimeric.de',
       'date'   => '2007-04-27',
       'name'   => 'Blog Plugin (draft component)',
       'desc'   => 'Marks the current page as draft',
-      'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
+      'url'    => 'http://wiki.splitbrain.org/plugin:blog',
     );
   }
 
