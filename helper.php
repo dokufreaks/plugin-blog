@@ -41,12 +41,12 @@ class helper_plugin_blog extends DokuWiki_Plugin {
   
   function getInfo(){
     return array(
-      'author' => 'Esther Brunner',
-      'email'  => 'wikidesign@gmail.com',
+      'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
+      'email'  => 'dokuwiki@chimeric.de',
       'date'   => '2007-10-27',
       'name'   => 'Blog Plugin (helper class)',
       'desc'   => 'Returns a number of recent entries from a given namespace',
-      'url'    => 'http://www.wikidesign.ch/en/plugin/blog/start',
+      'url'    => 'http://wiki.splitbrain.org/plugin:blog',
     );
   }
   
