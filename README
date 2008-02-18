@@ -9,8 +9,6 @@ This plugin requires DokuWiki 2006-11-06 or later and these helper plugins:
   * [[http://wiki.splitbrain.org/plugin:include|Include Plugin]], version 2.5 recommended
   * [[http://wiki.splitbrain.org/plugin:pagelist|Pagelist Plugin]], version 1.2 reccomended
 
-There's a Google Groups mailing list to discuss all issues:
-http://groups-beta.google.com/group/blog-plugin/
 There's a bug and feature request tracker available at:
 http://bugs.chimeric.de/index.php?project=8
 
