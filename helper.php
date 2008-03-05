@@ -78,8 +78,11 @@ class helper_plugin_blog extends DokuWiki_Plugin {
       
       // do some checks first
       if (isHiddenPage($id)) continue;                     // skip excluded pages
+      $excluded_pages = $this->getConf('excluded_pages');
+      if (strlen($excluded_pages) > 0 && preg_match($excluded_pages, $id)) continue; 
       if (($ns) && (strpos($id, $ns.':') !== 0)) continue; // filter namespaces
       if (!@file_exists($file)) continue;                  // skip deleted
+      
       
       $perm = auth_quickaclcheck($id);
       if ($perm < AUTH_READ) continue;                     // check ACL
