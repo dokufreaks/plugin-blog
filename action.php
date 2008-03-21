@@ -53,7 +53,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     global $INFO;
     global $conf;
     
-    $idx = ($this->getConf('sortkey') == 'mdate' ? 'mdate' : 'cdate');
+    $idx = ($this->getConf('sortkey') == 'mDate' ? 'mdate' : 'cdate');
     
     if (!$event->data[0][1]) return false; // file is empty
     if ($event->data[3]) return false;     // old revision saved
@@ -136,7 +136,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
       '@USER@' => $user,
       '@NAME@' => $INFO['userinfo']['name'],
       '@MAIL@' => $INFO['userinfo']['mail'],
-      '@DATE@' => date($conf['dformat']),
+      '@DATE@' => strftime($conf['dformat']),
     );
     
     // additional replacements
