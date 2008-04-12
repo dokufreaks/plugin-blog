@@ -126,7 +126,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
       if (!$include->setPage($entry)) continue; // returns false if include recursion
       if ($mode == 'xhtml'){
         $include->setFlags($flags);
-        $include->renderXHTML($renderer);
+        $include->renderXHTML($renderer, $info);
       } elseif ($mode == 'metadata'){
         $renderer->meta['relation']['haspart'][$entry['id']] = true;
         $include->pages = array(); // clear filechain - important!
