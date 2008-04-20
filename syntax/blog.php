@@ -22,7 +22,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     return array(
       'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
       'email'  => 'dokuwiki@chimeric.de',
-      'date'   => '2007-08-22',
+      'date'   => '2008-04-20',
       'name'   => 'Blog Plugin (blog component)',
       'desc'   => 'Displays a number of recent entries from a given namesspace',
       'url'    => 'http://wiki.splitbrain.org/plugin:blog',
