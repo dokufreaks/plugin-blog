@@ -201,4 +201,4 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         return ($ns ? $ns.':' : '').$pre.cleanID($title);
     }
 }
-//vim:ts=4:sw=4:et:enc=utf-8:  
+// vim:ts=4:sw=4:et:enc=utf-8:  
