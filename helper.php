@@ -72,6 +72,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
         // add pages in given namespace
         $result  = array();
         $c       = count($this->page_idx);
+        $unique_keys_memoize = array();
         for ($i = 0; $i < $c; $i++) {
             $id = substr($this->page_idx[$i], 0, -1);
             $file = wikiFN($id);
@@ -107,8 +108,8 @@ class helper_plugin_blog extends DokuWiki_Plugin {
             elseif ($this->sort == 'title') $key = $title;
             else $key = $date;
 
-            // check if key is unique
-            $key = $this->_uniqueKey($key, $result);
+            // get a unique sortable key
+            $key = $this->_uniqueKey($key, $unique_keys_memoize);
 
             $result[$key] = array(
                     'id'     => $id,
@@ -213,28 +214,21 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     }
 
     /**
-     * Non-recursive function to check whether an array key is unique
+     * Function to create sortable, unique array keys
      *
      * @author    Esther Brunner <wikidesign@gmail.com>
      * @author    Ilya S. Lebedev <ilya@lebedev.net>
+     * @author    Balazs Attila-Mihaly <x_at_y_or_z@yahoo.com>
      */
-    function _uniqueKey($key, &$result) {
+    function _uniqueKey($key, &$unique_keys_memoize){
+        //convert numeric keys to string
+        if (is_numeric($key))
+            $key = sprintf('%08x', $key);
+        if (!array_key_exists($key, $unique_keys_memoize))
+            $unique_keys_memoize[$key] = 0;
 
-        // increase numeric keys by one
-        if (is_numeric($key)) {
-            while (array_key_exists($key, $result)) $key++;
-            return $key;
-
-            // append a number to literal keys
-        } else {
-            $num     = 0;
-            $testkey = $key;
-            while (array_key_exists($testkey, $result)) {
-                $testkey = $key.$num;
-                $num++;
-            }
-            return $testkey;
-        }
+        return sprintf('%s_%s', $key, $unique_keys_memoize[$key]++);
     }
+
 }
 //vim:ts=4:sw=4:et:enc=utf-8:  
