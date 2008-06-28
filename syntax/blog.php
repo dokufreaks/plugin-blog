@@ -22,7 +22,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         return array(
                 'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
                 'email'  => 'dokuwiki@chimeric.de',
-                'date'   => '2008-04-20',
+                'date'   => '2008-06-28',
                 'name'   => 'Blog Plugin (blog component)',
                 'desc'   => 'Displays a number of recent entries from a given namesspace',
                 'url'    => 'http://wiki.splitbrain.org/plugin:blog',
@@ -43,6 +43,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         $match = substr($match, 7, -2); // strip {{blog> from start and }} from end
         list($match, $flags) = explode('&', $match, 2);
         $flags =  explode('&', $flags);
+        $flags[] = 'permalink'; // always make the first header of a blog entry a permalink
         list($match, $refine) = explode(' ', $match, 2);
         list($ns, $num) = explode('?', $match, 2);
 
