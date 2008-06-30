@@ -19,7 +19,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         return array(
                 'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
                 'email'  => 'dokuwiki@chimeric.de',
-                'date'   => '2008-04-20',
+                'date'   => '2008-06-30',
                 'name'   => 'Blog Plugin',
                 'desc'   => 'Brings blog functionality to DokuWiki',
                 'url'    => 'http://wiki.splitbrain.org/plugin:blog',
@@ -35,38 +35,6 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
                 $this,
                 'handle_act_preprocess',
                 array());
-
-
-        $contr->register_hook('IO_WIKIPAGE_WRITE',
-                'AFTER',
-                $this,
-                'dateIndex',
-                array());
-    }
-
-    /**
-     * Update the creation date index the blog plugin uses
-     *
-     * @author  Esther Brunner  <wikidesign@gmail.com>
-     */
-    function dateIndex(&$event, $param) {
-        global $INFO;
-        global $conf;
-
-        $idx = ($this->getConf('sortkey') == 'mDate' ? 'mdate' : 'cdate');
-
-        if (!$event->data[0][1]) return false; // file is empty
-        if ($event->data[3]) return false;     // old revision saved
-        if ($INFO['exists']) return false;     // file not new
-
-        // get needed information
-        $id   = ($event->data[1] ? $event->data[1].':' : '').$event->data[2];
-        if ($idx == 'mdate') $date = filemtime($event->data[0][0]);
-        else $date = filectime($event->data[0][0]);
-
-        // load blog class to update the creation date index
-        $helper = plugin_load('helper', 'blog');
-        return $helper->_updateDateIndex($id, $date);
     }
 
     /**

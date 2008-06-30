@@ -10,10 +10,6 @@ if (!defined('DOKU_INC')) die();
 class helper_plugin_blog extends DokuWiki_Plugin {
 
     var $sort       = '';      // sort key
-    var $idx_type   = 'cdate'; // creation of modification date?
-    var $idx_dir    = '';      // directory for index files
-    var $page_idx   = array(); // array of existing pages
-    var $date_idx   = array(); // array of creation dates of pages
 
     /**
      * Constructor
@@ -23,27 +19,13 @@ class helper_plugin_blog extends DokuWiki_Plugin {
 
         // load sort key from settings
         $this->sort = $this->getConf('sortkey');
-        if ($this->sort == 'mdate') $this->idx_type = 'mdate';
-
-        // determine where index files are saved
-        if (@file_exists($conf['indexdir'].'/page.idx')) { // new word length based index
-            $this->idx_dir = $conf['indexdir'];
-            if (!@file_exists($this->idx_dir.'/'.$this->idx_type.'.idx'))
-                $this->_importDateIndex();
-        } else {                                          // old index
-            $this->idx_dir = $conf['cachedir'];
-        }
-
-        // load page and creation date index
-        $this->page_idx = @file($this->idx_dir.'/page.idx');
-        $this->date_idx = @file($this->idx_dir.'/'.$this->idx_type.'.idx');
     }
 
     function getInfo() {
         return array(
                 'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
                 'email'  => 'dokuwiki@chimeric.de',
-                'date'   => '2008-04-20',
+                'date'   => '2008-06-30',
                 'name'   => 'Blog Plugin (helper class)',
                 'desc'   => 'Returns a number of recent entries from a given namespace',
                 'url'    => 'http://wiki.splitbrain.org/plugin:blog',
@@ -71,10 +53,16 @@ class helper_plugin_blog extends DokuWiki_Plugin {
 
         // add pages in given namespace
         $result  = array();
-        $c       = count($this->page_idx);
+        global $conf;
+
+        require_once (DOKU_INC.'inc/search.php');
+
+        $pages = array();
         $unique_keys_memoize = array();
-        for ($i = 0; $i < $c; $i++) {
-            $id = substr($this->page_idx[$i], 0, -1);
+
+        search($pages, $conf['datadir'], 'search_pagename', array('query' => $ns));
+        foreach ($pages as $page) {
+            $id = $page['id'];
             $file = wikiFN($id);
 
             // do some checks first
@@ -92,14 +80,15 @@ class helper_plugin_blog extends DokuWiki_Plugin {
             $meta = p_get_metadata($id);
             $draft = ($meta['type'] == 'draft');
             if ($draft && ($perm < AUTH_CREATE)) continue;
-
-            // okay, add the page
-            $date = substr($this->date_idx[$i], 0, -1);
-            if ((!$date)
-                    || (($this->idx_type == 'mdate')
-                        && ($date + $conf['cachetime'] < filemtime($file)))) {
-                $date = $this->_getDate($id, $i);
+            
+            if ($this->sort == 'mdate') {
+                $date = $meta['date']['modified'];
+                if (!$date) $date = filemtime(wikiFN($id));
+            } else {
+                $date = $meta['date']['created'];
+                if (!$date) $date = filectime(wikiFN($id));
             }
+            
             $title = $meta['title'];
 
             // determine the sort key
@@ -120,7 +109,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
                     'exists' => true,
                     'perm'   => $perm,
                     'draft'  => $draft,
-                    );
+            );
         }
 
         // finally sort by sort key
@@ -130,87 +119,6 @@ class helper_plugin_blog extends DokuWiki_Plugin {
         if (is_numeric($num)) $result = array_slice($result, 0, $num);
 
         return $result;
-    }
-
-    /**
-     * Get the creation or modification date of a page from metadata or file system
-     */
-    function _getDate($id, $pid) {
-
-        if ($this->sort == 'mdate') {
-            $date = p_get_metadata($id, 'date modified');
-            if (!$date) $date = filemtime(wikiFN($id));
-        } else {
-            $date = p_get_metadata($id, 'date created');
-            if (!$date) $date = filectime(wikiFN($id));
-        }
-
-        // check lines and fill creation / modification date in
-        for ($i = 0; $i < $pid; $i++) {
-            if (empty($this->date_idx[$i])) $this->date_idx[$i] = "\n";
-        }
-        $this->date_idx[$pid] = "$date\n";
-
-        // save creation or modification date index
-        $fh = fopen($this->idx_dir.'/'.$this->idx_type.'.idx', 'w');
-        if (!$fh) return false;
-        fwrite($fh, join('', $this->date_idx));
-        fclose($fh);
-
-        return $date;
-    }
-
-    /**
-     * Update creation date index
-     */
-    function _updateDateIndex($id, $date) {
-
-        // get page id (this is the linenumber in page.idx)
-        $pid = array_search("$id\n", $this->page_idx);
-        if (!is_int($pid)) {
-            $this->page_idx[] = "$id\n";
-            $pid = count($this->page_idx) - 1;
-            // page was new - write back
-            $this->_saveIndex('page');
-        }
-
-        // check lines and fill creation date in
-        for ($i = 0; $i < $pid; $i++) {
-            if (empty($this->date_idx[$i])) $this->date_idx[$i] = "\n";
-        }
-        $this->date_idx[$pid] = "$date\n";    
-
-        // save creation date index
-        $this->_saveIndex($this->idx_type);
-    }
-
-    /**
-     * Save creation date or page index
-     */
-    function _saveIndex($idx = 'cdate') {
-        $fh = fopen($this->idx_dir.'/'.$idx.'.idx', 'w');
-        if (!$fh) return false;
-        if ($idx == 'page') fwrite($fh, join('', $this->page_idx));
-        else fwrite($fh, join('', $this->date_idx));
-        fclose($fh);
-    }
-
-    /**
-     * Import old creation date index
-     */
-    function _importDateIndex() {
-        global $conf;
-
-        $old = $conf['cachedir'].'/'.$this->idx_type.'.idx';
-        $new = $conf['indexdir'].'/'.$this->idx_type.'.idx';
-
-        if (!@file_exists($old)) return false;
-
-        if (@copy($old, $new)) {
-            @unlink($old);
-            return true;
-        }
-        return false;
     }
 
     /**
