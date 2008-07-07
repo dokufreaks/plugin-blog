@@ -19,7 +19,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         return array(
                 'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
                 'email'  => 'dokuwiki@chimeric.de',
-                'date'   => '2008-06-30',
+                'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
                 'name'   => 'Blog Plugin',
                 'desc'   => 'Brings blog functionality to DokuWiki',
                 'url'    => 'http://wiki.splitbrain.org/plugin:blog',

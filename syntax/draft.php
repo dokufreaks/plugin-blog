@@ -18,7 +18,7 @@ class syntax_plugin_blog_draft extends DokuWiki_Syntax_Plugin {
         return array(
                 'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
                 'email'  => 'dokuwiki@chimeric.de',
-                'date'   => '2008-04-20',
+                'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
                 'name'   => 'Blog Plugin (draft component)',
                 'desc'   => 'Marks the current page as draft',
                 'url'    => 'http://wiki.splitbrain.org/plugin:blog',
