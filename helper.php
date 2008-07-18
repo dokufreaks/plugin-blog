@@ -60,7 +60,9 @@ class helper_plugin_blog extends DokuWiki_Plugin {
         $pages = array();
         $unique_keys_memoize = array();
 
-        search($pages, $conf['datadir'], 'search_pagename', array('query' => $ns));
+        $dir = str_replace(':', '/', $ns);
+        search($pages, $conf['datadir'], 'search_pagename', array('query' => '.txt'), $dir);
+
         foreach ($pages as $page) {
             $id = $page['id'];
             $file = wikiFN($id);
@@ -71,7 +73,6 @@ class helper_plugin_blog extends DokuWiki_Plugin {
             if (strlen($excluded_pages) > 0 && preg_match($excluded_pages, $id)) continue; 
             if (($ns) && (strpos($id, $ns.':') !== 0)) continue; // filter namespaces
             if (!@file_exists($file)) continue;                  // skip deleted
-
 
             $perm = auth_quickaclcheck($id);
             if ($perm < AUTH_READ) continue;                     // check ACL
