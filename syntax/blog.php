@@ -151,7 +151,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
 
             // show new entry form
-            if ($perm_create && $$formpos == 'bottom')
+            if ($perm_create && $formpos == 'bottom')
                 $renderer->doc .= $this->_newEntryForm($ns);
         }
 
