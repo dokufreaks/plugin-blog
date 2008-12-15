@@ -7,7 +7,7 @@
  */
 $meta['namespace']    = array('string');
 $meta['formposition'] = array('multichoice',
-                         '_choices' => array('top', 'bottom'));
+                         '_choices' => array('top', 'bottom', 'none'));
 $meta['dateprefix']   = array('string');
 $meta['sortkey']      = array('multichoice',
                         '_choices' => array('cdate', 'mdate', 'pagename', 'id', 'title'));

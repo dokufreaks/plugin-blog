@@ -1,7 +1,7 @@
 <?php
 /**
  * Blog Plugin: displays a number of recent entries from the blog subnamespace
- * 
+ *
  * @license  GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author   Esther Brunner <wikidesign@gmail.com>
  * @author   Robert Rackl <wiki@doogie.de>
@@ -82,10 +82,20 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             }
         }
 
+        // any create form overrides?
+        $formpos = $this->getConf('formposition');
+        if(in_array('topform',$flags)){
+            $formpos = 'top';
+        }elseif(in_array('bottomform',$flags)){
+            $formpos = 'bottom';
+        }elseif(in_array('noform',$flags)){
+            $formpos = 'none';
+        }
+
         if (!$entries) {
             if ((auth_quickaclcheck($ns.':*') >= AUTH_CREATE) && ($mode == 'xhtml')) {
                 $renderer->info['cache'] = false;
-                $renderer->doc .= $this->_newEntryForm($ns);
+                if($formpos != 'none') $renderer->doc .= $this->_newEntryForm($ns);
             }
             return true; // nothing to display
         }
@@ -99,15 +109,13 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             msg($this->getLang('missing_includeplugin'), -1);
             return false;
         }
-
         if ($mode == 'xhtml') {
-
             // prevent caching to ensure the included pages are always fresh
             $renderer->info['cache'] = false;
 
             // show new entry form
             $perm_create = (auth_quickaclcheck($ns.':*') >= AUTH_CREATE);
-            if ($perm_create && ($this->getConf('formposition') == 'top'))
+            if ($perm_create && $formpos == 'top')
                 $renderer->doc .= $this->_newEntryForm($ns);
 
             // current section level
@@ -143,7 +151,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
 
             // show new entry form
-            if ($perm_create && ($this->getConf('formposition') == 'bottom'))
+            if ($perm_create && $$formpos == 'bottom')
                 $renderer->doc .= $this->_newEntryForm($ns);
         }
 
@@ -197,6 +205,6 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             DOKU_TAB.'</fieldset>'.DOKU_LF.
             '</form>'.DOKU_LF.
             '</div>'.DOKU_LF;
-    }  
+    }
 }
 // vim:ts=4:sw=4:et:enc=utf-8:
