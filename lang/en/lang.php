@@ -16,4 +16,18 @@ $lang['missing_includeplugin']  = 'The Include Plugin must be installed for the 
 $lang['missing_pagelistplugin'] = 'The Pagelist Plugin must be installed for archive lists to work.';
 $lang['missing_tagplugin']      = 'The Tag Plugin must be installed to use tag refinements.';
 
+$lang['autoarchive'] = '%d Post(s) for %s %s';
+$lang['month_01'] = 'January';
+$lang['month_02'] = 'February';
+$lang['month_03'] = 'March';
+$lang['month_04'] = 'April';
+$lang['month_05'] = 'May';
+$lang['month_06'] = 'June';
+$lang['month_07'] = 'July';
+$lang['month_08'] = 'August';
+$lang['month_09'] = 'September';
+$lang['month_10'] = 'October';
+$lang['month_11'] = 'November';
+$lang['month_12'] = 'December';
+
 //Setup VIM: ex: et ts=2 enc=utf-8 :

@@ -12,3 +12,24 @@ div.dokuwiki tr.draft,
 div.dokuwiki div.draft {
   opacity: 0.5;
 }
+
+div.dokuwiki div.autoarchive_selector ul {
+    list-style-type: none;
+    clear: left;
+    margin: 0 0.5em 0 0;
+}
+
+div.dokuwiki div.autoarchive_selector ul div.li {
+    float: left;
+    margin: 0 1em 0 0;
+}
+
+div.dokuwiki div.autoarchive_selector ul ul {
+    float: left;
+    clear: none;
+}
+
+div.dokuwiki div.autoarchive_selector ul ul div.li {
+    margin: 0;
+}
+
