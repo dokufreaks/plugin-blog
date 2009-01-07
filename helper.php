@@ -70,7 +70,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
             // do some checks first
             if (isHiddenPage($id)) continue;                     // skip excluded pages
             $excluded_pages = $this->getConf('excluded_pages');
-            if (strlen($excluded_pages) > 0 && preg_match($excluded_pages, $id)) continue; 
+            if (strlen($excluded_pages) > 0 && preg_match($excluded_pages, $id)) continue;
             if (($ns) && (strpos($id, $ns.':') !== 0)) continue; // filter namespaces
             if (!@file_exists($file)) continue;                  // skip deleted
 
@@ -81,15 +81,16 @@ class helper_plugin_blog extends DokuWiki_Plugin {
             $meta = p_get_metadata($id);
             $draft = ($meta['type'] == 'draft');
             if ($draft && ($perm < AUTH_CREATE)) continue;
-            
+
             if ($this->sort == 'mdate') {
                 $date = $meta['date']['modified'];
                 if (!$date) $date = filemtime(wikiFN($id));
             } else {
                 $date = $meta['date']['created'];
-                if (!$date) $date = filectime(wikiFN($id));
+                // prefer the date further in the past:
+                if (!$date) $date = min(filectime(wikiFN($id)), filemtime(wikiFN($id)));
             }
-            
+
             $title = $meta['title'];
 
             // determine the sort key
@@ -140,4 +141,4 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     }
 
 }
-// vim:ts=4:sw=4:et:enc=utf-8:  
+// vim:ts=4:sw=4:et:enc=utf-8:
