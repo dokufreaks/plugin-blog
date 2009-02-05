@@ -10,4 +10,4 @@ $conf['sortorder']    = 'descending'; // ascending or descending
 
 $conf['excluded_pages'] = '!^blog:\d{4}(:\d{2})?$!'; // regex for pages to exclude from bloglisting
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+// vim:ts=4:sw=4:et:enc=utf-8:

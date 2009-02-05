@@ -26,4 +26,6 @@ $lang['sortorder']              = 'sort order';
 $lang['sortorder_o_ascending']  = 'ascending';
 $lang['sortorder_o_descending'] = 'descending';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+$lang['excluded_pages']         = 'exclude certain pages from blog listing (regular expression required)';
+
+// vim:ts=4:sw=4:et:enc=utf-8:

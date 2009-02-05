@@ -13,5 +13,6 @@ $meta['sortkey']      = array('multichoice',
                         '_choices' => array('cdate', 'mdate', 'pagename', 'id', 'title'));
 $meta['sortorder']    = array('multichoice',
                          '_choices' => array('ascending', 'descending'));
+$meta['excluded_pages'] = array('string');
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+// vim:ts=4:sw=4:et:enc=utf-8:
