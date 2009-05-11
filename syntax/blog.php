@@ -109,36 +109,43 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             msg($this->getLang('missing_includeplugin'), -1);
             return false;
         }
+
         if ($mode == 'xhtml') {
             // prevent caching to ensure the included pages are always fresh
             $renderer->info['cache'] = false;
 
             // show new entry form
             $perm_create = (auth_quickaclcheck($ns.':*') >= AUTH_CREATE);
-            if ($perm_create && $formpos == 'top')
+            if ($perm_create && $formpos == 'top') {
                 $renderer->doc .= $this->_newEntryForm($ns);
+            }
 
             // current section level
             $clevel = 0;
             preg_match_all('|<div class="level(\d)">|i', $renderer->doc, $matches, PREG_SET_ORDER);
             $n = count($matches)-1;
             if ($n > -1) $clevel = $matches[$n][1];
-            $include->setLevel($clevel);
 
             // close current section
             if ($clevel) $renderer->doc .= '</div>'.DOKU_LF;
             $renderer->doc .= '<div class="hfeed">'.DOKU_LF;
         }
 
+        // we need our own renderer
+        $include_renderer =& p_get_renderer('xhtml');
+        $include_renderer->smileys   = getSmileys();
+        $include_renderer->entities  = getEntities();
+        $include_renderer->acronyms  = getAcronyms();
+        $include_renderer->interwiki = getInterwiki();
+
         // now include the blog entries
         foreach ($entries as $entry) {
-            if (!$include->setPage($entry)) continue; // returns false if include recursion
             if ($mode == 'xhtml') {
-                $include->setFlags($flags);
-                $include->renderXHTML($renderer, $info);
+                if(auth_quickaclcheck($entry['id'] >= AUTH_READ)) {
+                    $renderer->doc .= $this->render_XHTML($include, $include_renderer, $entry['id'], $clevel, $flags);
+                }
             } elseif ($mode == 'metadata') {
                 $renderer->meta['relation']['haspart'][$entry['id']] = true;
-                $include->pages = array(); // clear filechain - important!
             }
         }
 
@@ -151,14 +158,38 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
 
             // show new entry form
-            if ($perm_create && $formpos == 'bottom')
+            if ($perm_create && $formpos == 'bottom') {
                 $renderer->doc .= $this->_newEntryForm($ns);
+            }
         }
 
         return true;
     }
 
     /* ---------- (X)HTML Output Functions ---------- */
+
+    /**
+     * Returns the XHTML output including the footer etc. for use with the blog plugin
+     * FIXME remove after blogtng plugin officially replaces the blog plugin?
+     *
+     * @author Michael Klier <chi@chimeric.de>
+     */
+    function render_XHTML(&$include, &$renderer, $page, $lvl, $set_flags) {
+        if(!$include->includes[$page]) {
+            $renderer->doc = '';
+            $include->includes[$page];
+            $flags = $include->get_flags($set_flags);
+            $ins = $include->_get_instructions($page, '', 'page', $lvl, $flags);
+            foreach($ins as $i) {
+                call_user_func_array(array(&$renderer, $i[0]),$i[1]);
+            }
+            // Post process and return the output
+            $data = array($mode, $renderer->doc);
+            trigger_event('RENDERER_CONTENT_POSTPROCESS',$data);
+            return $renderer->doc;
+        }
+    }
+
 
     /**
      * Displays links to older newer entries of the blog namespace
