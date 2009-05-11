@@ -21,7 +21,7 @@ class syntax_plugin_blog_draft extends DokuWiki_Syntax_Plugin {
                 'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
                 'name'   => 'Blog Plugin (draft component)',
                 'desc'   => 'Marks the current page as draft',
-                'url'    => 'http://wiki.splitbrain.org/plugin:blog',
+                'url'    => 'http://dokuwiki.org/plugin:blog',
                 );
     }
 

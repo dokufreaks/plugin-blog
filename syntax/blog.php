@@ -25,7 +25,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
                 'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
                 'name'   => 'Blog Plugin (blog component)',
                 'desc'   => 'Displays a number of recent entries from a given namesspace',
-                'url'    => 'http://wiki.splitbrain.org/plugin:blog',
+                'url'    => 'http://dokuwiki.org/plugin:blog',
                 );
     }
 

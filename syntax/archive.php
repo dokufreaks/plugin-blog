@@ -25,7 +25,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                 'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
                 'name'   => 'Blog Plugin (archive component)',
                 'desc'   => 'Displays a list of wiki pages from a given month',
-                'url'    => 'http://wiki.splitbrain.org/plugin:blog',
+                'url'    => 'http://dokuwiki.org/plugin:blog',
                 );
     }
 

@@ -26,9 +26,9 @@ class helper_plugin_blog extends DokuWiki_Plugin {
                 'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
                 'email'  => 'dokuwiki@chimeric.de',
                 'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
-                'name'   => 'Blog Plugin (helper class)',
+                'name'   => 'Blog Plugin (helper component)',
                 'desc'   => 'Returns a number of recent entries from a given namespace',
-                'url'    => 'http://wiki.splitbrain.org/plugin:blog',
+                'url'    => 'http://dokuwiki.org/plugin:blog',
                 );
     }
 
