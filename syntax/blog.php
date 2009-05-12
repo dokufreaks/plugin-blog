@@ -141,7 +141,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         // now include the blog entries
         foreach ($entries as $entry) {
             if ($mode == 'xhtml') {
-                if(auth_quickaclcheck($entry['id'] >= AUTH_READ)) {
+                if(auth_quickaclcheck($entry['id']) >= AUTH_READ) {
                     $renderer->doc .= $this->render_XHTML($include, $include_renderer, $entry['id'], $clevel, $flags);
                 }
             } elseif ($mode == 'metadata') {
