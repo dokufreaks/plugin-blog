@@ -142,18 +142,18 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
 
                     if ($current_year != date('o',$entry['date'])) {
                         if ($ul_open) {
-                            $list.="</ul>";
+                            $list .= '</ul>' . DOKU_LF;
                             $ul_open = false;
                         }
                         $current_year = date('o',$entry['date']);
-                        $list.='<h2>'.$current_year."</h2>";
+                        $list .= '<h2>' . $current_year . '</h2>' . DOKU_LF;
                     }
                     if ($current_month != date('m',$entry['date'])) {
                         if ($ul_open) {
-                            $list.="</ul>";
+                            $list .= '</ul>' . DOKU_LF;
                         }
                         $current_month = date('m',$entry['date']);
-                        $list.='<h3 id="m'.date('o-m',$entry['date']).'">'.$this->getLang('month_'.$current_month)."</h3><ul>";
+                        $list .= '<h3 id="m' . date('o-m',$entry['date']) . '">' . $this->getLang('month_' . $current_month) . '</h3><ul>' . DOKU_LF;
                         $ul_open = true;
                     }
                     $posts_count += 1;
@@ -161,9 +161,9 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                     if ($histogram_higher < $histogram_count[date('o-m',$entry['date'])]) {
                         $histogram_higher = $histogram_count[date('o-m',$entry['date'])];
                     }
-                    $list.='<li>'.date("d",$entry['date']).' - <a href="'.wl($entry['id']).'">'.$entry['title']."</a></li>";
+                    $list .= '<li>' . date('d',$entry['date']) . ' - <a href="' . wl($entry['id']) . '" title="' . $entry['id'] . '">' . $entry['title'] . '</a></li>' . DOKU_LF;
                 }
-                $list.="</ul>";
+                $list .= '</ul>' . DOKU_LF;
 
                 if ($posts_count > $max_posts) {
                     $posts_count = $max_posts;
@@ -190,12 +190,12 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                     } else {
                         $alt .= $this->getLang('entry');
                     }
-                    $histogram .= '<a href="#m'.$key.'" title="#m'.$key.'">';
-                    $histogram .= '<img class="blog_archive_bar" alt="'.$alt.'" height="'.$current_height."\" src=\"/lib/images/blank.gif\"/></a>" . DOKU_LF;
+                    $histogram .= '<a href="#m' . $key . '" title="#m' . $key . '">';
+                    $histogram .= '<img class="blog_archive_bar" alt="' . $alt . '" height="' . $current_height . '" src="lib/images/blank.gif"/></a>' . DOKU_LF;
                     $month_count += 1;
                 }
                 // Add histogram and posts list
-                $renderer->doc .= "<div class=\"level1\"><h1>".$this->getLang('archive_title')."</h1>".$histogram.'<br/><br/>'.$list.'</div>'; 
+                $renderer->doc .= '<div class="level1"><h1>' . $this->getLang('archive_title') . '</h1>' . $histogram . '<br/><br/>' . $list . '</div>' . DOKU_LF; 
             } else {
                 // prevent caching for current month to ensure content is always fresh
                 if (time() < $end) $renderer->info['cache'] = false;
