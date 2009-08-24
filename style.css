@@ -14,22 +14,27 @@ div.dokuwiki div.draft {
 }
 
 div.dokuwiki div.autoarchive_selector ul {
-    list-style-type: none;
-    clear: left;
-    margin: 0 0.5em 0 0;
+  list-style-type: none;
+  clear: left;
+  margin: 0 0.5em 0 0;
 }
 
 div.dokuwiki div.autoarchive_selector ul div.li {
-    float: left;
-    margin: 0 1em 0 0;
+  float: left;
+  margin: 0 1em 0 0;
 }
 
 div.dokuwiki div.autoarchive_selector ul ul {
-    float: left;
-    clear: none;
+  float: left;
+  clear: none;
 }
 
 div.dokuwiki div.autoarchive_selector ul ul div.li {
-    margin: 0;
+  margin: 0;
 }
 
+img.blog_archive_bar {
+  background-color: __border__;
+  width: 5px;
+  border: 0 none;
+}

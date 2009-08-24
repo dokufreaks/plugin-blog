@@ -30,4 +30,7 @@ $lang['month_10'] = 'October';
 $lang['month_11'] = 'November';
 $lang['month_12'] = 'December';
 
+$lang['entries']       = 'entries';
+$lang['entry']         = 'entry';
+$lang['archive_title'] = 'Blog History';
 //Setup VIM: ex: et ts=2 enc=utf-8 :

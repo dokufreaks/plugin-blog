@@ -114,26 +114,109 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         if (!$entries) return true; // nothing to display
 
         if ($mode == 'xhtml') {
+            // Configuration
+            $archive_mode = $this->getConf('archive_mode');
+            $max_months = $this->getConf('max_months');
+            $histogram_height = $this->getConf('histogram_height');
+
 
             // prevent caching for current month to ensure content is always fresh
             if (time() < $end) $renderer->info['cache'] = false;
 
-            // let Pagelist Plugin do the work for us
-            if (plugin_isdisabled('pagelist')
-                    || (!$pagelist =& plugin_load('helper', 'pagelist'))) {
-                msg($this->getLang('missing_pagelistplugin'), -1);
-                return false;
-            }
-            $pagelist->setFlags($flags);
-            $pagelist->startList();
-            foreach ($entries as $entry) {
+            if ($this->getConf('showhistogram')) {
+                $current_year ='';
+                $current_month ='';
+                $ul_open = false;
 
-                // entry in the right date range?
-                if (($start > $entry['date']) || ($entry['date'] >= $end)) continue;
+                $histogram = '';
+                $histogram_count = array();
+                $histogram_higher = 0;
+                $posts_count = 0;
 
-                $pagelist->addPage($entry);
+                $list = '';
+
+                // Generate posts list
+                foreach ($entries as $entry) {
+                    // entry in the right date range?
+                    if (($start > $entry['date']) || ($entry['date'] >= $end)) continue;
+
+                    if ($current_year != date('o',$entry['date'])) {
+                        if ($ul_open) {
+                            $list.="</ul>";
+                            $ul_open = false;
+                        }
+                        $current_year = date('o',$entry['date']);
+                        $list.='<h2>'.$current_year."</h2>";
+                    }
+                    if ($current_month != date('m',$entry['date'])) {
+                        if ($ul_open) {
+                            $list.="</ul>";
+                        }
+                        $current_month = date('m',$entry['date']);
+                        $list.='<h3 id="m'.date('o-m',$entry['date']).'">'.$this->getLang('month_'.$current_month)."</h3><ul>";
+                        $ul_open = true;
+                    }
+                    $posts_count += 1;
+                    $histogram_count[date('o-m',$entry['date'])] += 1;
+                    if ($histogram_higher < $histogram_count[date('o-m',$entry['date'])]) {
+                        $histogram_higher = $histogram_count[date('o-m',$entry['date'])];
+                    }
+                    $list.='<li>'.date("d",$entry['date']).' - <a href="'.wl($entry['id']).'">'.$entry['title']."</a></li>";
+                }
+                $list.="</ul>";
+
+                if ($posts_count > $max_posts) {
+                    $posts_count = $max_posts;
+                }
+                // Generate histogram
+                $histogram_count = array_reverse($histogram_count);
+                $month_count = 0;
+                foreach ($histogram_count as $key => $month_reference) {
+                    // Check the max_months parameter
+                    if ($month_count >= $max_months) {
+                        break;
+                    }
+                    if ($month_reference > 0) {
+                        // Height in "px"
+                        $current_height = $histogram_height / $histogram_higher * $month_reference;
+                    } else {
+                        // Height in "px"
+                        $current_height = 1;
+                    }
+                    // Generate the alt attribute
+                    $alt = $key.': '.$month_reference.' ';
+                    if ($month_reference > 1) {
+                        $alt .= $this->getLang('entries');
+                    } else {
+                        $alt .= $this->getLang('entry');
+                    }
+                    $histogram .= '<a href="#m'.$key.'" title="#m'.$key.'">';
+                    $histogram .= '<img class="blog_archive_bar" alt="'.$alt.'" height="'.$current_height."\" src=\"/lib/images/blank.gif\"/></a>" . DOKU_LF;
+                    $month_count += 1;
+                }
+                // Add histogram and posts list
+                $renderer->doc .= "<div class=\"level1\"><h1>".$this->getLang('archive_title')."</h1>".$histogram.'<br/><br/>'.$list.'</div>'; 
+            } else {
+                // prevent caching for current month to ensure content is always fresh
+                if (time() < $end) $renderer->info['cache'] = false;
+
+                // let Pagelist Plugin do the work for us
+                if (plugin_isdisabled('pagelist')
+                        || (!$pagelist =& plugin_load('helper', 'pagelist'))) {
+                    msg($this->getLang('missing_pagelistplugin'), -1);
+                    return false;
+                }
+                $pagelist->setFlags($flags);
+                $pagelist->startList();
+                foreach ($entries as $entry) {
+
+                    // entry in the right date range?
+                    if (($start > $entry['date']) || ($entry['date'] >= $end)) continue;
+
+                    $pagelist->addPage($entry);
+                }
+                $renderer->doc .= $pagelist->finishList();
             }
-            $renderer->doc .= $pagelist->finishList();
             return true;
 
             // for metadata renderer

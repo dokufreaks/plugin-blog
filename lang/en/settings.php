@@ -28,4 +28,8 @@ $lang['sortorder_o_descending'] = 'descending';
 
 $lang['excluded_pages']         = 'exclude certain pages from blog listing (regular expression required)';
 
+$lang['showhistorgram']         = 'Display histogram on archive rendering';
+$lang['max_months']             = 'Max months to show in the histogram';
+$lang['histogram_height']       = 'Height of the histogram (in pixels)';
+
 // vim:ts=4:sw=4:et:enc=utf-8:
