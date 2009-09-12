@@ -30,11 +30,8 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
      * register the eventhandlers
      */
     function register(&$contr) {
-        $contr->register_hook('ACTION_ACT_PREPROCESS',
-                'BEFORE',
-                $this,
-                'handle_act_preprocess',
-                array());
+        $contr->register_hook('ACTION_ACT_PREPROCESS', 'BEFORE', $this, 'handle_act_preprocess', array());
+        $contr->register_hook('FEED_ITEM_ADD', 'BEFORE', $this, 'handle_feed_item');
     }
 
     /**
@@ -48,6 +45,53 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         $event->preventDefault();    
 
         $event->data = $this->_handle_newEntry();
+    }
+
+    /**
+     * Removes draft entries from feeds
+     *
+     * @author Michael Klier <chi@chimeric.de>
+     */
+    function handle_feed_item(&$event, $param) {
+        global $conf;
+
+        $url = parse_url($event->data['item']->link);
+        $base_url = getBaseURL();
+
+        // determine page id by rewrite mode
+        switch($conf['userewrite']) {
+            case 0:
+                preg_match('#id=([^&]*)#', $url['query'], $match);
+                if($base_url != '/') {
+                    $id = cleanID(str_replace($base_url, '', $match[1]));
+                } else {
+                    $id = cleanID($match[1]);
+                }
+                break;
+
+            case 1:
+                if($base_url != '/') {
+                    $id = cleanID(str_replace('/',':',str_replace($base_url, '', $url['path'])));
+                } else {
+                    $id = cleanID(str_replace('/',':', $url['path']));
+                }
+                break;
+
+            case 2:
+                preg_match('#doku.php/([^&]*)#', $url['path'], $match);
+                if($base_url != '/') {
+                    $id = cleanID(str_replace($base_url, '', $match[1]));
+                } else {
+                    $id = cleanID($match[1]);
+                }
+                break;
+        }
+
+        // don't add drafts to the feed
+        if(p_get_metadata($id, 'type') == 'draft') {
+            $event->preventDefault();
+            return;
+        }
     }
 
     /**
