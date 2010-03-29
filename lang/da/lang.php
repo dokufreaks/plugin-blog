@@ -1,22 +1,22 @@
-<?php
+ï»¿<?php
 /**
  * Danish language file
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Rasmus Kinnerup <rasmus@kinnerup.com>
+ * @author     Esther Brunner <wikidesign@gmail.com>
  */
 
 // custom language strings for the plugin
 $lang['blog']       = 'Blog';
-$lang['older']      = 'Ældre indlæg';
-$lang['newer']      = 'Nyere indlæg';
-$lang['newentry']   = 'Nyt indlæg:';
+$lang['older']      = 'Ã†ldre indlÃ¦g';
+$lang['newer']      = 'Nyere indlÃ¦g';
+$lang['newentry']   = 'Nyt indlÃ¦g:';
 
-$lang['missing_includeplugin']  = 'Include plugin skal være installeret for at bloggen virker.';
-$lang['missing_pagelistplugin'] = 'Pagelist plugin skal være installeret for at arkivlister kan virker.';
-$lang['missing_tagplugin']      = 'Tag plugin skal være installeret for at benytte denne funktion.';
+$lang['missing_includeplugin']  = 'Include plugin skal vÃ¦re installeret for at bloggen virker.';
+$lang['missing_pagelistplugin'] = 'Pagelist plugin skal vÃ¦re installeret for at arkivlister virker.';
+$lang['missing_tagplugin']      = 'Tag plugin skal vÃ¦re installeret for at benytte denne funktion.';
 
-$lang['autoarchive'] = '%d indlæg i %s %s';
+$lang['autoarchive'] = '%d indlÃ¦g i %s %s';
 $lang['month_01'] = 'januar';
 $lang['month_02'] = 'februar';
 $lang['month_03'] = 'marts';
@@ -30,4 +30,5 @@ $lang['month_10'] = 'oktober';
 $lang['month_11'] = 'november';
 $lang['month_12'] = 'december';
 
-// vim:ts=4:sw=4:et:enc=utf-8:
+//Setup VIM: ex: et ts=2 enc=utf-8 :
+ 
