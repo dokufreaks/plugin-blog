@@ -15,7 +15,7 @@ $meta['sortorder']    = array('multichoice',
                          '_choices' => array('ascending', 'descending'));
 $meta['excluded_pages'] = array('string');
 
-$meta['showhistorgram'] = array('onoff');
+$meta['showhistogram'] = array('onoff');
 $meta['max_months'] = array('numeric');
 $meta['histogram_height'] = array('numeric');
 // vim:ts=4:sw=4:et:enc=utf-8:
