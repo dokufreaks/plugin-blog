@@ -78,7 +78,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
             if ($perm < AUTH_READ) continue;                     // check ACL
 
             // skip drafts unless for users with create priviledge
-            $meta = p_get_metadata($id);
+            $meta = p_get_metadata($id, '', false);
             $draft = ($meta['type'] == 'draft');
             if ($draft && ($perm < AUTH_CREATE)) continue;
 
