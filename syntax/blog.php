@@ -181,7 +181,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             $flags = $include->get_flags($set_flags);
             $ins = $include->_get_instructions($page, '', 'page', $lvl, $flags);
             foreach($ins as $i) {
-                call_user_func_array(array(&$renderer, $i[0]),$i[1]);
+                call_user_func_array(array(&$renderer, $i[0]), $i[1] ? $i[1] : array());
             }
             // Post process and return the output
             $data = array($mode, $renderer->doc);
