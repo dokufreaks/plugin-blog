@@ -131,7 +131,6 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                 $histogram = '';
                 $histogram_count = array();
                 $histogram_higher = 0;
-                $posts_count = 0;
 
                 $list = '';
 
@@ -156,7 +155,6 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                         $list .= '<h3 id="m' . date('o-m',$entry['date']) . '">' . $this->getLang('month_' . $current_month) . '</h3><ul>' . DOKU_LF;
                         $ul_open = true;
                     }
-                    $posts_count += 1;
                     $histogram_count[date('o-m',$entry['date'])] += 1;
                     if ($histogram_higher < $histogram_count[date('o-m',$entry['date'])]) {
                         $histogram_higher = $histogram_count[date('o-m',$entry['date'])];
@@ -165,9 +163,6 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                 }
                 $list .= '</ul>' . DOKU_LF;
 
-                if ($posts_count > $max_posts) {
-                    $posts_count = $max_posts;
-                }
                 // Generate histogram
                 $histogram_count = array_reverse($histogram_count);
                 $month_count = 0;
