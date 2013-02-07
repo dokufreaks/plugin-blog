@@ -37,4 +37,5 @@ img.blog_archive_bar {
   background-color: __border__;
   width: 5px;
   border: 0 none;
+  vertical-align: bottom;
 }
