@@ -13,20 +13,6 @@ require_once(DOKU_PLUGIN.'action.php');
 class action_plugin_blog extends DokuWiki_Action_Plugin {
 
     /**
-     * return some info
-     */
-    function getInfo() {
-        return array(
-                'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-                'email'  => 'dokuwiki@chimeric.de',
-                'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
-                'name'   => 'Blog Plugin (action component)',
-                'desc'   => 'Brings blog functionality to DokuWiki',
-                'url'    => 'http://dokuwiki.org/plugin:blog',
-                );
-    }
-
-    /**
      * register the eventhandlers
      */
     function register(&$contr) {

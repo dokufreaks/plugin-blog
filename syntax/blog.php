@@ -18,17 +18,6 @@ require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
 
-    function getInfo() {
-        return array(
-                'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-                'email'  => 'dokuwiki@chimeric.de',
-                'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
-                'name'   => 'Blog Plugin (blog component)',
-                'desc'   => 'Displays a number of recent entries from a given namesspace',
-                'url'    => 'http://dokuwiki.org/plugin:blog',
-                );
-    }
-
     function getType() { return 'substition'; }
     function getPType() { return 'block'; }
     function getSort() { return 307; }

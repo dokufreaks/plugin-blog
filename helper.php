@@ -21,17 +21,6 @@ class helper_plugin_blog extends DokuWiki_Plugin {
         $this->sort = $this->getConf('sortkey');
     }
 
-    function getInfo() {
-        return array(
-                'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-                'email'  => 'dokuwiki@chimeric.de',
-                'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
-                'name'   => 'Blog Plugin (helper component)',
-                'desc'   => 'Returns a number of recent entries from a given namespace',
-                'url'    => 'http://dokuwiki.org/plugin:blog',
-                );
-    }
-
     function getMethods() {
         $result = array();
         $result[] = array(
