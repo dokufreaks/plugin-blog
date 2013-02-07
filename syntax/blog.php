@@ -131,18 +131,17 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             $renderer->doc .= '<div class="hfeed">'.DOKU_LF;
         }
 
-        // we need our own renderer
-        $include_renderer =& p_get_renderer('xhtml');
-        $include_renderer->smileys   = getSmileys();
-        $include_renderer->entities  = getEntities();
-        $include_renderer->acronyms  = getAcronyms();
-        $include_renderer->interwiki = getInterwiki();
+        $flags = $include->get_flags($flags);
 
         // now include the blog entries
         foreach ($entries as $entry) {
             if ($mode == 'xhtml') {
                 if(auth_quickaclcheck($entry['id']) >= AUTH_READ) {
-                    $renderer->doc .= $this->render_XHTML($include, $include_renderer, $entry['id'], $clevel, $flags);
+                    // prevent blog include loops
+                    if(!$include->includes[$entry['id']]) {
+                        $include->includes[$entry['id']] = true;
+                        $renderer->nest($include->_get_instructions($entry['id'], '', 'page', $clevel, $flags));
+                    }
                 }
             } elseif ($mode == 'metadata') {
                 $renderer->meta['relation']['haspart'][$entry['id']] = true;
@@ -167,29 +166,6 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     }
 
     /* ---------- (X)HTML Output Functions ---------- */
-
-    /**
-     * Returns the XHTML output including the footer etc. for use with the blog plugin
-     * FIXME remove after blogtng plugin officially replaces the blog plugin?
-     *
-     * @author Michael Klier <chi@chimeric.de>
-     */
-    function render_XHTML(&$include, &$renderer, $page, $lvl, $set_flags) {
-        if(!$include->includes[$page]) {
-            $renderer->doc = '';
-            $include->includes[$page];
-            $flags = $include->get_flags($set_flags);
-            $ins = $include->_get_instructions($page, '', 'page', $lvl, $flags);
-            foreach($ins as $i) {
-                call_user_func_array(array(&$renderer, $i[0]), $i[1] ? $i[1] : array());
-            }
-            // Post process and return the output
-            $data = array($mode, $renderer->doc);
-            trigger_event('RENDERER_CONTENT_POSTPROCESS',$data);
-            return $renderer->doc;
-        }
-    }
-
 
     /**
      * Displays links to older newer entries of the blog namespace
