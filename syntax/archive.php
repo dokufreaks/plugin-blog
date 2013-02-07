@@ -146,6 +146,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                         }
                         $current_year = date('o',$entry['date']);
                         $list .= '<h2>' . $current_year . '</h2>' . DOKU_LF;
+                        $current_month = '';
                     }
                     if ($current_month != date('m',$entry['date'])) {
                         if ($ul_open) {
