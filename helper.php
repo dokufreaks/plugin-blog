@@ -82,13 +82,13 @@ class helper_plugin_blog extends DokuWiki_Plugin {
             $draft = ($meta['type'] == 'draft');
             if ($draft && ($perm < AUTH_CREATE)) continue;
 
-            if ($this->sort == 'mdate') {
-                $date = $meta['date']['modified'];
-                if (!$date) $date = filemtime(wikiFN($id));
-            } else {
-                $date = $meta['date']['created'];
+            $date = $meta['date']['modified'];
+            if (!$date) $date = filemtime(wikiFN($id));
+            if ($this->sort != 'mdate') {
+                $cdate = $meta['date']['created'];
+                if (!$cdate) $cdate = filectime(wikiFN($id));
                 // prefer the date further in the past:
-                if (!$date) $date = min(filectime(wikiFN($id)), filemtime(wikiFN($id)));
+                $date = min($date, $cdate);
             }
 
             $title = $meta['title'];
