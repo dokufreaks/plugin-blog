@@ -71,10 +71,13 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         if (!is_numeric($first)) $first = 0;
 
         // get the blog entries for our namespace
+        /** @var helper_plugin_blog $my */
         if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
+        else return false;
 
         // use tag refinements?
         if ($refine) {
+            /** @var helper_plugin_tag $tag */
             if (plugin_isdisabled('tag') || (!$tag =& plugin_load('helper', 'tag'))) {
                 msg($this->getLang('missing_tagplugin'), -1);
             } else {
@@ -105,23 +108,27 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         $entries = array_slice($entries, $first, $num);
 
         // load the include helper plugin
+        /** @var helper_plugin_include $include */
         if (plugin_isdisabled('include') || (!$include =& plugin_load('helper', 'include'))) {
             msg($this->getLang('missing_includeplugin'), -1);
             return false;
         }
+
+        // current section level
+        $clevel = 0;
+
+        $perm_create = (auth_quickaclcheck($ns.':*') >= AUTH_CREATE);
 
         if ($mode == 'xhtml') {
             // prevent caching to ensure the included pages are always fresh
             $renderer->info['cache'] = false;
 
             // show new entry form
-            $perm_create = (auth_quickaclcheck($ns.':*') >= AUTH_CREATE);
             if ($perm_create && $formpos == 'top') {
                 $renderer->doc .= $this->_newEntryForm($ns);
             }
 
-            // current section level
-            $clevel = 0;
+            // get current section level
             preg_match_all('|<div class="level(\d)">|i', $renderer->doc, $matches, PREG_SET_ORDER);
             $n = count($matches)-1;
             if ($n > -1) $clevel = $matches[$n][1];
@@ -144,6 +151,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
                     }
                 }
             } elseif ($mode == 'metadata') {
+                /** @var Doku_Renderer_metadata $renderer */
                 $renderer->meta['relation']['haspart'][$entry['id']] = true;
             }
         }
