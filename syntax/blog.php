@@ -18,12 +18,6 @@ require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
 
-    /** @var string The position of the new-entry form */
-    private $formpos;
-
-    /** @var string The text used for the title of the new-entry form */
-    private $newentrytitle;
-
     function getType() { return 'substition'; }
     function getPType() { return 'block'; }
     function getSort() { return 307; }
@@ -81,14 +75,14 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         }
 
         // Normalise flags
-        $blog_flags = $my->getFlags($flags);
-        $this->formpos = $blog_flags['formpos'];
-        $this->newentrytitle = $blog_flags['newentrytitle'];
+        $blog_flags    = $my->getFlags($flags);
+        $formpos       = $blog_flags['formpos'];
+        $newentrytitle = $blog_flags['newentrytitle'];
 
         if (!$entries) {
             if ((auth_quickaclcheck($ns.':*') >= AUTH_CREATE) && ($mode == 'xhtml')) {
                 $renderer->info['cache'] = false;
-                if($this->formpos != 'none') $renderer->doc .= $this->_newEntryForm($ns);
+                if($formpos != 'none') $renderer->doc .= $this->_newEntryForm($ns, $newentrytitle);
             }
             return true; // nothing to display
         }
@@ -114,8 +108,8 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             $renderer->info['cache'] = false;
 
             // show new entry form
-            if ($perm_create && $this->formpos == 'top') {
-                $renderer->doc .= $this->_newEntryForm($ns);
+            if ($perm_create && $formpos == 'top') {
+                $renderer->doc .= $this->_newEntryForm($ns, $newentrytitle);
             }
 
             // get current section level
@@ -128,7 +122,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             $renderer->doc .= '<div class="hfeed">'.DOKU_LF;
         }
 
-        $flags = $include->get_flags($flags);
+        $include_flags = $include->get_flags($flags);
 
         // now include the blog entries
         foreach ($entries as $entry) {
@@ -137,7 +131,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
                     // prevent blog include loops
                     if(!$include->includes[$entry['id']]) {
                         $include->includes[$entry['id']] = true;
-                        $renderer->nest($include->_get_instructions($entry['id'], '', 'page', $clevel, $flags));
+                        $renderer->nest($include->_get_instructions($entry['id'], '', 'page', $clevel, $include_flags));
                     }
                 }
             } elseif ($mode == 'metadata') {
@@ -155,8 +149,8 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
 
             // show new entry form
-            if ($perm_create && $this->formpos == 'bottom') {
-                $renderer->doc .= $this->_newEntryForm($ns);
+            if ($perm_create && $formpos == 'bottom') {
+                $renderer->doc .= $this->_newEntryForm($ns, $newentrytitle);
             }
         }
 
@@ -194,14 +188,14 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
      * Displays a form to enter the title of a new entry in the blog namespace
      * and then open that page in the edit mode
      */
-    function _newEntryForm($ns) {
+    function _newEntryForm($ns, $newentrytitle) {
         global $lang;
         global $ID;
 
         return '<div class="newentry_form">'.DOKU_LF.
             '<form id="blog__newentry_form" method="post" action="'.script().'" accept-charset="'.$lang['encoding'].'">'.DOKU_LF.
             DOKU_TAB.'<fieldset>'.DOKU_LF.
-            DOKU_TAB.DOKU_TAB.'<legend>'.hsc($this->newentrytitle).'</legend>'.DOKU_LF.
+            DOKU_TAB.DOKU_TAB.'<legend>'.hsc($newentrytitle).'</legend>'.DOKU_LF.
             DOKU_TAB.DOKU_TAB.'<input type="hidden" name="id" value="'.$ID.'" />'.DOKU_LF.
             DOKU_TAB.DOKU_TAB.'<input type="hidden" name="do" value="newentry" />'.DOKU_LF.
             DOKU_TAB.DOKU_TAB.'<input type="hidden" name="ns" value="'.$ns.'" />'.DOKU_LF.
