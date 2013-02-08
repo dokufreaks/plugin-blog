@@ -4,7 +4,7 @@
  */
 $conf['namespace']    = 'blog';       // default location for blog entries
 $conf['formposition'] = 'bottom';     // position of new entry form
-//$conf['newentrytitle'] = 'New Entry Here:';     // Title text for the 'new entry' form
+$conf['newentrytitle'] = '';          // Title text for the 'new entry' form
 $conf['dateprefix']   = '';           // prefix date to new entry IDs
 $conf['sortkey']      = 'cdate';      // sort key for blog entries
 $conf['sortorder']    = 'descending'; // ascending or descending
