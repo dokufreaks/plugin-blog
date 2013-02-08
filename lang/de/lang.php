@@ -4,6 +4,7 @@
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Esther Brunner <wikidesign@gmail.com>
+ * @author     Michael Hamann <michael@content-space.de>
  */
 
 // custom language strings for the plugin
@@ -29,6 +30,10 @@ $lang['month_09'] = 'September';
 $lang['month_10'] = 'Oktober';
 $lang['month_11'] = 'November';
 $lang['month_12'] = 'Dezember';
+
+$lang['entries']  = 'Einträge';
+$lang['entry']    = 'Eintrag';
+$lang['archive_title'] = 'Blog-Archiv';
 
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :
