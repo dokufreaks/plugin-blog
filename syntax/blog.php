@@ -18,6 +18,12 @@ require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
 
+    /** @var string The position of the new-entry form */
+    private $formpos;
+
+    /** @var string The text used for the title of the new-entry form */
+    private $newentrytitle;
+
     function getType() { return 'substition'; }
     function getPType() { return 'block'; }
     function getSort() { return 307; }
@@ -74,20 +80,15 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             }
         }
 
-        // any create form overrides?
-        $formpos = $this->getConf('formposition');
-        if(in_array('topform',$flags)){
-            $formpos = 'top';
-        }elseif(in_array('bottomform',$flags)){
-            $formpos = 'bottom';
-        }elseif(in_array('noform',$flags)){
-            $formpos = 'none';
-        }
+        // Normalise flags
+        $blog_flags = $my->getFlags($flags);
+        $this->formpos = $blog_flags['formpos'];
+        $this->newentrytitle = $blog_flags['newentrytitle'];
 
         if (!$entries) {
             if ((auth_quickaclcheck($ns.':*') >= AUTH_CREATE) && ($mode == 'xhtml')) {
                 $renderer->info['cache'] = false;
-                if($formpos != 'none') $renderer->doc .= $this->_newEntryForm($ns);
+                if($this->formpos != 'none') $renderer->doc .= $this->_newEntryForm($ns);
             }
             return true; // nothing to display
         }
@@ -113,7 +114,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             $renderer->info['cache'] = false;
 
             // show new entry form
-            if ($perm_create && $formpos == 'top') {
+            if ($perm_create && $this->formpos == 'top') {
                 $renderer->doc .= $this->_newEntryForm($ns);
             }
 
@@ -154,7 +155,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
 
             // show new entry form
-            if ($perm_create && $formpos == 'bottom') {
+            if ($perm_create && $this->formpos == 'bottom') {
                 $renderer->doc .= $this->_newEntryForm($ns);
             }
         }
@@ -200,7 +201,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         return '<div class="newentry_form">'.DOKU_LF.
             '<form id="blog__newentry_form" method="post" action="'.script().'" accept-charset="'.$lang['encoding'].'">'.DOKU_LF.
             DOKU_TAB.'<fieldset>'.DOKU_LF.
-            DOKU_TAB.DOKU_TAB.'<legend>'.$this->getLang('newentry').'</legend>'.DOKU_LF.
+            DOKU_TAB.DOKU_TAB.'<legend>'.hsc($this->newentrytitle).'</legend>'.DOKU_LF.
             DOKU_TAB.DOKU_TAB.'<input type="hidden" name="id" value="'.$ID.'" />'.DOKU_LF.
             DOKU_TAB.DOKU_TAB.'<input type="hidden" name="do" value="newentry" />'.DOKU_LF.
             DOKU_TAB.DOKU_TAB.'<input type="hidden" name="ns" value="'.$ns.'" />'.DOKU_LF.

@@ -31,6 +31,12 @@ class helper_plugin_blog extends DokuWiki_Plugin {
                     'number (optional)' => 'integer'),
                 'return' => array('pages' => 'array'),
                 );
+        $result[] = array(
+                'name'   => 'getFlags',
+                'desc'   => 'get values for flags, or defaults where not supplied',
+                'params' => array('flags' => 'array'),
+                'return' => array('flags' => 'array'),
+                );
         return $result;
     }
 
@@ -110,6 +116,47 @@ class helper_plugin_blog extends DokuWiki_Plugin {
         if (is_numeric($num)) $result = array_slice($result, 0, $num);
 
         return $result;
+    }
+
+    /**
+     * Turn a list of user-supplied flags into a complete list of all flags
+     * required by the Blog plugin (not including those for the Include plugin),
+     * using global configuration options or plugin defaults where flags have
+     * not been supplied.
+     * 
+     * Currently handles 'formpos' and 'newentrytitle'.
+     * 
+     * @author Sam Wilson <sam@samwilson.id.au>
+     * @param array $setflags Flags that have been set by the user
+     * @return array All flags required by the Blog plugin (only)
+     */
+    function getFlags($setflags) {
+        $flags = array();
+
+        // Form Position
+        $flags['formpos'] = $this->getConf('formposition');
+        if(in_array('topform', $setflags)) {
+            $flags['formpos'] = 'top';
+        }elseif(in_array('bottomform', $setflags)) {
+            $flags['formpos'] = 'bottom';
+        }elseif(in_array('noform', $setflags)) {
+            $flags['formpos'] = 'none';
+        }
+
+        // New Entry Title
+        $newentrytitle = preg_grep('|newentrytitle=.*|', $setflags);
+        if (count($newentrytitle) > 0) {
+            $newentrytitle = array_pop(explode('=', array_pop($newentrytitle), 2));
+            if (!empty($newentrytitle)) {
+                $flags['newentrytitle'] = $newentrytitle;
+            }
+        } elseif ($conf_title = $this->getConf('newentrytitle')) {
+            $flags['newentrytitle'] = $conf_title;
+        } else {
+            $flags['newentrytitle'] = $this->getLang('newentry');
+        }
+
+        return $flags;
     }
 
     /**
