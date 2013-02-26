@@ -154,7 +154,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             }
         }
 
-        return true;
+        return in_array($mode, array('xhtml', 'metadata'));
     }
 
     /* ---------- (X)HTML Output Functions ---------- */
