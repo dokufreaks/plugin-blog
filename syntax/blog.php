@@ -32,7 +32,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         $match = substr($match, 7, -2); // strip {{blog> from start and }} from end
         list($match, $flags) = explode('&', $match, 2);
         $flags =  explode('&', $flags);
-        $flags[] = 'link'; // always make the first header of a blog entry a permalink
+        array_unshift($flags, 'link'); // always make the first header of a blog entry a permalink (unless nolink is set)
         list($match, $refine) = explode(' ', $match, 2);
         list($ns, $num) = explode('?', $match, 2);
 
