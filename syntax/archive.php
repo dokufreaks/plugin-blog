@@ -75,7 +75,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
             // all entries from that namespace up to now
         } elseif ($rest == '*') {
             $start  = 0;
-            $end    = time();
+            $end    = PHP_INT_MAX;
 
             // unknown format
         } else {
