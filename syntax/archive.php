@@ -215,6 +215,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                 if (($start > $entry['date']) || ($entry['date'] >= $end)) continue;
 
                 $renderer->meta['relation']['references'][$entry['id']] = true;
+                $renderer->meta['plugin_blog']['archive_pages'][] = $entry['id'];
             }
 
             return true;

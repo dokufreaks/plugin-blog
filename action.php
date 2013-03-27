@@ -209,7 +209,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         global $conf;
         /** @var cache_parser $cache */
         $cache = $event->data;
-        if ($cache->mode != 'xhtml') return;
+        if (!in_array($cache->mode, array('xhtml', 'metadata'))) return;
         $page = $cache->page;
 
         // try to extract the page id from the file if possible
@@ -228,6 +228,16 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
             $cache->depends['files'][] = $conf['cachedir'].'/purgefile';
             $cache->depends['files'][] = $conf['metadir'].'/_comments.changes';
             $cache->depends['files'][] = $conf['metadir'].'/_linkbacks.changes';
+        }
+
+        // purge the cache when a page is listed that the current user can't access
+        if (isset($meta['archive_pages'])) {
+            foreach ($meta['archive_pages'] as $page) {
+                if (auth_quickaclcheck($page) < AUTH_READ) {
+                    $cache->depends['purge'] = true;
+                    return;
+                }
+            }
         }
     }
 }
