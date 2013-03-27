@@ -89,10 +89,13 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         list($ns, $start, $end, $flags, $refine) = $data;
 
         // get the blog entries for our namespace
+        /** @var helper_plugin_blog $my */
         if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
+        else return false;
 
         // use tag refinements?
         if ($refine) {
+            /** @var helper_plugin_tag $tag */
             if (plugin_isdisabled('tag') || (!$tag = plugin_load('helper', 'tag'))) {
                 msg($this->getLang('missing_tagplugin'), -1);
             } else {
@@ -108,9 +111,6 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
             $max_months = $this->getConf('max_months');
             $histogram_height = $this->getConf('histogram_height');
 
-
-            // prevent caching for current month to ensure content is always fresh
-            if (time() < $end) $renderer->info['cache'] = false;
 
             if ($this->getConf('showhistogram')) {
                 $current_year ='';
@@ -182,15 +182,13 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                 // Add histogram and posts list
                 $renderer->doc .= '<div class="level1"><h1>' . $this->getLang('archive_title') . '</h1>' . $histogram . '<br/><br/>' . $list . '</div>' . DOKU_LF; 
             } else {
-                // prevent caching for current month to ensure content is always fresh
-                if (time() < $end) $renderer->info['cache'] = false;
-
                 // let Pagelist Plugin do the work for us
                 if (plugin_isdisabled('pagelist')
                         || (!$pagelist =& plugin_load('helper', 'pagelist'))) {
                     msg($this->getLang('missing_pagelistplugin'), -1);
                     return false;
                 }
+                /** @var helper_plugin_pagelist $pagelist */
                 $pagelist->setFlags($flags);
                 $pagelist->startList();
                 foreach ($entries as $entry) {
@@ -206,6 +204,11 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
 
             // for metadata renderer
         } elseif ($mode == 'metadata') {
+            /** @var Doku_Renderer_metadata $renderer */
+            // use the blog plugin cache handler in order to ensure that the cache is expired whenever a page, comment
+            // or linkback is added
+            if (time() < $end) $renderer->meta['plugin_blog']['purgefile_cache'] = true;
+
             foreach ($entries as $entry) {
 
                 // entry in the right date range?

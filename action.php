@@ -18,6 +18,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     function register(&$contr) {
         $contr->register_hook('ACTION_ACT_PREPROCESS', 'BEFORE', $this, 'handle_act_preprocess', array());
         $contr->register_hook('FEED_ITEM_ADD', 'BEFORE', $this, 'handle_feed_item');
+        $contr->register_hook('PARSER_CACHE_USE', 'BEFORE', $this, 'handle_cache');
     }
 
     /**
@@ -197,6 +198,37 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         }
         $pre = strftime($dateprefix);
         return ($ns ? $ns.':' : '').$pre.cleanID($title);
+    }
+
+    /**
+     * Expire the renderer cache of archive pages whenever a page is updated or a comment or linkback is added
+     *
+     * @author Michael Hamann <michael@content-space.de>
+     */
+    function handle_cache(Doku_Event $event, $params) {
+        global $conf;
+        /** @var cache_parser $cache */
+        $cache = $event->data;
+        if ($cache->mode != 'xhtml') return;
+        $page = $cache->page;
+
+        // try to extract the page id from the file if possible
+        if (empty($page)) {
+            if (strpos($cache->file, $conf['datadir']) === 0) {
+                $page = pathID(substr($cache->file, strlen($conf['datadir'])+1));
+            } else {
+                return;
+            }
+        }
+
+        $meta = p_get_metadata($page, 'plugin_blog');
+        if ($meta === null) return;
+
+        if (isset($meta['purgefile_cache'])) {
+            $cache->depends['files'][] = $conf['cachedir'].'/purgefile';
+            $cache->depends['files'][] = $conf['metadir'].'/_comments.changes';
+            $cache->depends['files'][] = $conf['metadir'].'/_linkbacks.changes';
+        }
     }
 }
 // vim:ts=4:sw=4:et:enc=utf-8:  
