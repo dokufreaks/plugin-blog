@@ -176,7 +176,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                         $alt .= $this->getLang('entry');
                     }
                     $histogram .= '<a href="#m' . $key . '" title="#m' . $key . '">';
-                    $histogram .= '<img class="blog_archive_bar" alt="' . $alt . '" style="height: ' . $current_height . 'px;" src="lib/images/blank.gif"/></a>' . DOKU_LF;
+                    $histogram .= '<img class="blog_archive_bar" alt="' . $alt . '" style="height: ' . $current_height . 'px;" src="'.DOKU_BASE.'lib/images/blank.gif"/></a>' . DOKU_LF;
                     $month_count += 1;
                 }
                 // Add histogram and posts list
