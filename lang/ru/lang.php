@@ -3,8 +3,7 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * 
- * @author     Spike <spike@foobar2000.ru>
- * @author     Aleksandr Selivanov <alexgearbox@gmail.com>
+ * @author Spike <spike@foobar2000.ru>
  * @author Aleksandr Selivanov <alexgearbox@gmail.com>
  */
 $lang['blog']                  = 'Блог';
