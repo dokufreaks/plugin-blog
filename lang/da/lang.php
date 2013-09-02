@@ -16,7 +16,7 @@ $lang['missing_includeplugin']  = 'Include plugin skal være installeret for at 
 $lang['missing_pagelistplugin'] = 'Pagelist plugin skal være installeret for at arkivlister virker.';
 $lang['missing_tagplugin']      = 'Tag plugin skal være installeret for at benytte denne funktion.';
 
-$lang['autoarchive'] = '%d indlæg i %s %s';
+$lang['autoarchive'] = '%1$d indlæg i %2$s %3$s';
 $lang['month_01'] = 'januar';
 $lang['month_02'] = 'februar';
 $lang['month_03'] = 'marts';

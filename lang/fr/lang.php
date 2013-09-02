@@ -18,7 +18,7 @@ $lang['missing_includeplugin']  = 'Le module "include" doit être installé pour
 $lang['missing_pagelistplugin'] = 'Le module "pagelist" doit être installé pour que les archives puissent fonctionner.';
 $lang['missing_tagplugin']      = 'Le module "tag" doit être installé pour pouvoir en bénéficier dans le module "blog".';
 
-$lang['autoarchive'] = '%d billet(s) pour %s %s';
+$lang['autoarchive'] = '%1$d billet(s) pour %2$s %3$s';
 $lang['month_01'] = 'janvier';
 $lang['month_02'] = 'février';
 $lang['month_03'] = 'mars';
