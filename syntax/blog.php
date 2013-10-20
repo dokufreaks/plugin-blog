@@ -79,9 +79,13 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         $formpos       = $blog_flags['formpos'];
         $newentrytitle = $blog_flags['newentrytitle'];
 
+        if ($mode == 'xhtml') {
+            // prevent caching to ensure the included pages are always fresh
+            $renderer->info['cache'] = false;
+        }
+
         if (!$entries) {
             if ((auth_quickaclcheck($ns.':*') >= AUTH_CREATE) && ($mode == 'xhtml')) {
-                $renderer->info['cache'] = false;
                 if($formpos != 'none') $renderer->doc .= $this->_newEntryForm($ns, $newentrytitle);
             }
             return true; // nothing to display
@@ -104,9 +108,6 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         $perm_create = (auth_quickaclcheck($ns.':*') >= AUTH_CREATE);
 
         if ($mode == 'xhtml') {
-            // prevent caching to ensure the included pages are always fresh
-            $renderer->info['cache'] = false;
-
             // show new entry form
             if ($perm_create && $formpos == 'top') {
                 $renderer->doc .= $this->_newEntryForm($ns, $newentrytitle);
