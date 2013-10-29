@@ -4,15 +4,16 @@
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * 
  * @author Piotr Hołda <holda.piotr@gmail.com>
+ * @author Robert Bogenschneider <bogi@uea.org>
  */
 $lang['blog']                  = 'Blogo';
 $lang['older']                 = 'Pli malnovaj enskriboj';
 $lang['newer']                 = 'Pli novaj enskriboj';
 $lang['newentry']              = 'Nova blog-enskribo:';
-$lang['missing_includeplugin'] = 'La "Include" kromprogramo devas esti instalita por la blogo funkcii.';
-$lang['missing_pagelistplugin'] = 'La "Pagelist" kromprogramo devas esti instalita por arkivado funkcii.';
-$lang['missing_tagplugin']     = 'La "Tag" kromprogramo devas esti instalita por markoj funkcii.';
-$lang['autoarchive']           = '%1$d Poŝto(j) for %2$s %3$s';
+$lang['missing_includeplugin'] = 'La "Include"-kromaĵo devas esti instalita por uzi la blogon.';
+$lang['missing_pagelistplugin'] = 'La "Pagelist"-kromaĵo devas esti instalita por uzi arkivlistojn.';
+$lang['missing_tagplugin']     = 'La "Tag"-kromaĵo devas esti instalita por ŝanĝi etikedojn.';
+$lang['autoarchive']           = '%1$d Enskribo(j) por %2$s %3$s';
 $lang['month_01']              = 'Januaro';
 $lang['month_02']              = 'Februaro';
 $lang['month_03']              = 'Marto';
@@ -27,4 +28,4 @@ $lang['month_11']              = 'Novembro';
 $lang['month_12']              = 'Decembro';
 $lang['entries']               = 'enskriboj';
 $lang['entry']                 = 'enskribo';
-$lang['archive_title']         = 'Historio de la blogo';
+$lang['archive_title']         = 'Blog-historio';
