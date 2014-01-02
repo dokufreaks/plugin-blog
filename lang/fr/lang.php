@@ -2,14 +2,14 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
  * @author Damien Raude-Morvan <drazzib@drazzib.com>
  * @author Stanislas Reltgen <stanislas@reltgen.net>
  * @author Florent Chabaud <fchabaud@free.fr>
  */
 $lang['blog']                  = 'Blog';
 $lang['older']                 = 'Anciens billets';
-$lang['newer']                 = 'Billets recents';
+$lang['newer']                 = 'Billets récents';
 $lang['newentry']              = 'Nouveau billet :';
 $lang['missing_includeplugin'] = 'Le module "include" doit être installé pour que le module "blog" puisse fonctionner.';
 $lang['missing_pagelistplugin'] = 'Le module "pagelist" doit être installé pour que les archives puissent fonctionner.';
