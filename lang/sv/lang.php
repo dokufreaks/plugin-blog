@@ -3,7 +3,7 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * 
- * @author     Christer Nygren <wiki@fronet.fro.se>
+ * @author Christer Nygren <wiki@fronet.fro.se>
  * @author Tor Härnqvist <tor.harnqvist@gmail.com>
  */
 $lang['blog']                  = 'Blogg';
