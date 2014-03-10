@@ -3,15 +3,15 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * 
- * @author     Spike <spike@foobar2000.ru>
- * @author     Aleksandr Selivanov <alexgearbox@gmail.com>
+ * @author Spike <spike@foobar2000.ru>
  * @author Aleksandr Selivanov <alexgearbox@gmail.com>
+ * @author Aleksandr Selivanov <alexgearbox@yandex.ru>
  */
 $lang['namespace']             = 'Пространство имён по умолчанию для блога';
 $lang['formposition']          = 'Расположить форму для новой записи:';
 $lang['formposition_o_top']    = 'вверху страницы';
 $lang['formposition_o_bottom'] = 'внизу страницы';
-$lang['formposition_o_none']   = 'нет';
+$lang['formposition_o_none']   = 'скрыть';
 $lang['newentrytitle']         = 'Заголовок формы для новой записи';
 $lang['dateprefix']            = 'Префикс даты для ID новой записи';
 $lang['sortkey']               = 'Сортировать записи по:';
