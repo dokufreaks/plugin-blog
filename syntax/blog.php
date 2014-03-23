@@ -106,6 +106,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         $clevel = 0;
 
         $perm_create = (auth_quickaclcheck($ns.':*') >= AUTH_CREATE);
+        $include_flags = $include->get_flags($flags);
 
         if ($mode == 'xhtml') {
             // show new entry form
@@ -119,11 +120,10 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             if ($n > -1) $clevel = $matches[$n][1];
 
             // close current section
-            if ($clevel) $renderer->doc .= '</div>'.DOKU_LF;
+            if ($clevel && !$include_flags['inline']) $renderer->doc .= '</div>'.DOKU_LF;
             $renderer->doc .= '<div class="hfeed">'.DOKU_LF;
         }
 
-        $include_flags = $include->get_flags($flags);
 
         // now include the blog entries
         foreach ($entries as $entry) {
@@ -144,7 +144,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         if ($mode == 'xhtml') {
             // resume the section
             $renderer->doc .= '</div>'.DOKU_LF;
-            if ($clevel) $renderer->doc .= '<div class="level'.$clevel.'">'.DOKU_LF;
+            if ($clevel && !$include_flags['inline']) $renderer->doc .= '<div class="level'.$clevel.'">'.DOKU_LF;
 
             // show older / newer entries links
             $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
