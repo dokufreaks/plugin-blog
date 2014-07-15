@@ -26,7 +26,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         $this->Lexer->addSpecialPattern('\{\{blog>.*?\}\}',$mode,'plugin_blog_blog');
     }
 
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
         global $ID;
 
         $match = substr($match, 7, -2); // strip {{blog> from start and }} from end
@@ -53,7 +53,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         return array($ns, $num, $flags, $refine);
     }
 
-    function render($mode, &$renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data) {
         list($ns, $num, $flags, $refine) = $data;
 
         $first = $_REQUEST['first'];

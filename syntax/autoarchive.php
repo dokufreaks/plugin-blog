@@ -26,7 +26,7 @@ class syntax_plugin_blog_autoarchive extends DokuWiki_Syntax_Plugin {
         $this->Lexer->addSpecialPattern('\{\{autoarchive>.*?\}\}', $mode, 'plugin_blog_autoarchive');
     }
 
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
         global $ID;
 
         $match = substr($match, 14, -2); // strip {{autoarchive> from start and }} from end
@@ -42,7 +42,7 @@ class syntax_plugin_blog_autoarchive extends DokuWiki_Syntax_Plugin {
         return array($ns, $flags, $refine, $pos);
     }
 
-    function render($mode, &$renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data) {
         list($ns, $flags, $refine, $pos) = $data;
         if ($mode != 'xhtml') return false;
 
