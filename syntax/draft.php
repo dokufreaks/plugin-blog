@@ -21,14 +21,14 @@ class syntax_plugin_blog_draft extends DokuWiki_Syntax_Plugin {
         $this->Lexer->addSpecialPattern('~~DRAFT~~', $mode, 'plugin_blog_draft');
     }
 
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
         return true;
     }
 
     /**
      * The only thing this plugin component does is to set the metadata 'type' to 'draft'
      */
-    function render($mode, &$renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data) {
         if ($mode == 'xthml') {
             return true; // don't output anything
         } elseif ($mode == 'metadata') {

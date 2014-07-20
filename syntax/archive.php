@@ -26,7 +26,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         $this->Lexer->addSpecialPattern('\{\{archive>.*?\}\}', $mode, 'plugin_blog_archive');
     }
 
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
         global $ID;
 
         $match = substr($match, 10, -2); // strip {{archive> from start and }} from end
@@ -85,7 +85,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         return array($ns, $start, $end, $flags, $refine);
     }
 
-    function render($mode, &$renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data) {
         list($ns, $start, $end, $flags, $refine) = $data;
 
         // get the blog entries for our namespace

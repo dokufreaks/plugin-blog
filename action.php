@@ -15,7 +15,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     /**
      * register the eventhandlers
      */
-    function register(&$contr) {
+    function register(Doku_Event_Handler $contr) {
         $contr->register_hook('ACTION_ACT_PREPROCESS', 'BEFORE', $this, 'handle_act_preprocess', array());
         $contr->register_hook('FEED_ITEM_ADD', 'BEFORE', $this, 'handle_feed_item');
         $contr->register_hook('PARSER_CACHE_USE', 'BEFORE', $this, 'handle_cache');
