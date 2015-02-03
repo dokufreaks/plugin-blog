@@ -35,6 +35,16 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         list($match, $refine) = explode(' ', $match, 2);
         list($ns, $rest) = explode('?', $match, 2);
 
+        $author = NULL;
+        foreach($flags as $i=>$flag) {
+            if(preg_match('/(\w+)\s*=(.+)/', $flag, $temp) == 1) {
+                if ($temp[1] == 'author') {
+                    $author = trim($temp[2]);
+                    unset($flags[$i]);
+                }
+            }
+        }
+
         if (!$rest) {
             $rest = $ns;
             $ns   = '';
@@ -82,15 +92,15 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
             return false;
         }
 
-        return array($ns, $start, $end, $flags, $refine);
+        return array($ns, $start, $end, $flags, $refine, $author);
     }
 
     function render($mode, Doku_Renderer $renderer, $data) {
-        list($ns, $start, $end, $flags, $refine) = $data;
+        list($ns, $start, $end, $flags, $refine, $author) = $data;
 
         // get the blog entries for our namespace
         /** @var helper_plugin_blog $my */
-        if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
+        if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns, NULL, $author);
         else return false;
 
         // use tag refinements?
