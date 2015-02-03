@@ -202,7 +202,9 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
 
     // Generate histogram
     function _build_histogram($histogram_count, $histogram_higher) {
-        $histogram = '';
+        if (empty($histogram_count)) return '';
+
+        $histogram = '<p>';
         $max_months = $this->getConf('max_months');
         $histogram_height = $this->getConf('histogram_height');
         $histogram_count = array_reverse($histogram_count);
@@ -226,11 +228,11 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
             } else {
                 $alt .= $this->getLang('entry');
             }
-            $histogram .= '<a href="#m' . $key . '" title="#m' . $key . '">';
+            $histogram .= '<a href="#m' . $key . '" title="' . $alt . '">';
             $histogram .= '<img class="blog_archive_bar" alt="' . $alt . '" style="height: ' . $current_height . 'px;" src="'.DOKU_BASE.'lib/images/blank.gif"/></a>' . DOKU_LF;
             $month_count += 1;
         }
-        $histogram .= '<br/><br/>';
+        $histogram .= '</p>';
 
         return $histogram;
     }
