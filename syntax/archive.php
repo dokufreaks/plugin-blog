@@ -1,7 +1,7 @@
 <?php
 /**
  * Archive Plugin: displays links to all wiki pages from a given month
- * 
+ *
  * @license  GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author   Esther Brunner <wikidesign@gmail.com>
  */
@@ -106,81 +106,14 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         if (!$entries) return true; // nothing to display
 
         if ($mode == 'xhtml') {
-            // Configuration
-            $archive_mode = $this->getConf('archive_mode');
-            $max_months = $this->getConf('max_months');
-            $histogram_height = $this->getConf('histogram_height');
-
-
             if ($this->getConf('showhistogram')) {
-                $current_year ='';
-                $current_month ='';
-                $ul_open = false;
+                $alt_list = $this->_build_alternative_list($start, $end, $entries);
 
-                $histogram = '';
-                $histogram_count = array();
-                $histogram_higher = 0;
-
-                $list = '';
-
-                // Generate posts list
-                foreach ($entries as $entry) {
-                    // entry in the right date range?
-                    if (($start > $entry['date']) || ($entry['date'] >= $end)) continue;
-
-                    if ($current_year != date('o',$entry['date'])) {
-                        if ($ul_open) {
-                            $list .= '</ul>' . DOKU_LF;
-                            $ul_open = false;
-                        }
-                        $current_year = date('o',$entry['date']);
-                        $list .= '<h2>' . $current_year . '</h2>' . DOKU_LF;
-                        $current_month = '';
-                    }
-                    if ($current_month != date('m',$entry['date'])) {
-                        if ($ul_open) {
-                            $list .= '</ul>' . DOKU_LF;
-                        }
-                        $current_month = date('m',$entry['date']);
-                        $list .= '<h3 id="m' . date('o-m',$entry['date']) . '">' . $this->getLang('month_' . $current_month) . '</h3><ul>' . DOKU_LF;
-                        $ul_open = true;
-                    }
-                    $histogram_count[date('o-m',$entry['date'])] += 1;
-                    if ($histogram_higher < $histogram_count[date('o-m',$entry['date'])]) {
-                        $histogram_higher = $histogram_count[date('o-m',$entry['date'])];
-                    }
-                    $list .= '<li>' . date('d',$entry['date']) . ' - <a href="' . wl($entry['id']) . '" title="' . $entry['id'] . '">' . $entry['title'] . '</a></li>' . DOKU_LF;
-                }
-                $list .= '</ul>' . DOKU_LF;
-
-                // Generate histogram
-                $histogram_count = array_reverse($histogram_count);
-                $month_count = 0;
-                foreach ($histogram_count as $key => $month_reference) {
-                    // Check the max_months parameter
-                    if ($month_count >= $max_months) {
-                        break;
-                    }
-                    if ($month_reference > 0) {
-                        // Height in "px"
-                        $current_height = $histogram_height / $histogram_higher * $month_reference;
-                    } else {
-                        // Height in "px"
-                        $current_height = 1;
-                    }
-                    // Generate the alt attribute
-                    $alt = $key.': '.$month_reference.' ';
-                    if ($month_reference > 1) {
-                        $alt .= $this->getLang('entries');
-                    } else {
-                        $alt .= $this->getLang('entry');
-                    }
-                    $histogram .= '<a href="#m' . $key . '" title="#m' . $key . '">';
-                    $histogram .= '<img class="blog_archive_bar" alt="' . $alt . '" style="height: ' . $current_height . 'px;" src="'.DOKU_BASE.'lib/images/blank.gif"/></a>' . DOKU_LF;
-                    $month_count += 1;
-                }
                 // Add histogram and posts list
-                $renderer->doc .= '<div class="level1"><h1>' . $this->getLang('archive_title') . '</h1>' . $histogram . '<br/><br/>' . $list . '</div>' . DOKU_LF; 
+                $renderer->doc .= '<div class="level1">';
+                $renderer->doc .= '<h1>' . $this->getLang('archive_title') . '</h1>';
+                $renderer->doc .= $alt_list;
+                $renderer->doc .= '</div>' . DOKU_LF;
             } else {
                 // let Pagelist Plugin do the work for us
                 if (plugin_isdisabled('pagelist')
@@ -222,5 +155,85 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         }
         return false;
     }
+
+    // Generate alternative posts list
+    function _build_alternative_list($start, $end, $entries) {
+        $current_year ='';
+        $current_month ='';
+        $ul_open = false;
+
+        $histogram_count = array();
+        $histogram_higher = 0;
+
+        $list = '';
+        foreach ($entries as $entry) {
+            // entry in the right date range?
+            if (($start > $entry['date']) || ($entry['date'] >= $end)) continue;
+
+            if ($current_year != date('o',$entry['date'])) {
+                if ($ul_open) {
+                    $list .= '</ul>' . DOKU_LF;
+                    $ul_open = false;
+                }
+                $current_year = date('o',$entry['date']);
+                $list .= '<h2>' . $current_year . '</h2>' . DOKU_LF;
+                $current_month = '';
+            }
+            if ($current_month != date('m',$entry['date'])) {
+                if ($ul_open) {
+                    $list .= '</ul>' . DOKU_LF;
+                }
+                $current_month = date('m',$entry['date']);
+                $list .= '<h3 id="m' . date('o-m',$entry['date']) . '">' . $this->getLang('month_' . $current_month) . '</h3><ul>' . DOKU_LF;
+                $ul_open = true;
+            }
+            $histogram_count[date('o-m',$entry['date'])] += 1;
+            if ($histogram_higher < $histogram_count[date('o-m',$entry['date'])]) {
+                $histogram_higher = $histogram_count[date('o-m',$entry['date'])];
+            }
+            $list .= '<li>' . date('d',$entry['date']) . ' - <a href="' . wl($entry['id']) . '" title="' . $entry['id'] . '">' . $entry['title'] . '</a></li>' . DOKU_LF;
+        }
+        $list .= '</ul>' . DOKU_LF;
+
+        $histogram = $this->_build_histogram($histogram_count, $histogram_higher);
+
+        return $histogram . $list;
+    }
+
+    // Generate histogram
+    function _build_histogram($histogram_count, $histogram_higher) {
+        $histogram = '';
+        $max_months = $this->getConf('max_months');
+        $histogram_height = $this->getConf('histogram_height');
+        $histogram_count = array_reverse($histogram_count);
+        $month_count = 0;
+        foreach ($histogram_count as $key => $month_reference) {
+            // Check the max_months parameter
+            if ($month_count >= $max_months) {
+                break;
+            }
+            if ($month_reference > 0) {
+                // Height in "px"
+                $current_height = $histogram_height / $histogram_higher * $month_reference;
+            } else {
+                // Height in "px"
+                $current_height = 1;
+            }
+            // Generate the alt attribute
+            $alt = $key.': '.$month_reference.' ';
+            if ($month_reference > 1) {
+                $alt .= $this->getLang('entries');
+            } else {
+                $alt .= $this->getLang('entry');
+            }
+            $histogram .= '<a href="#m' . $key . '" title="#m' . $key . '">';
+            $histogram .= '<img class="blog_archive_bar" alt="' . $alt . '" style="height: ' . $current_height . 'px;" src="'.DOKU_BASE.'lib/images/blank.gif"/></a>' . DOKU_LF;
+            $month_count += 1;
+        }
+        $histogram .= '<br/><br/>';
+
+        return $histogram;
+    }
+
 }
 // vim:ts=4:sw=4:et:enc=utf-8:
