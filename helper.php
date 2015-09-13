@@ -43,7 +43,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     /**
      * Get blog entries from a given namespace
      */
-    function getBlog($ns, $num = NULL) {
+    function getBlog($ns, $num = NULL, $author = NULL) {
         global $conf;
 
         // add pages in given namespace
@@ -76,6 +76,9 @@ class helper_plugin_blog extends DokuWiki_Plugin {
             $meta = p_get_metadata($id, '', false);
             $draft = ($meta['type'] == 'draft');
             if ($draft && ($perm < AUTH_CREATE)) continue;
+
+            // filter by author
+            if ($author && ($meta['user'] != $author)) continue;
 
             $date = $meta['date']['modified'];
             if (!$date) $date = filemtime(wikiFN($id));
@@ -123,9 +126,9 @@ class helper_plugin_blog extends DokuWiki_Plugin {
      * required by the Blog plugin (not including those for the Include plugin),
      * using global configuration options or plugin defaults where flags have
      * not been supplied.
-     * 
+     *
      * Currently handles 'formpos' and 'newentrytitle'.
-     * 
+     *
      * @author Sam Wilson <sam@samwilson.id.au>
      * @param array $setflags Flags that have been set by the user
      * @return array All flags required by the Blog plugin (only)
