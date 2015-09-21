@@ -3,13 +3,14 @@
  * Romanian language file
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Esther Brunner <wikidesign@gmail.com>
  * @author     Florin Chitiul <florinko@gmail.com>
  */
 // custom language strings for the plugin
 $lang['blog']       = 'Blog';
 $lang['older']      = 'Intrări vechi';
 $lang['newer']      = 'Intrări mai noi';
-$lang['newentry']   = 'Inserează blog nou:';
+$lang['newentry']   = 'Postare nouă:';
 $lang['missing_includeplugin']  = 'Plugin-ul Include trebuie să fie instalat pentru ca blogul să fie funcțional.';
 $lang['missing_pagelistplugin'] = 'The Pagelist Plugin must be installed for archive lists to work.';
 $lang['missing_tagplugin']      = 'Plugin-ul Tag trebuie să fie instalat pentru a utiliza convocări subtile tag.';
