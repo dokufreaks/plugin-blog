@@ -17,6 +17,7 @@ if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
+    private $included_pages = array();
 
     function getType() { return 'substition'; }
     function getPType() { return 'block'; }
@@ -130,9 +131,10 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             if ($mode == 'xhtml') {
                 if(auth_quickaclcheck($entry['id']) >= AUTH_READ) {
                     // prevent blog include loops
-                    if(!$include->includes[$entry['id']]) {
-                        $include->includes[$entry['id']] = true;
+                    if(!$this->included_pages[$entry['id']]) {
+                        $this->included_pages[$entry['id']] = true;
                         $renderer->nest($include->_get_instructions($entry['id'], '', 'page', $clevel, $include_flags));
+                        $this->included_pages[$entry['id']] = false;
                     }
                 }
             } elseif ($mode == 'metadata') {
