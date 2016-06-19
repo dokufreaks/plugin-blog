@@ -89,7 +89,11 @@ class helper_plugin_blog extends DokuWiki_Plugin {
                 $date = min($date, $cdate);
             }
 
-            $title = $meta['title'];
+            if (isset($meta['title'])) {
+                $title = $meta['title'];
+            } else {
+                $title = $id;
+            }
 
             // determine the sort key
             if ($this->sort == 'id') $key = $id;
