@@ -25,13 +25,10 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
      * Checks if 'newentry' was given as action, if so we
      * do handle the event our self and no further checking takes place
      */
-    function handle_act_preprocess(&$event, $param) {
+    function handle_act_preprocess(Doku_Event $event, $param) {
         if ($event->data != 'newentry') return; // nothing to do for us
-        // we can handle it -> prevent others
-        // $event->stopPropagation();
-        $event->preventDefault();    
 
-        $event->data = $this->_handle_newEntry();
+        $event->data = $this->_handle_newEntry($event);
     }
 
     /**
@@ -84,7 +81,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     /**
      * Creates a new entry page
      */
-    function _handle_newEntry() {
+    function _handle_newEntry(Doku_Event $event) {
         global $ID, $INFO;
 
         $ns    = cleanID($_REQUEST['ns']);
@@ -95,12 +92,16 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         // check if we are allowed to create this file
         if ($INFO['perm'] >= AUTH_CREATE) {
 
-            //check if locked by anyone - if not lock for my self      
-            if ($INFO['locked']) return 'locked';
-            else lock($ID);
-
             // prepare the new thread file with default stuff
             if (!@file_exists($INFO['filepath'])) {
+
+                // prevent default edit action and further processing of the event
+                $event->preventDefault();
+
+                //check if locked by anyone - if not lock for my self
+                if ($INFO['locked']) return 'locked';
+                else lock($ID);
+
                 global $TEXT;
 
                 $TEXT = pageTemplate(array(($ns ? $ns.':' : '').$title));
