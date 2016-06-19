@@ -128,7 +128,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
 
         // now include the blog entries
         foreach ($entries as $entry) {
-            if ($mode == 'xhtml') {
+            if ($mode == 'xhtml' || $mode == 'code') {
                 if(auth_quickaclcheck($entry['id']) >= AUTH_READ) {
                     // prevent blog include loops
                     if(!$this->included_pages[$entry['id']]) {
@@ -157,7 +157,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             }
         }
 
-        return in_array($mode, array('xhtml', 'metadata'));
+        return in_array($mode, array('xhtml', 'metadata', 'code'));
     }
 
     /* ---------- (X)HTML Output Functions ---------- */
