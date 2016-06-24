@@ -38,3 +38,40 @@ img.blog_archive_bar {
   border: 0 none;
   vertical-align: bottom;
 }
+div.dokuwiki ul.blog {
+  list-style: none;
+  text-indent: -1.63em;
+  margin-left: 1.75em;
+}
+div.dokuwiki ul.blog li:before { margin-right:0.5em; }
+#blogd01:before { content: '01'; }
+#blogd02:before { content: '02'; }
+#blogd03:before { content: '03'; }
+#blogd04:before { content: '04'; }
+#blogd05:before { content: '05'; }
+#blogd06:before { content: '06'; }
+#blogd07:before { content: '07'; }
+#blogd08:before { content: '08'; }
+#blogd09:before { content: '09'; }
+#blogd10:before { content: '10'; }
+#blogd11:before { content: '11'; }
+#blogd12:before { content: '12'; }
+#blogd13:before { content: '13'; }
+#blogd14:before { content: '14'; }
+#blogd15:before { content: '15'; }
+#blogd16:before { content: '16'; }
+#blogd17:before { content: '17'; }
+#blogd18:before { content: '18'; }
+#blogd19:before { content: '19'; }
+#blogd20:before { content: '20'; }
+#blogd21:before { content: '21'; }
+#blogd22:before { content: '22'; }
+#blogd23:before { content: '23'; }
+#blogd24:before { content: '24'; }
+#blogd25:before { content: '25'; }
+#blogd26:before { content: '26'; }
+#blogd27:before { content: '27'; }
+#blogd28:before { content: '28'; }
+#blogd29:before { content: '29'; }
+#blogd30:before { content: '30'; }
+#blogd31:before { content: '31'; }
