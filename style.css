@@ -46,6 +46,10 @@ div.dokuwiki ul.blog {
   margin-left: 1.75em;
 }
 
+div.dokuwiki ul.blog li {
+  margin: 0 0 0 1.5em;
+}
+
 div.dokuwiki ul.blog li:before { margin-right:0.5em; }
 
 #blogd01:before { content: '01'; }
