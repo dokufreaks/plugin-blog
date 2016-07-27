@@ -2,7 +2,7 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
  * @author Myeongjin <aranet100@gmail.com>
  */
 $lang['namespace']             = '블로그에 대한 기본 이름공간';
@@ -22,6 +22,6 @@ $lang['sortorder']             = '정렬 순서';
 $lang['sortorder_o_ascending'] = '오름차순';
 $lang['sortorder_o_descending'] = '내림차순';
 $lang['excluded_pages']        = '블로그 목록에서 특정 문서를 제외 (정규 표현식 필요)';
-$lang['showhistogram']         = '보존 렌더링에 히스토그램 보이기';
+$lang['showhistogram']         = '보존 렌더링에 히스토그램 표시';
 $lang['max_months']            = '히스토그램에서 보여줄 최대 월';
 $lang['histogram_height']      = '히스토그램의 높이 (픽셀)';
