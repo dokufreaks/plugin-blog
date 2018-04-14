@@ -95,9 +95,6 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
             // prepare the new thread file with default stuff
             if (!@file_exists($INFO['filepath'])) {
 
-                // prevent default edit action and further processing of the event
-                $event->preventDefault();
-
                 //check if locked by anyone - if not lock for my self
                 if ($INFO['locked']) return 'locked';
                 else lock($ID);
@@ -173,7 +170,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
 
     /**
      * Returns the ID of a new entry based on its namespace, title and the date prefix
-     * 
+     *
      * @author  Esther Brunner <wikidesign@gmail.com>
      * @author  Michael Arlt <michael.arlt@sk-chwanstetten.de>
      */
@@ -242,4 +239,4 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         }
     }
 }
-// vim:ts=4:sw=4:et:enc=utf-8:  
+// vim:ts=4:sw=4:et:enc=utf-8:
