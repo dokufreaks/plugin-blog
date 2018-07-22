@@ -2,7 +2,7 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
  * @author Flávio Roberto Santos <flavio.barata@gmail.com>
  * @author Samory Pereira Santos <samory.santos@gmail.com>
  */
