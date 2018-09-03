@@ -103,9 +103,15 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
 
                 $TEXT = pageTemplate($ID);
                 if (!$TEXT) {
-                    $data = array('id' => $ID, 'ns' => $ns, 'title' => $_REQUEST['title']);
-                    $TEXT = $this->_pageTemplate($data);
+                    // if there is no page template, load our custom one
+                    $TEXT  = io_readFile(DOKU_PLUGIN.'blog/_template.txt');
                 }
+
+                $data = array('id' => $ID, 'ns' => $ns, 'title' => $_REQUEST['title']);
+                // Apply replacements regardless if they have already been applied by DokuWiki in order to
+                // make custom replacements like @TITLE@ available in standard page templates.
+                $TEXT = $this->_pageTemplate($TEXT, $data);
+
                 return 'preview';
             } else {
                 return 'edit';
@@ -118,12 +124,11 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     /**
      * Adapted version of pageTemplate() function
      */
-    function _pageTemplate($data) {
+    function _pageTemplate($text, $data) {
         global $conf, $INFO;
 
         $id   = $data['id'];
         $user = $_SERVER['REMOTE_USER'];
-        $tpl  = io_readFile(DOKU_PLUGIN.'blog/_template.txt');
 
         // standard replacements
         $replace = array(
@@ -164,8 +169,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         }
 
         // do the replace
-        $tpl = str_replace(array_keys($replace), array_values($replace), $tpl);
-        return $tpl;
+        return str_replace(array_keys($replace), array_values($replace), $text);
     }
 
     /**
