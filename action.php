@@ -101,7 +101,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
 
                 global $TEXT;
 
-                $TEXT = pageTemplate(array(($ns ? $ns.':' : '').$title));
+                $TEXT = pageTemplate($ID);
                 if (!$TEXT) {
                     $data = array('id' => $ID, 'ns' => $ns, 'title' => $_REQUEST['title']);
                     $TEXT = $this->_pageTemplate($data);
