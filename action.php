@@ -195,7 +195,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
                     );
         }
         $pre = strftime($dateprefix);
-        return ($ns ? $ns.':' : '').$pre.cleanID($title);
+        return cleanID(($ns ? $ns.':' : '').$pre.$title);
     }
 
     /**
