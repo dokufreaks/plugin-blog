@@ -163,6 +163,9 @@ class helper_plugin_blog extends DokuWiki_Plugin {
             $flags['newentrytitle'] = $this->getLang('newentry');
         }
 
+        // Paging Controls
+        $flags['pagingcontrols'] = !in_array('nopagingcontrols', $setflags);
+
         return $flags;
     }
 

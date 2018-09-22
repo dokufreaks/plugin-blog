@@ -76,9 +76,10 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         }
 
         // Normalise flags
-        $blog_flags    = $my->getFlags($flags);
-        $formpos       = $blog_flags['formpos'];
-        $newentrytitle = $blog_flags['newentrytitle'];
+        $blog_flags     = $my->getFlags($flags);
+        $formpos        = $blog_flags['formpos'];
+        $newentrytitle  = $blog_flags['newentrytitle'];
+        $pagingcontrols = $blog_flags['pagingcontrols'];
 
         if ($mode == 'xhtml') {
             // prevent caching to ensure the included pages are always fresh
@@ -149,7 +150,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             if ($clevel && !$include_flags['inline']) $renderer->doc .= '<div class="level'.$clevel.'">'.DOKU_LF;
 
             // show older / newer entries links
-            $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
+            if ($pagingcontrols) $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
 
             // show new entry form
             if ($perm_create && $formpos == 'bottom') {
