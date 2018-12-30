@@ -60,6 +60,11 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         $first = $_REQUEST['first'];
         if (!is_numeric($first)) $first = 0;
 
+        // complement the blog's parent namespaces in case it is nested
+        if(getNS(getID())){
+            $ns = getNS(getID()) .":". $ns;
+        }
+
         // get the blog entries for our namespace
         /** @var helper_plugin_blog $my */
         if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
