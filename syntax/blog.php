@@ -49,9 +49,6 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         if ($ns == '') $ns = cleanID($this->getConf('namespace'));
         elseif (($ns == '*') || ($ns == ':')) $ns = '';
         elseif ($ns == '.') $ns = getNS($ID);
-        elseif (preg_match('/^\.:/',$ns) == 1){
-                $ns = getNS($ID) .ltrim($ns,".");
-        }
         else $ns = cleanID($ns);
 
         return array($ns, $num, $flags, $refine);
