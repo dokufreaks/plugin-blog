@@ -14,7 +14,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     /**
      * Constructor
      */
-    function helper_plugin_blog() {
+    function __construct() {
         global $conf;
 
         // load sort key from settings
