@@ -1,0 +1,2 @@
+# additional requirements for this plugin:
+https://github.com/dokufreaks/plugin-include.git                         lib/plugins/include
