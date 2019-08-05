@@ -28,8 +28,6 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     }
 
     function handle($match, $state, $pos, Doku_Handler $handler) {
-        global $ID;
-
         $match = substr($match, 7, -2); // strip {{blog> from start and }} from end
         list($match, $flags) = explode('&', $match, 2);
         $flags =  explode('&', $flags);
@@ -46,17 +44,19 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             }
         }
 
+        return array($ns, $num, $flags, $refine);
+    }
+
+    function render($mode, Doku_Renderer $renderer, $data) {
+        global $ID;
+
+        list($ns, $num, $flags, $refine) = $data;
+
         if ($ns == '') $ns = cleanID($this->getConf('namespace'));
         elseif (($ns == '*') || ($ns == ':')) $ns = '';
         /* For historical reasons / backwards compatibility, treat ids as absolute unless they begin with ".". */
         elseif (substr($ns, 0, 1) == '.') $ns = resolve_id(getNS($ID), $ns);
         else $ns = cleanID($ns);
-
-        return array($ns, $num, $flags, $refine);
-    }
-
-    function render($mode, Doku_Renderer $renderer, $data) {
-        list($ns, $num, $flags, $refine) = $data;
 
         $first = $_REQUEST['first'];
         if (!is_numeric($first)) $first = 0;
