@@ -2,7 +2,8 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author Bartek S <sadupl@gmail.com>
  * @author Radoslaw Gorniak
  * @author Tomasz Dworakowski <tomaszdworakowski@gmail.com>
  */
@@ -25,4 +26,6 @@ $lang['month_09']              = 'Wrzesień';
 $lang['month_10']              = 'Październik';
 $lang['month_11']              = 'Listopad';
 $lang['month_12']              = 'Grudzień';
+$lang['entries']               = 'wyników';
+$lang['entry']                 = 'wynik';
 $lang['archive_title']         = 'Historia bloga';

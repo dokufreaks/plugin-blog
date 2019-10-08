@@ -2,7 +2,8 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author Bartek S <sadupl@gmail.com>
  * @author Radoslaw Gorniak
  * @author Tomasz Dworakowski <tomaszdworakowski@gmail.com>
  */
@@ -21,3 +22,4 @@ $lang['sortkey_o_title']       = 'tytułu';
 $lang['sortorder']             = 'Kolejność sortowania';
 $lang['sortorder_o_ascending'] = 'rosnąca';
 $lang['sortorder_o_descending'] = 'malejąca';
+$lang['max_months']            = 'Maksymalna liczba miesięcy do pokazania w histogramie';
