@@ -4,9 +4,6 @@
  * @author     Esther Brunner <wikidesign@gmail.com>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) die();
-
 class helper_plugin_blog extends DokuWiki_Plugin {
 
     var $sort       = '';      // sort key
@@ -15,8 +12,6 @@ class helper_plugin_blog extends DokuWiki_Plugin {
      * Constructor
      */
     function helper_plugin_blog() {
-        global $conf;
-
         // load sort key from settings
         $this->sort = $this->getConf('sortkey');
     }
@@ -42,15 +37,16 @@ class helper_plugin_blog extends DokuWiki_Plugin {
 
     /**
      * Get blog entries from a given namespace
+     *
+     * @param $ns
+     * @param null $num
+     * @param null $author
+     * @return array
      */
     function getBlog($ns, $num = NULL, $author = NULL) {
-        global $conf;
-
         // add pages in given namespace
         $result  = array();
         global $conf;
-
-        require_once (DOKU_INC.'inc/search.php');
 
         $pages = array();
         $unique_keys_memoize = array();
@@ -172,6 +168,10 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     /**
      * Function to create sortable, unique array keys
      *
+     * @param $key
+     * @param $unique_keys_memoize
+     * @return string
+     *
      * @author    Esther Brunner <wikidesign@gmail.com>
      * @author    Ilya S. Lebedev <ilya@lebedev.net>
      * @author    Balazs Attila-Mihaly <x_at_y_or_z@yahoo.com>
@@ -187,4 +187,3 @@ class helper_plugin_blog extends DokuWiki_Plugin {
     }
 
 }
-// vim:ts=4:sw=4:et:enc=utf-8:

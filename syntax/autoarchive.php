@@ -1,16 +1,10 @@
 <?php
 /**
- * Dynamic Archive Plugin: dynamically displays 
+ * Dynamic Archive Plugin: dynamically displays
  *
  * @license  GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author   Esther Brunner <wikidesign@gmail.com>
  */
-
-// must be run within Dokuwiki
-if(!defined('DOKU_INC')) die();
-
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'syntax.php');
 
 /**
  * All DokuWiki plugins to extend the parser/rendering mechanism
@@ -50,7 +44,7 @@ class syntax_plugin_blog_autoarchive extends DokuWiki_Syntax_Plugin {
         $renderer->info['cache'] = false;
 
         // get the blog entries for our namespace
-        if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
+        if ($my = plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
 
         // use tag refinements?
         if ($refine) {
@@ -79,7 +73,7 @@ class syntax_plugin_blog_autoarchive extends DokuWiki_Syntax_Plugin {
 
         // let Pagelist Plugin do the work for us
         if (plugin_isdisabled('pagelist')
-                || (!$pagelist =& plugin_load('helper', 'pagelist'))) {
+                || (!$pagelist = plugin_load('helper', 'pagelist'))) {
             msg($this->getLang('missing_pagelistplugin'), -1);
             return false;
         }

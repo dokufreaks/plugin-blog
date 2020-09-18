@@ -7,15 +7,6 @@
  * @author   Robert Rackl <wiki@doogie.de>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) die();
-
-if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
-if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
-if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
-
-require_once(DOKU_PLUGIN.'syntax.php');
-
 class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     private $included_pages = array();
 
@@ -62,13 +53,13 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
 
         // get the blog entries for our namespace
         /** @var helper_plugin_blog $my */
-        if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
+        if ($my = plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
         else return false;
 
         // use tag refinements?
         if ($refine) {
             /** @var helper_plugin_tag $tag */
-            if (plugin_isdisabled('tag') || (!$tag =& plugin_load('helper', 'tag'))) {
+            if (plugin_isdisabled('tag') || (!$tag = plugin_load('helper', 'tag'))) {
                 msg($this->getLang('missing_tagplugin'), -1);
             } else {
                 $entries = $tag->tagRefine($entries, $refine);
@@ -94,12 +85,12 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         }
 
         // slice the needed chunk of pages
-        $more = ((count($entries) > ($first + $num)) ? true : false);
+        $isMore = count($entries) > ($first + $num);
         $entries = array_slice($entries, $first, $num);
 
         // load the include helper plugin
         /** @var helper_plugin_include $include */
-        if (plugin_isdisabled('include') || (!$include =& plugin_load('helper', 'include'))) {
+        if (plugin_isdisabled('include') || (!$include = plugin_load('helper', 'include'))) {
             msg($this->getLang('missing_includeplugin'), -1);
             return false;
         }
@@ -150,7 +141,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
             if ($clevel && !$include_flags['inline']) $renderer->doc .= '<div class="level'.$clevel.'">'.DOKU_LF;
 
             // show older / newer entries links
-            if ($pagingcontrols) $renderer->doc .= $this->_browseEntriesLinks($more, $first, $num);
+            if ($pagingcontrols) $renderer->doc .= $this->_browseEntriesLinks($isMore, $first, $num);
 
             // show new entry form
             if ($perm_create && $formpos == 'bottom') {
@@ -165,6 +156,11 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
 
     /**
      * Displays links to older newer entries of the blog namespace
+     *
+     * @param $more
+     * @param $first
+     * @param $num
+     * @return string
      */
     function _browseEntriesLinks($more, $first, $num) {
         global $ID;
@@ -191,6 +187,10 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     /**
      * Displays a form to enter the title of a new entry in the blog namespace
      * and then open that page in the edit mode
+     *
+     * @param $ns
+     * @param $newentrytitle
+     * @return string
      */
     function _newEntryForm($ns, $newentrytitle) {
         global $lang;
