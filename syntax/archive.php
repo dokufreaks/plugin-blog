@@ -6,12 +6,6 @@
  * @author   Esther Brunner <wikidesign@gmail.com>
  */
 
-// must be run within Dokuwiki
-if(!defined('DOKU_INC')) die();
-
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'syntax.php');
-
 /**
  * All DokuWiki plugins to extend the parser/rendering mechanism
  * need to inherit from this class
@@ -100,7 +94,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
 
         // get the blog entries for our namespace
         /** @var helper_plugin_blog $my */
-        if ($my =& plugin_load('helper', 'blog')) $entries = $my->getBlog($ns, NULL, $author);
+        if ($my = plugin_load('helper', 'blog')) $entries = $my->getBlog($ns, NULL, $author);
         else return false;
 
         // use tag refinements?
@@ -127,7 +121,7 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
             } else {
                 // let Pagelist Plugin do the work for us
                 if (plugin_isdisabled('pagelist')
-                        || (!$pagelist =& plugin_load('helper', 'pagelist'))) {
+                        || (!$pagelist = plugin_load('helper', 'pagelist'))) {
                     msg($this->getLang('missing_pagelistplugin'), -1);
                     return false;
                 }

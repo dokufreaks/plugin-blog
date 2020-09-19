@@ -4,16 +4,11 @@
  * @author     Esther Brunner <wikidesign@gmail.com>
  */
 
-// must be run within Dokuwiki
-if(!defined('DOKU_INC')) die();
-
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'action.php');
-
 class action_plugin_blog extends DokuWiki_Action_Plugin {
 
     /**
      * register the eventhandlers
+     * @param Doku_Event_Handler $contr
      */
     function register(Doku_Event_Handler $contr) {
         $contr->register_hook('ACTION_ACT_PREPROCESS', 'BEFORE', $this, 'handle_act_preprocess', array());
@@ -24,6 +19,8 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     /**
      * Checks if 'newentry' was given as action, if so we
      * do handle the event our self and no further checking takes place
+     * @param Doku_Event $event
+     * @param $param
      */
     function handle_act_preprocess(Doku_Event $event, $param) {
         if ($event->data != 'newentry') return; // nothing to do for us
@@ -34,9 +31,12 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     /**
      * Removes draft entries from feeds
      *
+     * @param Doku_Event $event
+     * @param $param
+     *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function handle_feed_item(&$event, $param) {
+    function handle_feed_item(Doku_Event $event, $param) {
         global $conf;
 
         $url = parse_url($event->data['item']->link);
@@ -80,6 +80,9 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
 
     /**
      * Creates a new entry page
+     *
+     * @param Doku_Event $event
+     * @return string
      */
     function _handle_newEntry(Doku_Event $event) {
         global $ID, $INFO;
@@ -123,6 +126,10 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
 
     /**
      * Adapted version of pageTemplate() function
+     *
+     * @param $text
+     * @param $data
+     * @return string|string[]
      */
     function _pageTemplate($text, $data) {
         global $conf, $INFO;
@@ -175,8 +182,12 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
     /**
      * Returns the ID of a new entry based on its namespace, title and the date prefix
      *
-     * @author  Esther Brunner <wikidesign@gmail.com>
+     * @param $ns
+     * @param $title
+     * @return mixed|string|string[]|null
+     *
      * @author  Michael Arlt <michael.arlt@sk-chwanstetten.de>
+     * @author  Esther Brunner <wikidesign@gmail.com>
      */
     function _newEntryID($ns, $title) {
         $dateprefix  = $this->getConf('dateprefix');
@@ -204,6 +215,9 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
 
     /**
      * Expire the renderer cache of archive pages whenever a page is updated or a comment or linkback is added
+     *
+     * @param Doku_Event $event
+     * @param $params
      *
      * @author Michael Hamann <michael@content-space.de>
      */
@@ -243,4 +257,3 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         }
     }
 }
-// vim:ts=4:sw=4:et:enc=utf-8:

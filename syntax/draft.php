@@ -1,16 +1,10 @@
 <?php
 /**
  * Blog Plugin, draft component: marks the current page as draft
- * 
+ *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Esther Brunner <wikidesign@gmail.com>
  */
-
-// must be run within Dokuwiki
-if (!defined('DOKU_INC')) die();
-
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_blog_draft extends DokuWiki_Syntax_Plugin {
 
