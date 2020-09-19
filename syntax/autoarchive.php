@@ -41,7 +41,7 @@ class syntax_plugin_blog_autoarchive extends DokuWiki_Syntax_Plugin {
         if ($mode != 'xhtml') return false;
 
         // no caching for dynamic content
-        $renderer->info['cache'] = false;
+        $renderer->nocache();
 
         // get the blog entries for our namespace
         if ($my = plugin_load('helper', 'blog')) $entries = $my->getBlog($ns);
