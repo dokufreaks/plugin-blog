@@ -74,7 +74,7 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
 
         if ($mode == 'xhtml') {
             // prevent caching to ensure the included pages are always fresh
-            $renderer->info['cache'] = false;
+            $renderer->nocache();
         }
 
         if (!$entries) {
