@@ -174,12 +174,12 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
             // entry in the right date range?
             if (($start > $entry['date']) || ($entry['date'] >= $end)) continue;
 
-            if ($current_year != date('o',$entry['date'])) {
+            if ($current_year != date('Y',$entry['date'])) {
                 if ($ul_open) {
                     $list .= '</ul>' . DOKU_LF;
                     $ul_open = false;
                 }
-                $current_year = date('o',$entry['date']);
+                $current_year = date('Y',$entry['date']);
                 $list .= '<h2>' . $current_year . '</h2>' . DOKU_LF;
                 $current_month = '';
             }
@@ -188,12 +188,12 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                     $list .= '</ul>' . DOKU_LF;
                 }
                 $current_month = date('m',$entry['date']);
-                $list .= '<h3 id="m' . date('o-m',$entry['date']) . '">' . $this->getLang('month_' . $current_month) . '</h3><ul>' . DOKU_LF;
+                $list .= '<h3 id="m' . date('Y-m',$entry['date']) . '">' . $this->getLang('month_' . $current_month) . '</h3><ul>' . DOKU_LF;
                 $ul_open = true;
             }
-            $histogram_count[date('o-m',$entry['date'])] += 1;
-            if ($histogram_higher < $histogram_count[date('o-m',$entry['date'])]) {
-                $histogram_higher = $histogram_count[date('o-m',$entry['date'])];
+            $histogram_count[date('Y-m',$entry['date'])] += 1;
+            if ($histogram_higher < $histogram_count[date('Y-m',$entry['date'])]) {
+                $histogram_higher = $histogram_count[date('Y-m',$entry['date'])];
             }
             $list .= '<li>' . date('d',$entry['date']) . ' - <a href="' . wl($entry['id']) . '" title="' . $entry['id'] . '">' . $entry['title'] . '</a></li>' . DOKU_LF;
         }
