@@ -2,8 +2,9 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
- * @author     Herman Fabián Sandoval Manrique <hfsandovalm@emzac.com>
+ *
+ * @author Marc Zulet <marczulet@gmail.com>
+ * @author Herman Fabián Sandoval Manrique <hfsandovalm@emzac.com>
  * @author r0sk <r0sk10@gmail.com>
  */
 $lang['blog']                  = 'Blog';
@@ -13,6 +14,7 @@ $lang['newentry']              = 'Nueva entrada en el blog:';
 $lang['missing_includeplugin'] = 'El plugin Include debe estar instalado para que el blog funcione.';
 $lang['missing_pagelistplugin'] = 'El plugin Pagelist debe estar instalado para que funcionen los listados de archivo.';
 $lang['missing_tagplugin']     = 'El plugin Tag debe estar instalado para que funcionen los tags.';
+$lang['autoarchive']           = '%1$d Entrada(s) de %2$s %3$s';
 $lang['month_01']              = 'Enero';
 $lang['month_02']              = 'Febrero';
 $lang['month_03']              = 'Marzo';
