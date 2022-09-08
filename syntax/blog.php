@@ -46,9 +46,11 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
     }
 
     function render($mode, Doku_Renderer $renderer, $data) {
+        global $INPUT;
+
         list($ns, $num, $flags, $refine) = $data;
 
-        $first = $_REQUEST['first'];
+        $first = $INPUT->int('first');
         if (!is_numeric($first)) $first = 0;
 
         // get the blog entries for our namespace
@@ -121,9 +123,9 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         // now include the blog entries
         foreach ($entries as $entry) {
             if ($mode == 'xhtml' || $mode == 'code') {
-                if(auth_quickaclcheck($entry['id']) >= AUTH_READ) {
+                if(isset($entry['id']) && (auth_quickaclcheck($entry['id']) >= AUTH_READ)) {
                     // prevent blog include loops
-                    if(!$this->included_pages[$entry['id']]) {
+                    if(!array_key_exists($entry['id'], $this->included_pages) || !$this->included_pages[$entry['id']]) {
                         $this->included_pages[$entry['id']] = true;
                         $renderer->nest($include->_get_instructions($entry['id'], '', 'page', $clevel, $include_flags));
                         $this->included_pages[$entry['id']] = false;
