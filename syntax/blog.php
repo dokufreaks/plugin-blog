@@ -22,11 +22,11 @@ class syntax_plugin_blog_blog extends DokuWiki_Syntax_Plugin {
         global $ID;
 
         $match = substr($match, 7, -2); // strip {{blog> from start and }} from end
-        list($match, $flags) = explode('&', $match, 2);
+        list($match, $flags) = array_pad(explode('&', $match, 2), 2, null);
         $flags =  explode('&', $flags);
         array_unshift($flags, 'link'); // always make the first header of a blog entry a permalink (unless nolink is set)
-        list($match, $refine) = explode(' ', $match, 2);
-        list($ns, $num) = explode('?', $match, 2);
+        list($match, $refine) = array_pad(explode(' ', $match, 2), 2, null);
+        list($ns, $num) = array_pad(explode('?', $match, 2), 2, null);
 
         if (!is_numeric($num)) {
             if (is_numeric($ns)) {
