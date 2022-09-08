@@ -70,7 +70,7 @@ class helper_plugin_blog extends DokuWiki_Plugin {
 
             // skip drafts unless for users with create priviledge
             $meta = p_get_metadata($id, '', false);
-            $draft = ($meta['type'] == 'draft');
+            $draft = isset($meta['type']) && ($meta['type'] == 'draft');
             if ($draft && ($perm < AUTH_CREATE)) continue;
 
             // filter by author
