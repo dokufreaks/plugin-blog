@@ -2,7 +2,7 @@
 base   blog
 author Michael Hamann, Michael Klier, Gina Haeussge
 email  michael@content-space.de
-date   2022-02-20
+date   2022-09-08
 name   Blog
 desc   Use DokuWiki as blogging tool. (previous authors: Esther Brunner)
 url    https://www.dokuwiki.org/plugin:blog
