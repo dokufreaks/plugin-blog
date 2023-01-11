@@ -88,7 +88,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         global $ID, $INFO;
 
         $ns    = cleanID($_REQUEST['ns']);
-        $title = str_replace(':', '', $_REQUEST['title']);
+        $title = str_replace([':', ';', '#', '&', '%', '/', '\\', '?'], '', $_REQUEST['title']);
         $ID    = $this->_newEntryID($ns, $title);
         $INFO  = pageinfo();
 
