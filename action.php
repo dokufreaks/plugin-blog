@@ -88,8 +88,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
         global $ID, $INFO;
 
         $ns    = cleanID($_REQUEST['ns']);
-        $title = str_replace(':', '', $_REQUEST['title']);
-        $ID    = $this->_newEntryID($ns, $title);
+        $ID    = $this->_newEntryID($ns, $_REQUEST['title']);
         $INFO  = pageinfo();
 
         // check if we are allowed to create this file
@@ -210,6 +209,7 @@ class action_plugin_blog extends DokuWiki_Action_Plugin {
                     );
         }
         $pre = strftime($dateprefix);
+        $title = str_replace([':', ';', '#', '&', '%', '/', '\\', '?'], '', $title);
         return cleanID(($ns ? $ns.':' : '').$pre.$title);
     }
 
