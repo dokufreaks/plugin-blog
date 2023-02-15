@@ -3,6 +3,7 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *
+ * @author Felipo Antonoff <contato@codemarket.com.br>
  * @author Flávio Roberto Santos <flavio.barata@gmail.com>
  * @author Samory Pereira Santos <samory.santos@gmail.com>
  */
@@ -13,6 +14,7 @@ $lang['newentry']              = 'Novo registro do blog:';
 $lang['missing_includeplugin'] = 'O plugin Inlude deve estar instalado para que o blog funcione.';
 $lang['missing_pagelistplugin'] = 'O plugin Pagelist deve estar instalado para que a listagem de arquivo funcione,';
 $lang['missing_tagplugin']     = 'O plugin Tag deve estar instalado para usar refinamentos de etiquetagem.';
+$lang['autoarchive']           = '%1$d Postagem(s) para %2$s %3$s';
 $lang['month_01']              = 'Janeiro';
 $lang['month_02']              = 'Fevereiro';
 $lang['month_03']              = 'Março';
