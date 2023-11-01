@@ -31,6 +31,13 @@ class syntax_plugin_blog_autoarchive extends DokuWiki_Syntax_Plugin {
         if ($ns == '') $ns = cleanID($this->getConf('namespace'));
         elseif (($ns == '*') || ($ns == ':')) $ns = '';
         elseif ($ns == '.') $ns = getNS($ID);
+        elseif (preg_match('/^\.:/', $ns)){
+            if (getNS($ID)) {
+                $ns = getNS($ID) . ltrim($ns, ".");
+            } else {
+                $ns = ltrim($ns, ".:");
+            }
+        }
         else $ns = cleanID($ns);
 
         return array($ns, $flags, $refine, $pos);
