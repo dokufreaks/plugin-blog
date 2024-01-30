@@ -76,10 +76,10 @@ class helper_plugin_blog extends DokuWiki_Plugin {
             // filter by author
             if ($author && ($meta['user'] != $author)) continue;
 
-            $date = $meta['date']['modified'];
+            $date = isset($meta['date']['modified']) ? $meta['date']['modified'] : null;
             if (!$date) $date = filemtime(wikiFN($id));
             if ($this->sort != 'mdate') {
-                $cdate = $meta['date']['created'];
+                $cdate = isset($meta['date']['created']) ? $meta['date']['created'] : null;
                 if (!$cdate) $cdate = filectime(wikiFN($id));
                 // prefer the date further in the past:
                 $date = min($date, $cdate);
@@ -104,8 +104,8 @@ class helper_plugin_blog extends DokuWiki_Plugin {
                     'id'     => $id,
                     'title'  => $title,
                     'date'   => $date,
-                    'user'   => $meta['creator'],
-                    'desc'   => $meta['description']['abstract'],
+                    'user'   => isset($meta['creator']) ? $meta['creator'] : null,
+                    'desc'   => isset($meta['description']['abstract']) ? $meta['description']['abstract'] : null,
                     'exists' => true,
                     'perm'   => $perm,
                     'draft'  => $draft,
