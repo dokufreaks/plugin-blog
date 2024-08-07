@@ -24,10 +24,10 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
         global $ID;
 
         $match = substr($match, 10, -2); // strip {{archive> from start and }} from end
-        list($match, $flags) = explode('&', $match, 2);
+        list($match, $flags) = sexplode('&', $match, 2, '');
         $flags = explode('&', $flags);
-        list($match, $refine) = explode(' ', $match, 2);
-        list($ns, $rest) = explode('?', $match, 2);
+        list($match, $refine) = sexplode(' ', $match, 2, null);
+        list($ns, $rest) = sexplode('?', $match, 2, null);
 
         $author = NULL;
         foreach($flags as $i=>$flag) {
