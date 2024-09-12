@@ -188,14 +188,14 @@ class syntax_plugin_blog_archive extends DokuWiki_Syntax_Plugin {
                     $list .= '</ul>' . DOKU_LF;
                 }
                 $current_month = date('m',$entry['date']);
-                $list .= '<h3 id="m' . date('o-m',$entry['date']) . '">' . $this->getLang('month_' . $current_month) . '</h3><ul>' . DOKU_LF;
+                $list .= '<h3 id="m' . date('o-m',$entry['date']) . '">' . $this->getLang('month_' . $current_month) . '</h3><ul class="blog">' . DOKU_LF;
                 $ul_open = true;
             }
             $histogram_count[date('o-m',$entry['date'])] += 1;
             if ($histogram_higher < $histogram_count[date('o-m',$entry['date'])]) {
                 $histogram_higher = $histogram_count[date('o-m',$entry['date'])];
             }
-            $list .= '<li>' . date('d',$entry['date']) . ' - <a href="' . wl($entry['id']) . '" title="' . $entry['id'] . '">' . $entry['title'] . '</a></li>' . DOKU_LF;
+            $list .= '<li id="blogd' . date('d',$entry['date']) . '"><a href="' . wl($entry['id']) . '" title="' . $entry['id'] . '">' . $entry['title'] . '</a></li>' . DOKU_LF;
         }
         $list .= '</ul>' . DOKU_LF;
 
