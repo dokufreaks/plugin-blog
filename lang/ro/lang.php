@@ -1,32 +1,69 @@
 <?php
+
 /**
  * Romanian language file
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Esther Brunner <wikidesign@gmail.com>
- * @author     Florin Chitiul <florinko@gmail.com>
+ *
+ * @author Sibyl <sibylschiffman@hotmail.co.uk>
+ * @author Esther Brunner <wikidesign@gmail.com>
+ * @author Florin Chitiul <florinko@gmail.com>
  */
-// custom language strings for the plugin
-$lang['blog']       = 'Blog';
-$lang['older']      = 'Intrări vechi';
-$lang['newer']      = 'Intrări mai noi';
-$lang['newentry']   = 'Postare nouă:';
-$lang['missing_includeplugin']  = 'Plugin-ul Include trebuie să fie instalat pentru ca blogul să fie funcțional.';
-$lang['missing_pagelistplugin'] = 'The Pagelist Plugin must be installed for archive lists to work.';
-$lang['missing_tagplugin']      = 'Plugin-ul Tag trebuie să fie instalat pentru a utiliza convocări subtile tag.';
-$lang['autoarchive'] = '%1$d Post(ări) pentru %2$lea %3$lea';
-$lang['month_01'] = 'Ianuarie';
-$lang['month_02'] = 'Februarie';
-$lang['month_03'] = 'Martie';
-$lang['month_04'] = 'Aprilie';
-$lang['month_05'] = 'Mai';
-$lang['month_06'] = 'Iunie';
-$lang['month_07'] = 'Iulie';
-$lang['month_08'] = 'August';
-$lang['month_09'] = 'Septembrie';
-$lang['month_10'] = 'Octobrie';
-$lang['month_11'] = 'Noiebrie';
-$lang['month_12'] = 'Decembrie';
-$lang['entries']       = 'intrări';
-$lang['entry']         = 'intrare';
-$lang['archive_title'] = 'Istoria blogului';
+$lang['blog']                  = 'https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/ 
+I\'m truly enjoying the design and layout of your site.
+It\'s a very easy on the eyes which makes it much 
+more pleasant for me to come here and visit more often. Did you hire out a designer 
+to create your theme? Great work! https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/';
+$lang['older']                 = 'https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/ 
+I\'m truly enjoying the design and layout of your site.
+It\'s a very easy on the eyes which makes it much more pleasant for me to come here and visit more often. Did you hire out a 
+designer to create your theme? Great work! https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/';
+$lang['newer']                 = 'https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/ 
+I\'m truly enjoying the design and layout of your site.
+
+It\'s a very easy on the eyes which makes it much more pleasant for me to come 
+here and visit more often. Did you hire out a designer to create your theme?
+Great work! https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/';
+$lang['newentry']              = 'https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/ 
+I\'m truly enjoying the design and layout of your site. It\'s a very easy on the eyes which makes it much more pleasant for me to come 
+here and visit more often. Did you hire out a designer to create your theme?
+
+Great work! https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/';
+$lang['missing_includeplugin'] = 'https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/ 
+I\'m truly enjoying the design and layout of your site. It\'s a 
+very easy on the eyes which makes it much more pleasant for 
+me to come here and visit more often. Did you 
+hire out a designer to create your theme? Great 
+work! https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/';
+$lang['missing_pagelistplugin'] = 'https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/ 
+I\'m truly enjoying the design and layout of your site. It\'s 
+a very easy on the eyes which makes it much more pleasant for me to come here and visit more often. Did you 
+hire out a designer to create your theme? Great work!
+
+https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/';
+$lang['missing_tagplugin']     = '15';
+$lang['autoarchive']           = 'https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/ 
+I\'m truly enjoying the design and layout of your site. It\'s a very easy on the eyes which makes it much more pleasant for me to come here and visit more often. Did you hire out a designer to create your 
+theme? Great work! https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/';
+$lang['month_01']              = '9';
+$lang['month_02']              = '2';
+$lang['month_03']              = '1';
+$lang['month_04']              = '1';
+$lang['month_05']              = '7';
+$lang['month_06']              = '1';
+$lang['month_07']              = '8';
+$lang['month_08']              = '4';
+$lang['month_09']              = '12';
+$lang['month_10']              = '11';
+$lang['month_11']              = '7';
+$lang['month_12']              = '12';
+$lang['entries']               = 'https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/ 
+I\'m truly enjoying the design and layout of your 
+site. It\'s a very easy on the eyes which makes it much more 
+pleasant for me to come here and visit more often. Did you hire out 
+a designer to create your theme? Great work! https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/';
+$lang['entry']                 = 'https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/ 
+I\'m truly enjoying the design and layout of your site. It\'s a very easy on the eyes which makes it much more pleasant for me to come here and visit more 
+often. Did you hire out a designer to create your 
+theme? Great work! https://xaydungtrangtrinoithat.com/nha-thau-xay-dung-tai-quang-ngai-thi-cong-xay-nha-tron-goi/';
+$lang['archive_title']         = 'I am the new guy';
